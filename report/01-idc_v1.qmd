@@ -1,0 +1,228 @@
+---
+title: "Primera exploración IDC"
+author: "Nicolás Tobar"
+date: today
+lang: en
+fontsize: 14pt
+format:
+  html:
+    code-fold: true
+    toc: true
+    toc-location: left
+    toc-depth: 2
+    toc-expand: 1
+    toc-title: Contenidos
+    number-sections: true
+    number-depth: 3
+    theme:
+      - united
+    code-link: true
+    title-block-banner: true
+editor_options: 
+  chunk_output_type: console
+execute:
+  warning: false
+  output: true
+---
+
+```{r}
+setwd(here::here())
+
+source("scripts/01-proc_data.R")
+
+simce_comuna_2m <- read.csv("data/raw_data/2024_2m_comuna.csv", sep = ";")|>
+  select(m_id = cod_com, prom_lect2m_com, prom_mate2m_com)
+simce_comuna_6b <- read.csv("data/raw_data/2024_6b_comuna.csv", sep = ";")|>
+  select(m_id = cod_com, prom_lect6b_com, prom_mate6b_com)
+simce_comuna_4b <- read.csv("data/raw_data/2024_4b_comuna.csv", sep = ";")|>
+  select(m_id = cod_com, prom_lect4b_com, prom_mate4b_com)
+
+conectividad_comunal <- read_excel("data/raw_data/2023_conectividad_comunal.xlsx")|>
+  select(m_id, nudos)
+idh_comunal <- read_excel("data/raw_data/2023_idh_comunal.xlsx")|>
+  select(m_id = CODIGO, IDH)
+pobreza_multi_comunal <- read_excel("data/raw_data/2022_pobreza_multi_comunal.xlsx")|>
+  select(m_id = Código, pobreza_multi=indice)
+idc_2024 <- readRDS("data/raw_data/2024_nudos_final.rds")|>
+  select(m_id = id_comuna, idc_2024=indice_nudos)
+
+items <- docente|>
+  select(starts_with("p_item"))
+```
+
+
+
+# Validación del índice
+
+-   Buen alpha
+-   41% de missings todos los ítems
+```{r}
+tab_itemscale(items)
+```
+
+# ¿Se pueden rescatar datos?
+-   Cuando se estima el índice, un 41% de los profesores no tienen índice
+-   Perdemos 51 comunas (nos quedamos con 295)
+
+```{r}
+items_list <- c("p_item1", "p_item2", "p_item3", "p_item4", "p_item5", "p_item6", "p_item7")
+
+na_items_summary <- docente %>%
+  rowwise() %>%
+  mutate(n_na_items = sum(is.na(c_across(all_of(items_list))))) %>%
+  ungroup() %>%
+  group_by(n_na_items) %>%
+  summarise(n = n()) %>%
+  arrange(desc(n_na_items))%>%
+  mutate(prop = n/sum(n))
+
+na_items_summary|>kable()
+```
+
+# NA por comuna 
+```{r}
+# Calcular proporción de NA por comuna
+na_por_comuna <- docente |>
+  group_by(m_id, m_name) |>
+  summarise(
+    total_docentes = n(),
+    n_na = sum(is.na(p_idc)),
+    prop_na = n_na / total_docentes,
+    .groups = "drop"
+  ) |>
+  arrange(desc(prop_na))
+
+# Filtrar comunas con más de 75% de NA
+etiquetar <- na_por_comuna
+
+# Graficar
+ggplot(na_por_comuna, aes(x = reorder(m_name, prop_na), y = prop_na)) +
+  geom_col(color = "#F08080") +
+  coord_flip() +
+  scale_y_continuous(labels = percent_format(accuracy = 1)) +
+  labs(
+    title = "Proporción de docentes sin índice por comuna",
+    x = NULL,
+    y = "% con NA en índice (p_idc)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.y = element_blank())
+```
+
+# ¿Cuáles son las comunas >.90 NA?
+
+```{r}
+set.seed(123)  # para reproducibilidad
+
+# Filtrar comunas con > 75% NA
+na_por_comuna <- docente |>
+  group_by(m_id, m_name) |>
+  summarise(
+    total_docentes = n(),
+    n_na = sum(is.na(p_idc)),
+    prop_na = n_na / total_docentes,
+    .groups = "drop"
+  ) |>
+  arrange(desc(prop_na)) |>
+  filter(prop_na > 0.75)
+
+# Seleccionar aproximadamente 1 de cada 3 comunas para etiquetar (aleatorio)
+etiquetar <- na_por_comuna %>%
+  slice_sample(prop = 1/3)
+
+# Gráfico con etiquetas solo en los puntos seleccionados
+ggplot(na_por_comuna, aes(x = reorder(m_name, prop_na), y = prop_na)) +
+  geom_point(color = "#F08080") +
+  geom_text_repel(
+    data = etiquetar,
+    aes(label = paste0(m_name, "\nN=", total_docentes)),
+    size = 2.5,
+    nudge_y = 0.02,
+    segment.size = 0.3
+  ) +
+  coord_flip() +
+  scale_y_continuous(labels = percent_format(accuracy = 1)) +
+  labs(
+    title = "Comunas con > 75% de casos perdidos",
+    x = NULL,
+    y = "% con NA en índice (p_idc)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.y = element_blank())
+```
+
+# Distribución de puntajes
+```{r}
+# Añadir variable "rm"
+idc_rm <- idc %>%
+  mutate(rm = ifelse(r_id == 13, "Metropolitana", "Región"))
+
+# Usar la misma base para top_bottom
+top_bottom <- idc_rm %>%
+  arrange(desc(m_idc)) %>%
+  slice_head(n = 10) %>%
+  bind_rows(
+    idc_rm %>% arrange(m_idc) %>% slice_head(n = 10)
+  )
+
+# Plot
+ggplot(idc_rm, aes(x = m_idc, y = reorder(m_name, m_idc), color = rm)) +
+  geom_point(size = 2, alpha = 0.8) +
+  geom_text_repel(
+    data = top_bottom,
+    aes(label = m_name, color = rm),  # <- importante: asegurar que el color esté también en esta capa
+    size = 2.5,
+    max.overlaps = 50,
+    direction = "y"
+  ) +
+  labs(
+    title = "Distribución del índice por comuna",
+    x = "Índice (m_idc)",
+    y = NULL,
+    color = "Zona"
+  ) +
+  theme_minimal() +
+  theme(axis.text.y = element_blank())
+```
+
+# Correlación con SIMCE
+```{r}
+# SIMCE
+idc_simce <- merge(select(idc,m_id, idc_2025=m_idc), simce_comuna_2m, by = "m_id", all.x = TRUE)
+idc_simce <- merge(idc_simce, simce_comuna_6b, by = "m_id", all.x = TRUE)
+idc_simce <- merge(idc_simce, simce_comuna_4b, by = "m_id", all.x = TRUE)
+
+# Selecciona sólo columnas numéricas y sin NAs para correlación
+idc_simce_num <- idc_simce %>%
+  select(-m_id) %>%
+  na.omit()  # elimina filas con NA para que rcorr funcione
+
+# Alternativamente, si quieres mantener filas con NA, puedes imputar o eliminar columnas con NA
+
+# Calcula la matriz de correlación y p-values
+rcorr_res <- rcorr(as.matrix(idc_simce_num))
+
+# Haz el corrplot
+corrplot(rcorr_res$r, 
+         method = 'color', type = 'lower', 
+         tl.col = "black", bg = "white",
+         addCoef.col = 'black', number.cex = 0.8, diag = FALSE)
+```
+
+# Correlación con otros índices
+```{r}
+idc_others <- merge(select(idc, m_id, idc_2025=m_idc), idc_2024, by = "m_id", all.x = TRUE)
+idc_others <- merge(idc_others, idh_comunal, by = "m_id", all.x = TRUE)
+idc_others <- merge(idc_others, pobreza_multi_comunal, by = "m_id", all.x = TRUE)
+idc_others <- merge(idc_others, conectividad_comunal, by = "m_id", all.x = TRUE)
+
+idc_others <- idc_others|>
+  select(-m_id)
+
+corrplot(rcorr(as.matrix(idc_others))$r, p.mat = rcorr(as.matrix(idc_others))$P, 
+         method = 'color', type = 'lower', insig='blank',
+         tl.col = "black",bg="white",na.label="-",
+         addCoef.col ='black', number.cex = 0.8, diag=FALSE,
+         sig.level = 0.05)
+```
+
