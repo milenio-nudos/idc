@@ -53,13 +53,16 @@ setdiff(names(docente_2m), names(docente_4b))
 # Select wanted columns
 docente_2m <- docente_2m |>
   select(rbd,grado,
-         starts_with("cdoce_p15"))
+         starts_with("cdoce_p15"))|>
+  mutate(grado = "2m")
 docente_6b <- docente_6b |>
   select(rbd,grado,
-         starts_with("cdoce_p15"))
+         starts_with("cdoce_p15"))|>
+  mutate(grado = "6b")
 docente_4b <- docente_4b |>
   select(rbd,grado,
-         starts_with("cdoce_p15"))
+         starts_with("cdoce_p15"))|>
+  mutate(grado = "4b")
 
 # Paste RBD
 # Paste school info
@@ -68,7 +71,7 @@ simce_rbd_2m <- simce_rbd_2m |>
   dplyr::select(rbd, nom_rbd, 
                 cod_reg_rbd, nom_reg_rbd, cod_pro_rbd, cod_com_rbd, nom_com_rbd,
                 cod_depe_rbd=cod_depe2, cod_rural_rbd, prom_lect2m_rbd, 
-                prom_mate2m_rbd) |>
+                prom_mate2m_rbd,grado) |>
   mutate(prom_lect6b_rbd = NA,
          prom_mate6b_rbd = NA,
          prom_lect4b_rbd = NA,
@@ -81,7 +84,7 @@ simce_rbd_6b <- simce_rbd_6b |>
   dplyr::select(rbd, nom_rbd, 
                 cod_reg_rbd, nom_reg_rbd, cod_pro_rbd, cod_com_rbd, nom_com_rbd,
                 cod_depe_rbd=cod_depe2, cod_rural_rbd, prom_lect6b_rbd, 
-                prom_mate6b_rbd) |>
+                prom_mate6b_rbd,grado) |>
   mutate(prom_lect2m_rbd = NA,
          prom_mate2m_rbd = NA,
          prom_lect4b_rbd = NA,
@@ -95,7 +98,7 @@ simce_rbd_4b <- simce_rbd_4b |>
   dplyr::select(rbd, nom_rbd, 
                 cod_reg_rbd, nom_reg_rbd, cod_pro_rbd, cod_com_rbd, nom_com_rbd,
                 cod_depe_rbd=cod_depe2, cod_rural_rbd, prom_lect4b_rbd, 
-                prom_mate4b_rbd) |>
+                prom_mate4b_rbd,grado) |>
   mutate(prom_lect6b_rbd = NA,
          prom_mate6b_rbd = NA,
          prom_lect2m_rbd = NA,
@@ -138,6 +141,7 @@ docente <- docente|>
   select(
     #Teacher level
     p_id = p_id,
+    p_grado = grado.x,
     #index items
     p_item1 = cdoce_p15_01,
     p_item2 = cdoce_p15_02,
@@ -180,6 +184,7 @@ docente <- docente|>
 #Label columns
 var_label(docente) <- list(
   p_id = "ID profesor",
+  p_grado = "Grado del profesor",
   p_item1 = "El establecimiento entrega capacitaciones a sus funcionarios(as) para mejorar habilidades computacionales.",
   p_item2 = "Las y los profesionales del establecimiento se apoyan entre sí en caso de tener problemas asociados a la tecnología.",
   p_item3 = "El establecimiento se preocupa de que haya alguien a cargo de las herramientas tecnológicas.",
