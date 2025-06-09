@@ -262,5 +262,6 @@ idc <- docente|>
 
 # 8. Guardar base --------------------------------------------------------------
 
-writexl::write_xlsx(idc, here("data", "proc_data", "idc_v1.xlsx"))
+saveRDS(docente, file = "data/proc_data/private_data/2025_mother_data.rds")
+writexl::write_xlsx(idc, here("data", "proc_data", "public_data", "2025_idc_v1.xlsx"))
 
