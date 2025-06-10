@@ -31,7 +31,12 @@ escuelas_stats_na <- docente %>%
 escuelas_problematicas <- escuelas_stats_na %>%
   filter(prop_NAs_escuela > 90)
 
+escuelas_full_na <- escuelas_stats_na %>%
+  filter(prop_NAs_escuela == 100)
+
 cat("Número de escuelas con más del 90% de NAs:", nrow(escuelas_problematicas), "\n")
+cat("Total de escuelas", n_distinct(docente$c_id))
+
 
 # 4. Eliminación de escuelas con más de un 90% de NAs --------------------------
 

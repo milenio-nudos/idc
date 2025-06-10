@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Nicolás Tobar">
-<meta name="dcterms.date" content="2025-06-03">
+<meta name="dcterms.date" content="2025-06-10">
 
 <title>Primera exploración IDC</title>
 <style>
@@ -95,7 +95,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">June 3, 2025</p>
+        <p class="date">June 10, 2025</p>
       </div>
     </div>
     
@@ -109,13 +109,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Contenidos</h2>
    
   <ul class="collapse">
-  <li><a href="#validación-del-índice" id="toc-validación-del-índice" class="nav-link active" data-scroll-target="#validación-del-índice"><span class="header-section-number">1</span> Validación del índice</a></li>
-  <li><a href="#se-pueden-rescatar-datos" id="toc-se-pueden-rescatar-datos" class="nav-link" data-scroll-target="#se-pueden-rescatar-datos"><span class="header-section-number">2</span> ¿Se pueden rescatar datos?</a></li>
-  <li><a href="#na-por-comuna" id="toc-na-por-comuna" class="nav-link" data-scroll-target="#na-por-comuna"><span class="header-section-number">3</span> NA por comuna</a></li>
-  <li><a href="#cuáles-son-las-comunas-.90-na" id="toc-cuáles-son-las-comunas-.90-na" class="nav-link" data-scroll-target="#cuáles-son-las-comunas-.90-na"><span class="header-section-number">4</span> ¿Cuáles son las comunas &gt;.90 NA?</a></li>
-  <li><a href="#distribución-de-puntajes" id="toc-distribución-de-puntajes" class="nav-link" data-scroll-target="#distribución-de-puntajes"><span class="header-section-number">5</span> Distribución de puntajes</a></li>
-  <li><a href="#correlación-con-simce" id="toc-correlación-con-simce" class="nav-link" data-scroll-target="#correlación-con-simce"><span class="header-section-number">6</span> Correlación con SIMCE</a></li>
-  <li><a href="#correlación-con-otros-índices" id="toc-correlación-con-otros-índices" class="nav-link" data-scroll-target="#correlación-con-otros-índices"><span class="header-section-number">7</span> Correlación con otros índices</a></li>
+  <li><a href="#validación-de-la-escala" id="toc-validación-de-la-escala" class="nav-link active" data-scroll-target="#validación-de-la-escala"><span class="header-section-number">1</span> Validación de la escala</a>
+  <ul class="collapse">
+  <li><a href="#aportes-de-los-ítems" id="toc-aportes-de-los-ítems" class="nav-link" data-scroll-target="#aportes-de-los-ítems"><span class="header-section-number">1.1</span> Aportes de los ítems</a></li>
+  </ul></li>
+  <li><a href="#exploración-de-los-na" id="toc-exploración-de-los-na" class="nav-link" data-scroll-target="#exploración-de-los-na"><span class="header-section-number">2</span> Exploración de los NA</a>
+  <ul class="collapse">
+  <li><a href="#se-pueden-rescatar-datos" id="toc-se-pueden-rescatar-datos" class="nav-link" data-scroll-target="#se-pueden-rescatar-datos"><span class="header-section-number">2.1</span> ¿Se pueden rescatar datos?</a></li>
+  <li><a href="#na-por-comuna" id="toc-na-por-comuna" class="nav-link" data-scroll-target="#na-por-comuna"><span class="header-section-number">2.2</span> NA por comuna</a></li>
+  <li><a href="#cuáles-son-las-comunas-.90-na" id="toc-cuáles-son-las-comunas-.90-na" class="nav-link" data-scroll-target="#cuáles-son-las-comunas-.90-na"><span class="header-section-number">2.3</span> ¿Cuáles son las comunas &gt;.90 NA?</a></li>
+  <li><a href="#atrición-de-profesores-por-escuelas" id="toc-atrición-de-profesores-por-escuelas" class="nav-link" data-scroll-target="#atrición-de-profesores-por-escuelas"><span class="header-section-number">2.4</span> Atrición de profesores por escuelas</a></li>
+  <li><a href="#atrición-de-comunas-por-escuelas" id="toc-atrición-de-comunas-por-escuelas" class="nav-link" data-scroll-target="#atrición-de-comunas-por-escuelas"><span class="header-section-number">2.5</span> Atrición de comunas por escuelas</a></li>
+  <li><a href="#comunas-con-atrición-90-de-escuelas" id="toc-comunas-con-atrición-90-de-escuelas" class="nav-link" data-scroll-target="#comunas-con-atrición-90-de-escuelas"><span class="header-section-number">2.6</span> Comunas con Atrición &gt;90 de escuelas</a></li>
+  </ul></li>
+  <li><a href="#comparación-de-muestras-idc-2024" id="toc-comparación-de-muestras-idc-2024" class="nav-link" data-scroll-target="#comparación-de-muestras-idc-2024"><span class="header-section-number">3</span> Comparación de muestras IDC 2024</a>
+  <ul class="collapse">
+  <li><a href="#resumen-de-correspondencia-entre-comunas" id="toc-resumen-de-correspondencia-entre-comunas" class="nav-link" data-scroll-target="#resumen-de-correspondencia-entre-comunas"><span class="header-section-number">3.1</span> Resumen de Correspondencia entre comunas</a></li>
+  <li><a href="#lista-de-comunas-ganadas-y-perdidas" id="toc-lista-de-comunas-ganadas-y-perdidas" class="nav-link" data-scroll-target="#lista-de-comunas-ganadas-y-perdidas"><span class="header-section-number">3.2</span> Lista de Comunas ganadas y perdidas</a></li>
+  <li><a href="#correlación-de-los-índices-educacionales-en-ambos-años" id="toc-correlación-de-los-índices-educacionales-en-ambos-años" class="nav-link" data-scroll-target="#correlación-de-los-índices-educacionales-en-ambos-años"><span class="header-section-number">3.3</span> Correlación de los índices educacionales en ambos años</a></li>
+  </ul></li>
+  <li><a href="#comportamiento-de-los-valores-del-índice" id="toc-comportamiento-de-los-valores-del-índice" class="nav-link" data-scroll-target="#comportamiento-de-los-valores-del-índice"><span class="header-section-number">4</span> Comportamiento de los valores del Índice</a>
+  <ul class="collapse">
+  <li><a href="#distribución-de-puntajes" id="toc-distribución-de-puntajes" class="nav-link" data-scroll-target="#distribución-de-puntajes"><span class="header-section-number">4.1</span> Distribución de puntajes</a></li>
+  </ul></li>
+  <li><a href="#correlación-con-simce" id="toc-correlación-con-simce" class="nav-link" data-scroll-target="#correlación-con-simce"><span class="header-section-number">5</span> Correlación con SIMCE</a></li>
+  <li><a href="#correlación-con-otros-índices" id="toc-correlación-con-otros-índices" class="nav-link" data-scroll-target="#correlación-con-otros-índices"><span class="header-section-number">6</span> Correlación con otros índices</a></li>
   </ul>
 </nav>
 </div>
@@ -154,8 +172,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">"p_item"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="validación-del-índice" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Validación del índice</h1>
+<section id="validación-de-la-escala" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Validación de la escala</h1>
+<section id="aportes-de-los-ítems" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="aportes-de-los-ítems"><span class="header-section-number">1.1</span> Aportes de los ítems</h2>
 <ul>
 <li>Buen alpha</li>
 <li>41% de missings todos los ítems</li>
@@ -267,8 +287,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="se-pueden-rescatar-datos" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> ¿Se pueden rescatar datos?</h1>
+</section>
+<section id="exploración-de-los-na" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Exploración de los NA</h1>
+<section id="se-pueden-rescatar-datos" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="se-pueden-rescatar-datos"><span class="header-section-number">2.1</span> ¿Se pueden rescatar datos?</h2>
 <ul>
 <li>Cuando se estima el índice, un 41% de los profesores no tienen índice</li>
 <li>Perdemos 51 comunas (nos quedamos con 295)</li>
@@ -344,8 +367,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="na-por-comuna" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> NA por comuna</h1>
+<section id="na-por-comuna" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="na-por-comuna"><span class="header-section-number">2.2</span> NA por comuna</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -385,8 +408,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="cuáles-son-las-comunas-.90-na" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> ¿Cuáles son las comunas &gt;.90 NA?</h1>
+<section id="cuáles-son-las-comunas-.90-na" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="cuáles-son-las-comunas-.90-na"><span class="header-section-number">2.3</span> ¿Cuáles son las comunas &gt;.90 NA?</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -437,76 +460,79 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="distribución-de-puntajes" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Distribución de puntajes</h1>
+<section id="atrición-de-profesores-por-escuelas" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="atrición-de-profesores-por-escuelas"><span class="header-section-number">2.4</span> Atrición de profesores por escuelas</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir variable "rm"</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>idc_rm <span class="ot">&lt;-</span> idc <span class="sc">%&gt;%</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rm =</span> <span class="fu">ifelse</span>(r_id <span class="sc">==</span> <span class="dv">13</span>, <span class="st">"Metropolitana"</span>, <span class="st">"Región"</span>))</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Usar la misma base para top_bottom</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>top_bottom <span class="ot">&lt;-</span> idc_rm <span class="sc">%&gt;%</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(m_idc)) <span class="sc">%&gt;%</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    idc_rm <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(m_idc) <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(idc_rm, <span class="fu">aes</span>(<span class="at">x =</span> m_idc, <span class="at">y =</span> <span class="fu">reorder</span>(m_name, m_idc), <span class="at">color =</span> rm)) <span class="sc">+</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> top_bottom,</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> m_name, <span class="at">color =</span> rm),  <span class="co"># &lt;- importante: asegurar que el color esté también en esta capa</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">2.5</span>,</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">max.overlaps =</span> <span class="dv">50</span>,</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">direction =</span> <span class="st">"y"</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribución del índice por comuna"</span>,</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Índice (m_idc)"</span>,</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="cn">NULL</span>,</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Zona"</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Creación variable cantidad de escuelas por comuna (pre limpiar NAs) -------</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>docente <span class="ot">&lt;-</span> docente <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(m_id) <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">n_escuelas_orig_comuna =</span> <span class="fu">n_distinct</span>(c_id)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Creación de variable tipo de escuela</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Creación de variable número y porcentaje de NAs por escuela ---------------</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>escuelas_stats_na <span class="ot">&lt;-</span> docente <span class="sc">%&gt;%</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Agrupamos por el identificador único de la escuela</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(c_id) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculamos n y % de NAs</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">c_name =</span> <span class="fu">first</span>(c_name), </span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_escuela =</span> <span class="fu">n</span>(),</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_NAs_escuela =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(p_idc)),</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">'drop'</span> </span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">prop_NAs_escuela =</span> (n_NAs_escuela <span class="sc">/</span> n_escuela) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(c_id, c_name, n_escuela, n_NAs_escuela, prop_NAs_escuela)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>escuelas_problematicas <span class="ot">&lt;-</span> escuelas_stats_na <span class="sc">%&gt;%</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(prop_NAs_escuela <span class="sc">&gt;</span> <span class="dv">90</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="01-idc_v1_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
 </div>
-</div>
-</div>
-</section>
-<section id="correlación-con-simce" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> Correlación con SIMCE</h1>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SIMCE</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>idc_simce <span class="ot">&lt;-</span> <span class="fu">merge</span>(<span class="fu">select</span>(idc,m_id, <span class="at">idc_2025=</span>m_idc), simce_comuna_2m, <span class="at">by =</span> <span class="st">"m_id"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>idc_simce <span class="ot">&lt;-</span> <span class="fu">merge</span>(idc_simce, simce_comuna_6b, <span class="at">by =</span> <span class="st">"m_id"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>idc_simce <span class="ot">&lt;-</span> <span class="fu">merge</span>(idc_simce, simce_comuna_4b, <span class="at">by =</span> <span class="st">"m_id"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecciona sólo columnas numéricas y sin NAs para correlación</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>idc_simce_num <span class="ot">&lt;-</span> idc_simce <span class="sc">%&gt;%</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>m_id) <span class="sc">%&gt;%</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()  <span class="co"># elimina filas con NA para que rcorr funcione</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternativamente, si quieres mantener filas con NA, puedes imputar o eliminar columnas con NA</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcula la matriz de correlación y p-values</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>rcorr_res <span class="ot">&lt;-</span> <span class="fu">rcorr</span>(<span class="fu">as.matrix</span>(idc_simce_num))</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Haz el corrplot</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(rcorr_res<span class="sc">$</span>r, </span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">'color'</span>, <span class="at">type =</span> <span class="st">'lower'</span>, </span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.col =</span> <span class="st">"black"</span>, <span class="at">bg =</span> <span class="st">"white"</span>,</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">addCoef.col =</span> <span class="st">'black'</span>, <span class="at">number.cex =</span> <span class="fl">0.8</span>, <span class="at">diag =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histograma con estilo profesional</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(escuelas_stats_na, <span class="fu">aes</span>(<span class="at">x =</span> prop_NAs_escuela)) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">binwidth =</span> <span class="dv">5</span>, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"#4E79A7"</span>, </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"white"</span>, </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.8</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">xintercept =</span> <span class="fu">mean</span>(escuelas_stats_na<span class="sc">$</span>prop_NAs_escuela, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"#E15759"</span>, </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">"dashed"</span>, </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">1</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribución de la Proporción de Valores Faltantes por Escuela"</span>,</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Cada barra representa un intervalo del 5% en la proporción de NAs"</span>,</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Porcentaje de Valores Faltantes (NAs)"</span>,</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Número de Escuelas"</span>,</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">paste0</span>(</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Línea roja: Media ("</span>, </span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">round</span>(<span class="fu">mean</span>(escuelas_stats_na<span class="sc">$</span>prop_NAs_escuela, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">1</span>), </span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>      <span class="st">"%)</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Total escuelas analizadas: "</span>, <span class="fu">nrow</span>(escuelas_stats_na))</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">14</span>),</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"gray40"</span>),</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -516,30 +542,642 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-</section>
-<section id="correlación-con-otros-índices" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Correlación con otros índices</h1>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>idc_others <span class="ot">&lt;-</span> <span class="fu">merge</span>(<span class="fu">select</span>(idc, m_id, <span class="at">idc_2025=</span>m_idc), idc_2024, <span class="at">by =</span> <span class="st">"m_id"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>idc_others <span class="ot">&lt;-</span> <span class="fu">merge</span>(idc_others, idh_comunal, <span class="at">by =</span> <span class="st">"m_id"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>idc_others <span class="ot">&lt;-</span> <span class="fu">merge</span>(idc_others, pobreza_multi_comunal, <span class="at">by =</span> <span class="st">"m_id"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>idc_others <span class="ot">&lt;-</span> <span class="fu">merge</span>(idc_others, conectividad_comunal, <span class="at">by =</span> <span class="st">"m_id"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>idc_others <span class="ot">&lt;-</span> idc_others<span class="sc">|&gt;</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>m_id)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">rcorr</span>(<span class="fu">as.matrix</span>(idc_others))<span class="sc">$</span>r, <span class="at">p.mat =</span> <span class="fu">rcorr</span>(<span class="fu">as.matrix</span>(idc_others))<span class="sc">$</span>P, </span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">'color'</span>, <span class="at">type =</span> <span class="st">'lower'</span>, <span class="at">insig=</span><span class="st">'blank'</span>,</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.col =</span> <span class="st">"black"</span>,<span class="at">bg=</span><span class="st">"white"</span>,<span class="at">na.label=</span><span class="st">"-"</span>,</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">addCoef.col =</span><span class="st">'black'</span>, <span class="at">number.cex =</span> <span class="fl">0.8</span>, <span class="at">diag=</span><span class="cn">FALSE</span>,</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">sig.level =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Item =</span> <span class="fu">c</span>(<span class="st">"Total de escuelas"</span>, <span class="st">"Escuelas con 100% NA"</span>, <span class="st">"Atrición nivel escuela"</span>),</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Valor =</span> <span class="fu">c</span>(<span class="fu">nrow</span>(escuelas_stats_na)<span class="sc">|&gt;</span><span class="fu">round</span>(<span class="dv">0</span>),<span class="fu">nrow</span>(escuelas_problematicas)<span class="sc">|&gt;</span><span class="fu">round</span>(<span class="dv">0</span>),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>            (<span class="fu">nrow</span>(escuelas_problematicas)<span class="sc">/</span><span class="fu">nrow</span>(escuelas_stats_na))<span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>))</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Item</th>
+<th style="text-align: right;">Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Total de escuelas</td>
+<td style="text-align: right;">7710.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Escuelas con 100% NA</td>
+<td style="text-align: right;">5057.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Atrición nivel escuela</td>
+<td style="text-align: right;">0.66</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="atrición-de-comunas-por-escuelas" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="atrición-de-comunas-por-escuelas"><span class="header-section-number">2.5</span> Atrición de comunas por escuelas</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>docentes_filtrado <span class="ot">&lt;-</span> docente <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>c_id <span class="sc">%in%</span> escuelas_problematicas<span class="sc">$</span>c_id)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Creación de variable cantidad y porcentaje de escuelas por comuna (luego de limpiar NAs)</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>docentes_filtrado <span class="ot">&lt;-</span> docentes_filtrado <span class="sc">%&gt;%</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(m_id) <span class="sc">%&gt;%</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">n_escuelas_post_filtro_comuna =</span> <span class="fu">n_distinct</span>(c_id)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>comunas_stats <span class="ot">&lt;-</span> docentes_filtrado <span class="sc">%&gt;%</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Agrupamos por el identificador único de la comuna</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(m_id) <span class="sc">%&gt;%</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Rescatamos los valores y el nombre usando first()</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">m_name =</span> <span class="fu">first</span>(m_name), <span class="co"># Rescatamos el nombre de la comuna</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_escuelas_original =</span> <span class="fu">first</span>(n_escuelas_orig_comuna),</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_escuelas_mantenidas =</span> <span class="fu">first</span>(n_escuelas_post_filtro_comuna),</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">'drop'</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculamos el porcentaje de escuelas que se mantuvieron</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_escuelas_mantenidas =</span> (n_escuelas_mantenidas <span class="sc">/</span> n_escuelas_original) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Reordenamos las columnas para mayor claridad (opcional)</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(m_id, m_name, n_escuelas_original, n_escuelas_mantenidas, pct_escuelas_mantenidas)</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(comunas_stats, <span class="fu">aes</span>(<span class="at">x =</span> pct_escuelas_mantenidas)) <span class="sc">+</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">binwidth =</span> <span class="dv">5</span>, </span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"#4E79A7"</span>, </span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"white"</span>, </span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.8</span></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">xintercept =</span> <span class="fu">mean</span>(comunas_stats<span class="sc">$</span>pct_escuelas_mantenidas, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"#E15759"</span>, </span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">"dashed"</span>, </span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">1</span></span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribución de la Proporción de Escuelas Faltantes por Comuna"</span>,</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Cada barra representa un intervalo del 5% en la proporción de NAs"</span>,</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Porcentaje de Escuelas Faltantes (NAs)"</span>,</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Número de Comunas"</span>,</span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">paste0</span>(</span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Línea roja: Media ("</span>, </span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>      <span class="fu">round</span>(<span class="fu">mean</span>(comunas_stats<span class="sc">$</span>pct_escuelas_mantenidas, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">1</span>), </span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>      <span class="st">"%)</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Total comunas analizadas: "</span>, <span class="fu">nrow</span>(comunas_stats))</span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">14</span>),</span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"gray40"</span>),</span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="01-idc_v1_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="01-idc_v1_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="comunas-con-atrición-90-de-escuelas" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="comunas-con-atrición-90-de-escuelas"><span class="header-section-number">2.6</span> Comunas con Atrición &gt;90 de escuelas</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Cambiar variable en filter (pct_escuelas_mantenidas o n_escuelas_mantenidas) para ver los datos</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>comunas_plot <span class="ot">&lt;-</span> comunas_stats <span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(pct_escuelas_mantenidas <span class="sc">&lt;</span> <span class="dv">10</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Generamos el gráfico</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(comunas_plot, <span class="fu">aes</span>(<span class="at">x =</span> n_escuelas_mantenidas, <span class="at">y =</span> <span class="fu">fct_reorder</span>(m_name, n_escuelas_mantenidas))) <span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(pct_escuelas_mantenidas, <span class="dv">1</span>), <span class="st">"%"</span>)), </span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.2</span>, </span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Comunas con menos de 10 escuelas después del filtro de NAs"</span>,</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"La etiqueta muestra el % de escuelas originales que se mantuvieron"</span>,</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"N° de escuelas mantenidas en la muestra"</span>,</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Comuna"</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.15</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01-idc_v1_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="comparación-de-muestras-idc-2024" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Comparación de muestras IDC 2024</h1>
+<section id="resumen-de-correspondencia-entre-comunas" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="resumen-de-correspondencia-entre-comunas"><span class="header-section-number">3.1</span> Resumen de Correspondencia entre comunas</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mother_data_2024 <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"~/GitHub/milenio_nudos/idc/data/proc_data/private_data/2024_mother_data.rds"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>mother_data_2025 <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"~/GitHub/milenio_nudos/idc/data/proc_data/private_data/2025_mother_data.rds"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>indice_2024 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"~/GitHub/milenio_nudos/idc/data/proc_data/public_data/2024_idc_v1.xlsx"</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>indice_2025 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"~/GitHub/milenio_nudos/idc/data/proc_data/public_data/2025_idc_v1.xlsx"</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Comparación de muestra de comunas -----------------------------------------</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Seleccionar ID y variable de índice de cada año</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>base_2024 <span class="ot">&lt;-</span> indice_2024 <span class="sc">%&gt;%</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id_comuna, c_indice, nombre_comuna) <span class="sc">%&gt;%</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">m_id =</span> <span class="fu">as.character</span>(id_comuna)) <span class="sc">%&gt;%</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(m_id, c_indice, nombre_comuna) <span class="sc">%&gt;%</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">indice_2024 =</span> c_indice, <span class="at">m_name =</span> nombre_comuna)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>base_2025 <span class="ot">&lt;-</span> indice_2025 <span class="sc">%&gt;%</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">m_id =</span> <span class="fu">as.character</span>(m_id)) <span class="sc">%&gt;%</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(m_id, m_idc, m_name) <span class="sc">%&gt;%</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">indice_2025 =</span> m_idc)</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Unir ambas bases por m_id</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>comparacion <span class="ot">&lt;-</span> <span class="fu">full_join</span>(base_2024, base_2025, <span class="at">by =</span> <span class="st">"m_id"</span>, <span class="at">suffix =</span> <span class="fu">c</span>(<span class="st">"_2024"</span>, <span class="st">"_2025"</span>))</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Clasificar según presencia de NA</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>resultado <span class="ot">&lt;-</span> comparacion <span class="sc">%&gt;%</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">estado =</span> <span class="fu">case_when</span>(</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">is.na</span>(indice_2024) <span class="sc">&amp;</span> <span class="fu">is.na</span>(indice_2025) <span class="sc">~</span> <span class="st">"NA en ambos años"</span>,</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>      <span class="fu">is.na</span>(indice_2024) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(indice_2025) <span class="sc">~</span> <span class="st">"NA solo en 2024 (comuna ganada)"</span>,</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>      <span class="sc">!</span><span class="fu">is.na</span>(indice_2024) <span class="sc">&amp;</span> <span class="fu">is.na</span>(indice_2025) <span class="sc">~</span> <span class="st">"NA solo en 2025 (comuna perdida)"</span>,</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Presente en ambos"</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabla resumen</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>tabla_resumen <span class="ot">&lt;-</span> resultado<span class="sc">%&gt;%</span></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(estado)</span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>tabla_resumen<span class="sc">|&gt;</span></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">estado</th>
+<th style="text-align: right;">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">NA en ambos años</td>
+<td style="text-align: right;">36</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NA solo en 2024 (comuna ganada)</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NA solo en 2025 (comuna perdida)</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Presente en ambos</td>
+<td style="text-align: right;">286</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="lista-de-comunas-ganadas-y-perdidas" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="lista-de-comunas-ganadas-y-perdidas"><span class="header-section-number">3.2</span> Lista de Comunas ganadas y perdidas</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Comunas ganadas</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>resultado_na <span class="ot">&lt;-</span> resultado <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(estado <span class="sc">!=</span> <span class="st">"Presente en ambos"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(m_name_2024, estado) <span class="sc">%&gt;%</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(estado)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>resultado_na<span class="sc">|&gt;</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">m_name_2024</th>
+<th style="text-align: left;">estado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cochamó</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Puqueldón</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">San Juan de la Costa</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Palena</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Lago Verde</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Guaitecas</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O’Higgins</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Tortel</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Río Ibáñez</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Laguna Blanca</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Río Verde</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">San Gregorio</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cabo de Hornos</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Primavera</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Timaukel</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Torres del Paine</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Camiña</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Colchane</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Huara</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Camarones</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Putre</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">General Lagos</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Portezuelo</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sierra Gorda</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ollagüe</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">La Higuera</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Río Hurtado</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Juan Fernández</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">La Cruz</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Placilla</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pumanque</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Vichuquén</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Quilaco</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">San Rosendo</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Teodoro Schmidt</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ercilla</td>
+<td style="text-align: left;">NA en ambos años</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Futaleufú</td>
+<td style="text-align: left;">NA solo en 2024 (comuna ganada)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cobquecura</td>
+<td style="text-align: left;">NA solo en 2024 (comuna ganada)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Tierra Amarilla</td>
+<td style="text-align: left;">NA solo en 2024 (comuna ganada)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Chañaral</td>
+<td style="text-align: left;">NA solo en 2024 (comuna ganada)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Coinco</td>
+<td style="text-align: left;">NA solo en 2024 (comuna ganada)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">La Estrella</td>
+<td style="text-align: left;">NA solo en 2024 (comuna ganada)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pencahue</td>
+<td style="text-align: left;">NA solo en 2024 (comuna ganada)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">San Rafael</td>
+<td style="text-align: left;">NA solo en 2024 (comuna ganada)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Dalcahue</td>
+<td style="text-align: left;">NA solo en 2025 (comuna perdida)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Queilén</td>
+<td style="text-align: left;">NA solo en 2025 (comuna perdida)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Puerto Octay</td>
+<td style="text-align: left;">NA solo en 2025 (comuna perdida)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">San Pablo</td>
+<td style="text-align: left;">NA solo en 2025 (comuna perdida)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Chaitén</td>
+<td style="text-align: left;">NA solo en 2025 (comuna perdida)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">María Pinto</td>
+<td style="text-align: left;">NA solo en 2025 (comuna perdida)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Treguaco</td>
+<td style="text-align: left;">NA solo en 2025 (comuna perdida)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Alto Del Carmen</td>
+<td style="text-align: left;">NA solo en 2025 (comuna perdida)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Paihuano</td>
+<td style="text-align: left;">NA solo en 2025 (comuna perdida)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Canela</td>
+<td style="text-align: left;">NA solo en 2025 (comuna perdida)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Papudo</td>
+<td style="text-align: left;">NA solo en 2025 (comuna perdida)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Navidad</td>
+<td style="text-align: left;">NA solo en 2025 (comuna perdida)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Paredones</td>
+<td style="text-align: left;">NA solo en 2025 (comuna perdida)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Alto Biobío</td>
+<td style="text-align: left;">NA solo en 2025 (comuna perdida)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Los Sauces</td>
+<td style="text-align: left;">NA solo en 2025 (comuna perdida)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="correlación-de-los-índices-educacionales-en-ambos-años" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="correlación-de-los-índices-educacionales-en-ambos-años"><span class="header-section-number">3.3</span> Correlación de los índices educacionales en ambos años</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtrar solo comunas presentes en ambos años</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>datos_completos <span class="ot">&lt;-</span> resultado <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(indice_2024) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(indice_2025))</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular correlación</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>r_valor <span class="ot">&lt;-</span> <span class="fu">cor</span>(datos_completos<span class="sc">$</span>indice_2024, datos_completos<span class="sc">$</span>indice_2025, <span class="at">use =</span> <span class="st">"complete.obs"</span>) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datos_completos, <span class="fu">aes</span>(<span class="at">x =</span> indice_2024, <span class="at">y =</span> indice_2025)) <span class="sc">+</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#6495ED"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"darkred"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="cn">Inf</span>, <span class="at">y =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">hjust =</span> <span class="fl">1.1</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="dv">1</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">"r = "</span>, r_valor), <span class="at">size =</span> <span class="dv">5</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Todos los estamentos 2024"</span>,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Profesores 2025"</span>,</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Relación Adopción digital escolar por comuna 2024 y 2025"</span>,</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Las escalas difieren porque en el año 2024 transformamos la escala de 0 a 1"</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01-idc_v1_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="comportamiento-de-los-valores-del-índice" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Comportamiento de los valores del Índice</h1>
+<section id="distribución-de-puntajes" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="distribución-de-puntajes"><span class="header-section-number">4.1</span> Distribución de puntajes</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir variable "rm"</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>idc_rm <span class="ot">&lt;-</span> idc <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rm =</span> <span class="fu">ifelse</span>(r_id <span class="sc">==</span> <span class="dv">13</span>, <span class="st">"Metropolitana"</span>, <span class="st">"Región"</span>))</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Usar la misma base para top_bottom</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>top_bottom <span class="ot">&lt;-</span> idc_rm <span class="sc">%&gt;%</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(m_idc)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    idc_rm <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(m_idc) <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(idc_rm, <span class="fu">aes</span>(<span class="at">x =</span> m_idc, <span class="at">y =</span> <span class="fu">reorder</span>(m_name, m_idc), <span class="at">color =</span> rm)) <span class="sc">+</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> top_bottom,</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> m_name, <span class="at">color =</span> rm),  <span class="co"># &lt;- importante: asegurar que el color esté también en esta capa</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">2.5</span>,</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">max.overlaps =</span> <span class="dv">50</span>,</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">direction =</span> <span class="st">"y"</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribución del índice por comuna"</span>,</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Índice (m_idc)"</span>,</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Zona"</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01-idc_v1_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="correlación-con-simce" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Correlación con SIMCE</h1>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SIMCE</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>idc_simce <span class="ot">&lt;-</span> <span class="fu">merge</span>(<span class="fu">select</span>(idc,m_id, <span class="at">idc_2025=</span>m_idc), simce_comuna_2m, <span class="at">by =</span> <span class="st">"m_id"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>idc_simce <span class="ot">&lt;-</span> <span class="fu">merge</span>(idc_simce, simce_comuna_6b, <span class="at">by =</span> <span class="st">"m_id"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>idc_simce <span class="ot">&lt;-</span> <span class="fu">merge</span>(idc_simce, simce_comuna_4b, <span class="at">by =</span> <span class="st">"m_id"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecciona sólo columnas numéricas y sin NAs para correlación</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>idc_simce_num <span class="ot">&lt;-</span> idc_simce <span class="sc">%&gt;%</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>m_id) <span class="sc">%&gt;%</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()  <span class="co"># elimina filas con NA para que rcorr funcione</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternativamente, si quieres mantener filas con NA, puedes imputar o eliminar columnas con NA</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcula la matriz de correlación y p-values</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>rcorr_res <span class="ot">&lt;-</span> <span class="fu">rcorr</span>(<span class="fu">as.matrix</span>(idc_simce_num))</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Haz el corrplot</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(rcorr_res<span class="sc">$</span>r, </span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">'color'</span>, <span class="at">type =</span> <span class="st">'lower'</span>, </span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.col =</span> <span class="st">"black"</span>, <span class="at">bg =</span> <span class="st">"white"</span>,</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">addCoef.col =</span> <span class="st">'black'</span>, <span class="at">number.cex =</span> <span class="fl">0.8</span>, <span class="at">diag =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01-idc_v1_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="correlación-con-otros-índices" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Correlación con otros índices</h1>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>idc_others <span class="ot">&lt;-</span> <span class="fu">merge</span>(<span class="fu">select</span>(idc, m_id, <span class="at">idc_2025=</span>m_idc), idc_2024, <span class="at">by =</span> <span class="st">"m_id"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>idc_others <span class="ot">&lt;-</span> <span class="fu">merge</span>(idc_others, idh_comunal, <span class="at">by =</span> <span class="st">"m_id"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>idc_others <span class="ot">&lt;-</span> <span class="fu">merge</span>(idc_others, pobreza_multi_comunal, <span class="at">by =</span> <span class="st">"m_id"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>idc_others <span class="ot">&lt;-</span> <span class="fu">merge</span>(idc_others, conectividad_comunal, <span class="at">by =</span> <span class="st">"m_id"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>idc_others <span class="ot">&lt;-</span> idc_others<span class="sc">|&gt;</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>m_id)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">rcorr</span>(<span class="fu">as.matrix</span>(idc_others))<span class="sc">$</span>r, <span class="at">p.mat =</span> <span class="fu">rcorr</span>(<span class="fu">as.matrix</span>(idc_others))<span class="sc">$</span>P, </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">'color'</span>, <span class="at">type =</span> <span class="st">'lower'</span>, <span class="at">insig=</span><span class="st">'blank'</span>,</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.col =</span> <span class="st">"black"</span>,<span class="at">bg=</span><span class="st">"white"</span>,<span class="at">na.label=</span><span class="st">"-"</span>,</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">addCoef.col =</span><span class="st">'black'</span>, <span class="at">number.cex =</span> <span class="fl">0.8</span>, <span class="at">diag=</span><span class="cn">FALSE</span>,</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">sig.level =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01-idc_v1_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>

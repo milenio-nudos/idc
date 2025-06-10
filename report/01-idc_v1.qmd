@@ -50,9 +50,9 @@ items <- docente|>
   select(starts_with("p_item"))
 ```
 
+# Validación de la escala
 
-
-# Validación del índice
+## Aportes de los ítems
 
 -   Buen alpha
 -   41% de missings todos los ítems
@@ -60,7 +60,9 @@ items <- docente|>
 tab_itemscale(items)
 ```
 
-# ¿Se pueden rescatar datos?
+# Exploración de los NA
+
+## ¿Se pueden rescatar datos?
 -   Cuando se estima el índice, un 41% de los profesores no tienen índice
 -   Perdemos 51 comunas (nos quedamos con 295)
 
@@ -79,7 +81,7 @@ na_items_summary <- docente %>%
 na_items_summary|>kable()
 ```
 
-# NA por comuna 
+## NA por comuna 
 ```{r}
 # Calcular proporción de NA por comuna
 na_por_comuna <- docente |>
@@ -109,7 +111,7 @@ ggplot(na_por_comuna, aes(x = reorder(m_name, prop_na), y = prop_na)) +
   theme(axis.text.y = element_blank())
 ```
 
-# ¿Cuáles son las comunas >.90 NA?
+## ¿Cuáles son las comunas >.90 NA?
 
 ```{r}
 set.seed(123)  # para reproducibilidad
@@ -151,7 +153,271 @@ ggplot(na_por_comuna, aes(x = reorder(m_name, prop_na), y = prop_na)) +
   theme(axis.text.y = element_blank())
 ```
 
-# Distribución de puntajes
+## Atrición de profesores por escuelas
+
+```{r}
+# 1. Creación variable cantidad de escuelas por comuna (pre limpiar NAs) -------
+
+docente <- docente %>%
+  group_by(m_id) %>%
+  mutate(n_escuelas_orig_comuna = n_distinct(c_id)) %>%
+  ungroup()
+
+# 2. Creación de variable tipo de escuela
+
+# 2. Creación de variable número y porcentaje de NAs por escuela ---------------
+
+escuelas_stats_na <- docente %>%
+  # Agrupamos por el identificador único de la escuela
+  group_by(c_id) %>% 
+  
+  # Calculamos n y % de NAs
+  summarise(
+    c_name = first(c_name), 
+    n_escuela = n(),
+    n_NAs_escuela = sum(is.na(p_idc)),
+    .groups = 'drop' 
+  ) %>%
+  mutate(
+    prop_NAs_escuela = (n_NAs_escuela / n_escuela) * 100
+  ) %>%
+    select(c_id, c_name, n_escuela, n_NAs_escuela, prop_NAs_escuela)
+
+escuelas_problematicas <- escuelas_stats_na %>%
+  filter(prop_NAs_escuela > 90)
+```
+
+```{r}
+# Histograma con estilo profesional
+ggplot(escuelas_stats_na, aes(x = prop_NAs_escuela)) +
+  geom_histogram(
+    binwidth = 5, 
+    fill = "#4E79A7", 
+    color = "white", 
+    alpha = 0.8
+  ) +
+  geom_vline(
+    xintercept = mean(escuelas_stats_na$prop_NAs_escuela, na.rm = TRUE), 
+    color = "#E15759", 
+    linetype = "dashed", 
+    size = 1
+  ) +
+  labs(
+    title = "Distribución de la Proporción de Valores Faltantes por Escuela",
+    subtitle = "Cada barra representa un intervalo del 5% en la proporción de NAs",
+    x = "Porcentaje de Valores Faltantes (NAs)",
+    y = "Número de Escuelas",
+    caption = paste0(
+      "Línea roja: Media (", 
+      round(mean(escuelas_stats_na$prop_NAs_escuela, na.rm = TRUE), 1), 
+      "%)\n",
+      "Total escuelas analizadas: ", nrow(escuelas_stats_na))
+  ) +
+  scale_x_continuous(breaks = seq(0, 100, by = 10)) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 10, color = "gray40"),
+    axis.title = element_text(size = 12),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank()
+  )
+```
+
+```{r}
+data.frame(
+  Item = c("Total de escuelas", "Escuelas con 100% NA", "Atrición nivel escuela"),
+  Valor = c(nrow(escuelas_stats_na)|>round(0),nrow(escuelas_problematicas)|>round(0),
+            (nrow(escuelas_problematicas)/nrow(escuelas_stats_na))|> round(2))
+  )|>
+  kable()
+```
+
+## Atrición de comunas por escuelas
+
+```{r}
+docentes_filtrado <- docente %>%
+  filter(!c_id %in% escuelas_problematicas$c_id)
+
+# 5. Creación de variable cantidad y porcentaje de escuelas por comuna (luego de limpiar NAs)
+
+docentes_filtrado <- docentes_filtrado %>%
+  group_by(m_id) %>%
+  mutate(n_escuelas_post_filtro_comuna = n_distinct(c_id)) %>%
+  ungroup()
+
+comunas_stats <- docentes_filtrado %>%
+  # Agrupamos por el identificador único de la comuna
+  group_by(m_id) %>%
+  
+  # Rescatamos los valores y el nombre usando first()
+  summarise(
+    m_name = first(m_name), # Rescatamos el nombre de la comuna
+    n_escuelas_original = first(n_escuelas_orig_comuna),
+    n_escuelas_mantenidas = first(n_escuelas_post_filtro_comuna),
+    .groups = 'drop'
+  ) %>%
+  
+  # Calculamos el porcentaje de escuelas que se mantuvieron
+  mutate(
+    pct_escuelas_mantenidas = (n_escuelas_mantenidas / n_escuelas_original) * 100
+  ) %>%
+  
+  # Reordenamos las columnas para mayor claridad (opcional)
+  select(m_id, m_name, n_escuelas_original, n_escuelas_mantenidas, pct_escuelas_mantenidas)
+
+ggplot(comunas_stats, aes(x = pct_escuelas_mantenidas)) +
+  geom_histogram(
+    binwidth = 5, 
+    fill = "#4E79A7", 
+    color = "white", 
+    alpha = 0.8
+  ) +
+  geom_vline(
+    xintercept = mean(comunas_stats$pct_escuelas_mantenidas, na.rm = TRUE), 
+    color = "#E15759", 
+    linetype = "dashed", 
+    size = 1
+  ) +
+  labs(
+    title = "Distribución de la Proporción de Escuelas Faltantes por Comuna",
+    subtitle = "Cada barra representa un intervalo del 5% en la proporción de NAs",
+    x = "Porcentaje de Escuelas Faltantes (NAs)",
+    y = "Número de Comunas",
+    caption = paste0(
+      "Línea roja: Media (", 
+      round(mean(comunas_stats$pct_escuelas_mantenidas, na.rm = TRUE), 1), 
+      "%)\n",
+      "Total comunas analizadas: ", nrow(comunas_stats))
+  ) +
+  scale_x_continuous(breaks = seq(0, 100, by = 10)) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 10, color = "gray40"),
+    axis.title = element_text(size = 12),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank()
+  )
+```
+
+## Comunas con Atrición >90 de escuelas
+
+```{r}
+library(forcats)
+
+# Cambiar variable en filter (pct_escuelas_mantenidas o n_escuelas_mantenidas) para ver los datos
+comunas_plot <- comunas_stats %>%
+  filter(pct_escuelas_mantenidas < 10)
+
+# Generamos el gráfico
+ggplot(comunas_plot, aes(x = n_escuelas_mantenidas, y = fct_reorder(m_name, n_escuelas_mantenidas))) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_text(
+    aes(label = paste0(round(pct_escuelas_mantenidas, 1), "%")), 
+    hjust = -0.2, 
+    size = 3
+  ) +
+  labs(
+    title = "Comunas con menos de 10 escuelas después del filtro de NAs",
+    subtitle = "La etiqueta muestra el % de escuelas originales que se mantuvieron",
+    x = "N° de escuelas mantenidas en la muestra",
+    y = "Comuna"
+  ) +
+  theme_minimal() +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.15)))
+
+```
+
+# Comparación de muestras IDC 2024
+
+## Resumen de Correspondencia entre comunas
+
+```{r}
+mother_data_2024 <- readRDS("~/GitHub/milenio_nudos/idc/data/proc_data/private_data/2024_mother_data.rds")
+mother_data_2025 <- readRDS("~/GitHub/milenio_nudos/idc/data/proc_data/private_data/2025_mother_data.rds")
+
+indice_2024 <- read_excel("~/GitHub/milenio_nudos/idc/data/proc_data/public_data/2024_idc_v1.xlsx")
+indice_2025 <- read_excel("~/GitHub/milenio_nudos/idc/data/proc_data/public_data/2025_idc_v1.xlsx")
+
+# 2. Comparación de muestra de comunas -----------------------------------------
+
+# Seleccionar ID y variable de índice de cada año
+base_2024 <- indice_2024 %>%
+  select(id_comuna, c_indice, nombre_comuna) %>%
+  mutate(m_id = as.character(id_comuna)) %>%
+  select(m_id, c_indice, nombre_comuna) %>%
+  rename(indice_2024 = c_indice, m_name = nombre_comuna)
+
+base_2025 <- indice_2025 %>%
+  mutate(m_id = as.character(m_id)) %>%
+  select(m_id, m_idc, m_name) %>%
+  rename(indice_2025 = m_idc)
+
+# Unir ambas bases por m_id
+comparacion <- full_join(base_2024, base_2025, by = "m_id", suffix = c("_2024", "_2025"))
+
+# Clasificar según presencia de NA
+resultado <- comparacion %>%
+  mutate(
+    estado = case_when(
+      is.na(indice_2024) & is.na(indice_2025) ~ "NA en ambos años",
+      is.na(indice_2024) & !is.na(indice_2025) ~ "NA solo en 2024 (comuna ganada)",
+      !is.na(indice_2024) & is.na(indice_2025) ~ "NA solo en 2025 (comuna perdida)",
+      TRUE ~ "Presente en ambos"
+    )
+  )
+
+
+# Tabla resumen
+tabla_resumen <- resultado%>%
+  dplyr::count(estado)
+
+tabla_resumen|>
+  kable()
+```
+
+## Lista de Comunas ganadas y perdidas
+
+```{r}
+#Comunas ganadas
+resultado_na <- resultado %>%
+  filter(estado != "Presente en ambos") %>%
+  select(m_name_2024, estado) %>%
+  arrange(estado)
+
+resultado_na|>kable()
+```
+
+## Correlación de los índices educacionales en ambos años
+
+```{r}
+# Filtrar solo comunas presentes en ambos años
+datos_completos <- resultado %>%
+  filter(!is.na(indice_2024) & !is.na(indice_2025))
+
+# Calcular correlación
+r_valor <- cor(datos_completos$indice_2024, datos_completos$indice_2025, use = "complete.obs") %>% round(2)
+
+# Graficar
+ggplot(datos_completos, aes(x = indice_2024, y = indice_2025)) +
+  geom_point(color = "#6495ED", alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE, color = "darkred", linetype = "dashed") +
+  annotate("text", x = Inf, y = -Inf, hjust = 1.1, vjust = -1,
+           label = paste0("r = ", r_valor), size = 5, color = "black") +
+  labs(
+    x = "Todos los estamentos 2024",
+    y = "Profesores 2025",
+    title = "Relación Adopción digital escolar por comuna 2024 y 2025",
+    caption = "Las escalas difieren porque en el año 2024 transformamos la escala de 0 a 1"
+    ) +
+  theme_minimal()
+```
+
+# Comportamiento de los valores del Índice
+
+## Distribución de puntajes
+
 ```{r}
 # Añadir variable "rm"
 idc_rm <- idc %>%
