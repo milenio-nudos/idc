@@ -3,3 +3,6 @@
 ## Reportes
 
 [Reporte 1](https://milenio-nudos.github.io/idc/report/01-idc_v1.html)
+
+[Reporte 2](https://milenio-nudos.github.io/idc/report/02-social_index_report.html)
+
