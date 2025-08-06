@@ -7,7 +7,7 @@ mother_data_2024 <- readRDS("~/GitHub/milenio_nudos/idc/data/proc_data/private_d
 mother_data_2025 <- readRDS("~/GitHub/milenio_nudos/idc/data/proc_data/private_data/2025_mother_data.rds")
 
 indice_2024 <- read_excel("data/proc_data/public_data/2024_idc_v1.xlsx")
-indice_2025 <- read_excel("data/proc_data/public_data/2025_idc_v1.xlsx")
+indice_2025 <- readRDS("data/proc_data/private_data/comunas_validas_2025.rds")
 
 # 2. Comparación de muestra de comunas -----------------------------------------
 
