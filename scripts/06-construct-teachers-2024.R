@@ -1,7 +1,7 @@
 # Seteamos enviroment
 
 library(pacman)
-p_load(dplyr, ggplot2, haven)
+p_load(dplyr, ggplot2, haven,stringi)
 options(scipen = 999)
 rm(list = ls())
 
@@ -10,6 +10,8 @@ rm(list = ls())
 load("./data/proc_data/private_data/2024_nudos_simce_prof.RData")
 
 simce_prof_2025 <- readRDS("./data/proc_data/private_data/2025_mother_data.rds")
+
+idc_2024 <- read_excel("data/proc_data/public_data/2024_idc_v1.xlsx")
 
 # Agrupamos datos 2025
 
@@ -29,17 +31,8 @@ comunas_2025 <- simce_prof_2025 %>%
 UMBRAL_EXCLUSION <- 10  # 10% de umbral = máximo 90% de casos perdidos
 
 comunas_validas_2025 <- comunas_2025 %>%
-  filter(prop_casos_perdidos < (100 - UMBRAL_EXCLUSION)) %>%  # Menos del 90% de casos perdidos
+  mutate(m_idc = ifelse(prop_casos_perdidos > 90, NA,m_idc))|>
   arrange(prop_casos_perdidos)  # Ordenar de menor a mayor proporción de casos perdidos
-
-# Verificar cuántas comunas se mantienen
-cat("Comunas originales:", nrow(comunas_2025), "\n")
-cat("Comunas que cumplen el umbral:", nrow(comunas_validas_2025), "\n")
-cat("Comunas excluidas:", nrow(comunas_2025) - nrow(comunas_validas_2025), "\n")
-
-
-# Guardar comunas validas
-saveRDS(comunas_validas_2025, "./data/proc_data/private_data/comunas_validas_2025.rds")
 
 # Agrupamos dataframe 2024
 comunas_analisis_2024 <- simce_prof %>%
@@ -51,8 +44,18 @@ comunas_analisis_2024 <- simce_prof %>%
   ) %>%
   arrange(m_nudos_opp) 
 
-comunas_validas_2024 <- comunas_analisis_2024 %>%
-  na.omit()
+# Eliminar la fila que no comparten (Rio verde)
+comunas_validas_2025 <- comunas_validas_2025 %>%
+  filter(m_id != setdiff(comunas_validas_2025$m_id, comunas_analisis_2024$m_id))
+
+# Agregar fila todos los estamentos 2024
+idc_2024 <- idc_2024|>
+  select(id_comuna, c_indice)|>
+  rename(m_idc_2024 = c_indice, m_id = id_comuna)|>
+  mutate(m_id = as.integer(m_id))
+
+# Guardar comunas validas
+saveRDS(comunas_validas_2025, "./data/proc_data/private_data/comunas_validas_2025.rds")
 
 # Correlación de índices por comuna ----------------------------------------------------
 
@@ -60,13 +63,32 @@ comunas_validas_2024 <- comunas_analisis_2024 %>%
 resultado <- comunas_validas_2025 %>%
   select(m_id, m_name, m_idc_2025 = m_idc) %>%  # Renombrar para claridad
   inner_join(
-    comunas_validas_2024 %>% select(m_id, m_nudos_opp_2024 = m_nudos_opp),
+    comunas_analisis_2024 %>% select(m_id, m_nudos_opp_2024 = m_nudos_opp),
     by = "m_id"
   )
 
+resultado <- resultado|>
+  inner_join(
+    idc_2024 |> select(m_id, m_idc_2024),
+    by = "m_id"
+  )
+
+
+# Hacer columnas de ranking
+comparaciones_educacion <- resultado|>
+  arrange(desc(m_nudos_opp_2024))|>
+  mutate(ranking_prof_2024 = 1:344)|>
+  arrange(desc(m_idc_2024))|>
+  mutate(ranking_idc_social_2024 = 1:344)|>
+  arrange(desc(m_idc_2025))|>
+  mutate(ranking_2025 = 1:344)
+
+# Guardar base comparaciones
+saveRDS(comparaciones_educacion, "./data/proc_data/private_data/comparacion_educacion_2024_2025.rds")
+
 # Filtrar solo comunas presentes en ambos años con datos completos
 datos_completos <- resultado %>%
-  filter(!is.na(m_idc_2025) & !is.na(m_nudos_opp_2024))
+ filter(!is.na(m_idc_2025) & !is.na(m_nudos_opp_2024))
 
 # Verificar cuántas comunas tenemos
 cat("Comunas con datos en ambos años:", nrow(datos_completos), "\n")
@@ -105,5 +127,5 @@ if (setequal(comunas_en_filtrado, comunas_esperadas)) {
   cat("⚠ Hay discrepancias en las comunas filtradas\n")
 }
 
-writexl::write_xlsx(idc_2025_filtrado, here("data", "proc_data", "public_data", "2025_idc_v2.xlsx"))
+writexl::write_xlsx(idc_2025_filtrado, here::here("data", "proc_data", "public_data", "2025_idc_v2.xlsx"))
 

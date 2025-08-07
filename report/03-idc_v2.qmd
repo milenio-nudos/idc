@@ -1,0 +1,198 @@
+---
+title: "03-idc_v2"
+format: html
+---
+
+# N comunal
+
+Quedamos en la reunión pasada de dejar como casos perdidos a las comunas que tuvieran menos de un 10% de profesores que respondan la batería en la comuna. Con ello, el n final es de **288 comunas**
+
+```{r}
+pacman::p_load(dplyr, ggplot2, haven,stringi, knitr)
+
+
+comparaciones_educacion <- readRDS(here::here("~/GitHub/milenio_nudos/idc/data/proc_data/private_data/comparacion_educacion_2024_2025.rds"))
+
+# 2. Comparación de muestra de comunas -----------------------------------------
+
+
+# Clasificar según presencia de NA
+comparaciones_educacion <- comparaciones_educacion %>%
+  mutate(
+    estado = case_when(
+      is.na(m_idc_2024) & is.na(m_idc_2025) ~ "NA en ambos años",
+      is.na(m_idc_2024) & !is.na(m_idc_2025) ~ "NA solo en 2024 (comuna ganada)",
+      !is.na(m_idc_2024) & is.na(m_idc_2025) ~ "NA solo en 2025 (comuna perdida)",
+      TRUE ~ "Presente en ambos"
+    )
+  )
+
+
+# Tabla resumen
+tabla_resumen <- comparaciones_educacion%>%
+  dplyr::count(estado)%>%
+  bind_rows(tibble(estado = "Total de comunas 2024", n = 303))%>%
+  bind_rows(tibble(estado = "Total de comunas 2025", n = 288))
+
+
+tabla_resumen|>
+  kable()
+```
+
+# Movimiento de rankings
+
+### Índice general
+
+Los gráficos muestran que hay un movimiento considerable de posiciones entre cada una de las dos versiones de la dimensión del índice. Sin embargo, el movimiento en los puestos más altos es mucho más leve. El grupo que puntua alto se mueve dentro de los rangos altos.
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+# Filtrar comunas con ranking en ambos años
+comunas_filtradas <- comparaciones_educacion %>%
+  filter(!is.na(ranking_idc_social_2024) & !is.na(ranking_2025)) %>%
+  select(m_id, m_name, ranking_idc_social_2024, ranking_2025)
+
+# Pasar a formato largo para ggplot
+comunas_long <- comunas_filtradas %>%
+  pivot_longer(
+    cols = c(ranking_idc_social_2024, ranking_2025),
+    names_to = "anio",
+    values_to = "ranking"
+  ) %>%
+  mutate(anio = ifelse(anio == "ranking_idc_social_2024", "2024", "2025"))
+
+# Graficar slopegraph
+ggplot(comunas_long, aes(x = anio, y = ranking, group = m_id)) +
+  geom_line(color = "steelblue", alpha = 0.6) +
+  geom_point(color = "steelblue", size = 1.5) +
+  scale_y_reverse() + # Para que el ranking 1 esté arriba
+  theme_minimal() +
+  labs(
+    title = "Movimiento de comunas en ranking IDC Social (2024 → 2025)",
+    x = "",
+    y = "Ranking"
+  ) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank()
+  )
+```
+```{r}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+# 1. Filtrar comunas con ranking en ambos años
+comunas_filtradas <- comparaciones_educacion %>%
+  filter(!is.na(ranking_idc_social_2024) & !is.na(ranking_2025)) %>%
+  select(m_id, m_name, ranking_idc_social_2024, ranking_2025)
+
+# 2. Convertir a formato largo
+comunas_long <- comunas_filtradas %>%
+  pivot_longer(
+    cols = c(ranking_idc_social_2024, ranking_2025),
+    names_to = "anio",
+    values_to = "ranking"
+  ) %>%
+  mutate(anio = ifelse(anio == "ranking_idc_social_2024", "2024", "2025"))
+
+# 3. Ordenar comunas por ranking 2025 para visualización clara
+orden_comunas <- comunas_filtradas %>%
+  arrange(ranking_2025) %>%
+  pull(m_name)
+
+# 4. Crear gráfico tipo lollipop horizontal
+ggplot(comunas_long, aes(x = ranking, y = factor(m_name, levels = orden_comunas), group = m_id)) +
+  geom_line(color = "gray70", size = 0.6) +
+  geom_point(aes(color = anio), size = 2.2) +
+  scale_x_reverse() +  # Ranking más alto a la izquierda
+  labs(
+    title = "Cambio en el ranking IDC Social por comuna (2024 vs 2025)",
+    x = "Ranking (1 = mejor)",
+    y = "Comuna",
+    color = "Año"
+  ) +
+  theme_minimal(base_size = 10) +
+  theme(
+    axis.text.y = element_text(size = 6),
+    legend.position = "top"
+  )
+```
+
+# 
+
+¿Qué pasa con la correlación? Entre profesores aumenta levemente comparado con todos los estamentos de 2024 y profesores 2025.
+
+### Todos los estamentos 2024
+
+```{r}
+# Filtrar solo comunas presentes en ambos años con datos completos
+datos_completos <- comparaciones_educacion %>%
+ filter(!is.na(m_idc_2025) & !is.na(m_idc_2024))
+
+# Calcular correlación
+r_valor <- cor(datos_completos$m_idc_2024, datos_completos$m_idc_2025, use = "complete.obs") %>% round(2)
+
+# Graficar
+ggplot(datos_completos, aes(x = m_idc_2024, y = m_idc_2025)) +
+  geom_point(color = "#6495ED", alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE, color = "darkred", linetype = "dashed") +
+  annotate("text", x = Inf, y = -Inf, hjust = 1.1, vjust = -1,
+           label = paste0("r = ", r_valor), size = 5, color = "black") +
+  labs(
+    x = "índice educacional 2024 (Todos los estamentos)",
+    y = "Índice educacional 2025", 
+    title = "Relación entre Índices por Comuna 2024-2025",
+    subtitle = paste0("n = ", nrow(datos_completos), " comunas"),
+    caption = "Se utilizan solo variables de profesores para el subíndice educacional 2024"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5)
+  )
+```
+
+### Solo profesores
+
+```{r}
+# Filtrar solo comunas presentes en ambos años con datos completos
+datos_completos <- comparaciones_educacion %>%
+ filter(!is.na(m_idc_2025) & !is.na(m_nudos_opp_2024))
+
+# Calcular correlación
+r_valor <- cor(datos_completos$m_nudos_opp_2024, datos_completos$m_idc_2025, use = "complete.obs") %>% round(2)
+
+# Graficar
+ggplot(datos_completos, aes(x = m_nudos_opp_2024, y = m_idc_2025)) +
+  geom_point(color = "#6495ED", alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE, color = "darkred", linetype = "dashed") +
+  annotate("text", x = Inf, y = -Inf, hjust = 1.1, vjust = -1,
+           label = paste0("r = ", r_valor), size = 5, color = "black") +
+  labs(
+    x = "índice educacional 2024 (Todos los estamentos)",
+    y = "Índice educacional 2025", 
+    title = "Relación entre Índices por Comuna 2024-2025",
+    subtitle = paste0("n = ", nrow(datos_completos), " comunas"),
+    caption = "Se utilizan solo variables de profesores para el subíndice educacional 2024"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5)
+  )
+```
+
+## Tabla comparativa final
+
+```{r}
+comparaciones_educacion|>
+  select(m_name, ranking_2025, ranking_idc_social_2024, ranking_prof_2024)|>
+  rename(ranking_idc_social_2025=ranking_2025)|>
+  arrange(ranking_idc_social_2025)|>
+  kable()
+```
+
