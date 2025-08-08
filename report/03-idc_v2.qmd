@@ -54,7 +54,7 @@ library(ggplot2)
 
 # Filtrar comunas con ranking en ambos años
 comunas_filtradas <- comparaciones_educacion %>%
-  filter(!is.na(ranking_idc_social_2024) & !is.na(ranking_2025)) %>%
+  filter(!is.na(m_idc_2024) & !is.na(m_idc_2025)) %>%
   select(m_id, m_name, ranking_idc_social_2024, ranking_2025)
 
 # Pasar a formato largo para ggplot
@@ -89,7 +89,7 @@ library(ggplot2)
 
 # 1. Filtrar comunas con ranking en ambos años
 comunas_filtradas <- comparaciones_educacion %>%
-  filter(!is.na(ranking_idc_social_2024) & !is.na(ranking_2025)) %>%
+  filter(!is.na(m_idc_2024) & !is.na(m_idc_2025)) %>%
   select(m_id, m_name, ranking_idc_social_2024, ranking_2025)
 
 # 2. Convertir a formato largo
