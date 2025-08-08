@@ -1,6 +1,8 @@
 ---
 title: "03-idc_v2"
 format: html
+execute: 
+  echo: false
 ---
 
 # N comunal
