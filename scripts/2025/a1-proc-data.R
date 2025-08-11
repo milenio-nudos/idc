@@ -20,5 +20,8 @@ DCH$C25V_z_3 <- round(DCH$C25V_z,3)
 
 ##Guardar base----
 
+DCH <- DCH %>%
+  clean_names()
+
 saveRDS(DCH, file = "data/proc_data/private_data/2025_a_conectividad.rds")
 write_xlsx(DCH,path = "data/proc_data/private_data/2025_a_conectividad.xlsx")

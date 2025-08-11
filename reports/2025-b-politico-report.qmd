@@ -1,0 +1,1188 @@
+---
+title: "ANALISIS DATOS INDICE MUNICIPIO DIGITAL 2025"
+author: "Cristóbal Cabezas - Línea Política Nuleo Milenio NUDOS"
+execute:
+  fig-width: 8
+  fig-height: 8
+  out-width: "100%"
+format:
+  html: 
+    embed-resources: true
+    self-contained-math: true
+    include-in-header:
+      text: |
+        <style>
+          /* Aplica justificado + guionado automático */
+          p, li, blockquote {
+            text-align: justify;
+            text-justify: inter-word;
+            -webkit-hyphens: auto;
+            -ms-hyphens: auto;
+            -moz-hyphens: auto;
+            hyphens: auto;
+          }
+
+          /* Espacio extra debajo de TODOS los encabezados H1–H6 */
+          h1, h2, h3, h4, h5, h6 {
+            margin-bottom: 2em;
+          }
+          /* Garantiza separación sobre el primer párrafo tras cualquier encabezado H1–H6 */
+          h1 + p,
+          h2 + p,
+          h3 + p,
+          h4 + p,
+          h5 + p,
+          h6 + p {
+            margin-top: 1.5em;
+          }
+
+          /* Espacio entre párrafo y párrafo */
+          p {
+            margin-bottom: 1.5em;
+          }
+        </style>
+editor: visual
+---
+
+```{r}
+setwd(here::here())
+source("scripts/2025/b1-proc-data.R")
+```
+
+
+# 1. Introducción
+
+El presente reporte realiza, a través de distintas tablas y figuras, un análisis de las diferencias en los valores para del Índice de Municipio Digital (MD) para el período 2024-2025. Este índice, junto a los de Conectividad Hogar (CH) y Educación Digital (ED), conforman el Índice de Digitalización Comunal (IDC) desarrollado por el Núcleo Milenio NUDOS.
+
+Para el cálculo del índice MD 2025, se siguió la misma fórmula utilizada para su cálculo en 2024, consistente en:
+
+1.  Promediar el puntaje de cada dimensión del índice MD, a) "Pagos, Trámites y Servicios en Línea", con 13 variables binarias, e b) "Información y Transparencia Sustantiva", con 21 variables del mismo tipo
+
+2.  Normalizar la escala de cada dimensión con una media de 0,5 y desviación estándar de 0,1, para evitar que al sumarse, la dimensión con mayor varianza domine
+
+3.  Sumar ambas dimensiones, obteniendo un indicador contínuo con un rango de valores entre 0 y 1
+
+# 2. Estado de avance: recopilación de información
+
+De acuerdo con la Tabla 1, hasta la fecha se cuenta con un estado de avance del 98,55% de las comunas del país en cuanto a la recopilación de información para 2025, con solo 5 comunas restantes. A nivel regional, se cuenta con 11 de las 16 regiones (68,75%) con información completa. Por lo tanto, el análisis comparativo con respecto al 2024 se realiza en base al total de comunas disponibles para el 2025.
+
+Tabla 1: Avance en recopilación de información subdimención MD para comunas 2025, ordenadas de norte a sur
+
++--------------------+------------------+-------------------+---------------+
+| Región             | Total de comunas | Comunas cubiertas | Porcentaje    |
++:===================+==================+===================+===============+
+| Arica y Parinacota | 4                | 4                 | 100%          |
++--------------------+------------------+-------------------+---------------+
+| Tarapacá           | 7                | 7                 | 100%          |
++--------------------+------------------+-------------------+---------------+
+| Antofagasta        | 9                | 9                 | 100%          |
++--------------------+------------------+-------------------+---------------+
+| Atacama            | 9                | 9                 | 100%          |
++--------------------+------------------+-------------------+---------------+
+| Coquimbo           | 15               | 15                | 100%          |
++--------------------+------------------+-------------------+---------------+
+| Valparaíso         | 38               | 38                | 100%          |
++--------------------+------------------+-------------------+---------------+
+| Metropolitana      | 52               | 51                | 98,07%        |
++--------------------+------------------+-------------------+---------------+
+| O'Higgins          | 33               | 31                | 93,93%        |
++--------------------+------------------+-------------------+---------------+
+| Maule              | 30               | 30                | 100%          |
++--------------------+------------------+-------------------+---------------+
+| Ñuble              | 21               | 21                | 100%          |
++--------------------+------------------+-------------------+---------------+
+| Biobío             | 33               | 33                | 100%          |
++--------------------+------------------+-------------------+---------------+
+| Araucanía          | 32               | 31                | 96,88%        |
++--------------------+------------------+-------------------+---------------+
+| Los Ríos           | 12               | 12                | 100%          |
++--------------------+------------------+-------------------+---------------+
+| Los Lagos          | 30               | 29                | 96,97%        |
++--------------------+------------------+-------------------+---------------+
+| Aysén              | 10               | 10                | 100%          |
++--------------------+------------------+-------------------+---------------+
+| Magallanes         | 10               | 10                | 100%          |
++--------------------+------------------+-------------------+---------------+
+| TOTAL              | 345              | 340               | 98,55%        |
++--------------------+------------------+-------------------+---------------+
+
+# 3. Grado de implementación: dimensiones del índice de Municipio Digital
+
+```{r}
+#| message: false
+#| warning: false
+#| include: false
+
+#  Agrupar variables por dimensión
+ptsl <- c(
+  "pago_circulacion",
+  "pago_multas",
+  "pago_patentes",
+  "pago_aseo",
+  "pago_varios",
+  "clave_unica",
+  "dom_dig",
+  "tvecino",
+  "omil_dig",
+  "trans_dig",
+  "patentes_dig",
+  "oirs_dig",
+  "ornato_dig",
+  "app")
+
+its <- c(
+  "plan_regulador",
+  "concursos_publicos",
+  "actas_concejo",
+  "sesiones_concejo",
+  "ordenan",
+  "cod_etica",
+  "pladeco",
+  "sol_audiencia",
+  "trans_activa",
+  "acceso_info",
+  "datos_ab",
+  "org_comunitarias",
+  "gestion_publica",
+  "lobby",
+  "compras",
+  "redes",
+  "sub_becas",
+  "denuncias",
+  "org_municipal",
+  "noticias"
+)
+```
+
+El índice de Municipio Digital se compone de dos dimensiones, Pagos, Trámites y Servicios en Línea (PTSL), e Información y Transparencia Sustantiva (ITS). La primera se compone de 14 variables binarias, donde su grado de implementación se relaciona a la posibilidad (1) o no (0) de realizar como ciudadano una serie de trámites en el sitio web del respectivo municipio: `pago_circulacion`, `pago_multas`, `pago_patentes`, `pago_aseo`, `pago_varios`, `clave_unica`, `dom_dig`, `"tvecino"`, `omil_dig`, `trans_dig`, `patentes_dig`, `oirs_dig`, `ornato_dig` y `app`.
+
+Por otra parte, la segunda dimensión se compone de 20 variables relacionadas a la posibilidad de acceder a distintos tipos de información administrativa desde el sitio web del municipio: `plan_regulador`, `concursos_publicos`, `actas_concejo`, `sesiones_concejo`, `ordenan`, `cod_etica`, `pladeco`, `sol_audiencia`, `trans_activa`, `acceso_info`, `datos_ab`, `org_comunitarias`, `gestion_publica`, `lobby`, `compras`, `redes`, `sub_becas`, `denuncias`, `org_municipal` y `noticias`.
+
+En el sentido de lo anterior, se realiza a continuación un análisis comparativo entre el grado de implementación de las variables de cada dimensión entre 2024 y 2025.
+
+## 3.1. Dimensión Pagos, Trámites y Servicios en Línea (PTSL)
+
+El Gráfico 1 da cuenta que, para la primera dimensión del índice de Municipio Digital, los tres elementos digitales con más grado de implementación para el período 2024-2025 son los pagos de permiso de circulación (97,6% y 97,4%, respectivamente), de patentes municipales (57,9% 57,4%) y de derechos de aseo (36,5% y 37,4%), los cuales mantienen porcentajes similares de un año a otro.
+
+En cuanto a variables con incrementos y disminuciones, se destaca un aumento de 8,6% y 4,7% en municipios con Dirección de Obras digital y uso de Clave Única, respectivamente, mientras qu se observan bajas de 6,8%, 7,3% y 10,3% en OMIL digital, Aseo/Ornato Digital y Patentes Comerciales Digitales, respectivamente.
+
+Gráfico 1: Grado de implementación variables de dimensión PSTL: 2024 vs 2025
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+# 1. Calcular los totales por variable
+conteo_elementos_ordenado <- function(df, vars) {
+  resumen <- tibble(
+    variable = vars,
+    con_presencia = sapply(vars, function(v) sum(df[[v]] == 1, na.rm = TRUE)),
+    sin_presencia = sapply(vars, function(v) sum(df[[v]] == 0, na.rm = TRUE))
+  ) %>%
+    arrange((con_presencia))  # Reordenar aquí por con presencia
+
+  resumen %>%
+    pivot_longer(cols = c("con_presencia", "sin_presencia"),
+                 names_to = "estado", values_to = "cantidad") %>%
+    mutate(variable = factor(variable, levels = resumen$variable))  # Mantener orden en el gráfico
+}
+
+
+# 2. Preparar datos combinados y calcular porcentaje
+
+# 3. Primera dimensión
+ptsl_plot_both <- bind_rows(
+  conteo_elementos_ordenado(municipal_idc_2024, ptsl)  %>% mutate(year = 2024),
+  conteo_elementos_ordenado(municipal_idc_2025, ptsl)  %>% mutate(year = 2025)
+) %>%
+  mutate(
+    pct     = cantidad / 340 * 100,
+    pct_lbl = sprintf("%.1f%%", pct)
+  ) %>% 
+  filter(estado == "con_presencia")
+
+order_ptsl <- ptsl_plot_both %>%
+  filter(year == 2025) %>%
+  arrange(cantidad) %>%
+  pull(variable)
+
+ptsl_plot_both <- ptsl_plot_both %>%
+  mutate(variable = factor(variable, levels = order_ptsl))
+
+# 3. Graficar barras agrupadas + etiquetas de porcentaje
+ggplot(ptsl_plot_both, aes(x = variable, y = pct, fill = factor(year))) +
+  geom_col(position = position_dodge(width = 0.8), width = 0.7) +
+  coord_flip() +
+  # etiquetas con %
+  geom_text(aes(label = pct_lbl),
+            position = position_dodge(width = 0.8),
+            hjust = -0.1, size = 2) +
+  # escala en porcentaje
+  scale_y_continuous(
+    labels = function(x) paste0(x, "%"),
+    expand = expansion(mult = c(0, 0.1))
+  ) +
+  scale_x_discrete(labels = c(
+    "tvecino"         = "Tarjeta Vecino",
+    "clave_unica"     = "Clave Única",
+    "pago_circulacion"= "Pago P. Circulación",
+    "pago_multas"     = "Pago Multas",
+    "pago_aseo"       = "Pago D°Aseo",
+    "pago_varios"     = "Pago D° Varios",
+    "pago_patentes"   = "Patentes Municipales",
+    "dom_dig"         = "DOM digital",
+    "trans_dig"       = "Tránsito digital",
+    "patentes_dig"    = "Patentes Comerciales",
+    "oirs_dig"        = "OIRS digital",
+    "ornato_dig"      = "Aseo/Ornato digital",
+    "omil_dig"        = "OMIL digital"
+  )) +
+  scale_fill_manual(
+    values = c("2024" = "#f2b705", "2025" = "#e76f51"),
+    labels = c("2024", "2025")
+  ) +
+  labs(
+    x     = "Elemento",
+    y     = "Número de comunas (%)",
+    fill  = "Año"
+  ) +
+  theme_classic() +
+  theme(
+    legend.position = "bottom",
+    plot.margin     = margin(t = 5, r = 30, b = 5, l = 5)
+  ) 
+
+```
+
+## 3.2. Dimensión Información y Transparencia Sustantiva
+
+De acuerdo con el Gráfico 2, en el caso de la segunda dimensión, se identifican 4 elementos con 95% o más de implementación en las páginas de las Municipalidades, los cuales presentan variaciones mínimas de 2024 a 2025: Transparencia Activa, Noticias, Solicitud de Información, Redes Sociales y Ley del Lobby.
+
+Sin embargo, a diferencia del Gráfico 1, en esta dimensión es posible identificar dismuniciones sigificativas en algunos elementos, como lo es la información sobre Subsidios y Becas, con una diferencia de -68,8%, y sobre Concursos Públicos, con una diferencia de -71,7%, donde la implementación para 2025 no supera el 1,5%.
+
+Se destaca también la consistencia para ambos años en elementos con bajo grado de cumplimiento, como Solicitudes de Audiencia (5,3% y 5,9%), Códigos de Ética (5,6% y 5,9%) y Datos Abiertos (6,8 y 5%).
+
+Gráfico 2: Grado de implementación cumplimiento dimensión ITS: 2024 vs 2025
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+# 1. Repetir proceso para segunda dimensión
+its_plot_both <- bind_rows(
+  conteo_elementos_ordenado(municipal_idc_2024, its) %>% mutate(year = 2024),
+  conteo_elementos_ordenado(municipal_idc_2025, its) %>% mutate(year = 2025)
+) %>%
+  mutate(
+    pct     = cantidad / 340 * 100,
+    pct_lbl = sprintf("%.1f%%", pct)
+  ) %>%
+  filter(estado == "con_presencia")
+
+order_its <- its_plot_both %>%
+  filter(year == 2025) %>%
+  arrange(cantidad) %>%
+  pull(variable)
+
+
+its_plot_both <- its_plot_both %>%
+  mutate(variable = factor(variable, levels = order_its))
+
+ggplot(its_plot_both, aes(x = variable, y = pct, fill = factor(year))) +
+  geom_col(position = position_dodge(width = 0.8), width = 0.7) +
+  coord_flip() +
+  geom_text(aes(label = pct_lbl),
+            position = position_dodge(width = 0.8),
+            hjust = -0.1, size = 2) +
+  scale_y_continuous(
+    labels = function(x) paste0(x, "%"),
+    expand = expansion(mult = c(0, 0.1))
+  ) +
+  scale_x_discrete(labels = c(
+    "plan_regulador"     = "Plan Regulador Vigente",
+    "concursos_publicos" = "Concursos Públicos",
+    "actas_concejo"      = "Actas Concejo Municipal",
+    "sesiones_concejo"   = "Sesiones Concejo Municipal",
+    "ordenan"            = "Ordenanzas Municipales",
+    "cod_etica"          = "Código de Ética",
+    "pladeco"            = "Plan Desarrollo Comunal Vigente",
+    "gestion_publica"    = "Participación Gestión Pública",
+    "org_comunitarias"   = "OOCC",
+    "org_municipal"      = "Información Organización Municipal",
+    "sub_becas"          = "Subsidios y Becas",
+    "sol_audiencia"      = "Solicitud de Audiencia",
+    "trans_activa"       = "Transparencia Activa",
+    "denuncias"          = "Recepción de Denuncias",
+    "acceso_info"        = "Solicitud de Información",
+    "lobby"              = "Ley del Lobby",
+    "datos_ab"           = "Datos Abiertos",
+    "app" = "APP",
+    "compras" = "Compras Públicas",
+    "redes" = "RRSS",
+    "noticias" = "Noticias"
+  )) +
+  scale_fill_manual(
+    values = c("2024" = "#f2b705", "2025" = "#e76f51"),
+    labels = c("2024", "2025")
+  ) +
+  labs(
+    x     = "Elemento",
+    y     = "Número de comunas",
+    fill  = "Año"
+  ) +
+  theme_classic() +
+  theme(
+    legend.position = "bottom",
+    plot.margin     = margin(t = 5, r = 30, b = 5, l = 5)
+  )
+```
+
+# 4. Distribución y comparación de puntajes
+
+## 4.0 Nivel anual
+
+Tabla 2: estadísticos descriptivos a nivel de región
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+#1. Función reutilizable para tablas HTML
+tab_html <- function(x, caption = NULL, digits = 3) {
+  kbl(x, caption = caption, digits = digits) %>%
+    kable_styling(full_width = FALSE,
+                  bootstrap_options = c("striped","hover"),
+                  position = "center", fixed_thead = TRUE)
+}
+
+
+# 2. Descriptivos por año
+tab_html(municipal_idc_consolidado %>%
+  group_by(year) %>%
+  summarise(
+    n      = sum(!is.na(puntaje_md)),
+    mean   = mean(puntaje_md, na.rm = TRUE),
+    sd     = sd(puntaje_md, na.rm = TRUE),
+    median = median(puntaje_md, na.rm = TRUE),
+    IQR    = IQR(puntaje_md, na.rm = TRUE),
+    min    = min(puntaje_md, na.rm = TRUE),
+    max    = max(puntaje_md, na.rm = TRUE),
+    .groups = "drop"
+  ), "Estadísticos descriptivos para cada año")
+```
+
+-   Mediana baja de 0.485 → 0.479 (−0.006). Deslizamiento leve a la baja del municipio mediano
+
+-   Dispersión central: el IQR sube 0.138 → 0.145 (+0.007 ≈ +0.07 SD). Aumento leve de la heterogeneidad entre el 50% central de comunas en 2025
+
+-   Mínimo: 0.191 → 0.291 (+0.100). Los peores mejoran
+
+-   Máximo: 0.788 → 0.754 (−0.034). Los mejores retroceden levemente
+
+-   Rango total cae \~22% (0.597 → 0.463): menor brecha extrema, con convergencia desde los extremos.
+
+Gráfico 3: Correlación puntajes MD de año 2024 a 2025
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+# 1. Realizar correlación de observaciones de un año al otro
+municipal_idc_consolidado %>%
+  distinct(cod, year, .keep_all = TRUE) %>%   
+  pivot_wider(
+    id_cols = c(cod, comuna),
+    names_from = year,
+    values_from = puntaje_md,
+    names_glue = "puntaje_md_{year}"
+  ) %>%
+  mutate(
+    delta   = puntaje_md_2025 - puntaje_md_2024,
+    mean_xy = (puntaje_md_2025 + puntaje_md_2024)/2
+  ) %>% 
+  ggplot(aes(puntaje_md_2024, puntaje_md_2025)) +
+  geom_point(alpha = 0.7) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+  coord_equal() +
+  geom_smooth(method = "lm", se = FALSE) +
+  stat_cor(method = "pearson", label.x.npc = "left", label.y.npc = "top") +
+  theme_classic()
+
+```
+
+```{r}
+#| echo: false
+
+# 1.Verificar estadísticamente regresión hacia la media
+
+corr <- municipal_idc_consolidado %>%
+  distinct(cod, year, .keep_all = TRUE) %>%   
+  pivot_wider(
+    id_cols = c(cod, comuna),
+    names_from = year,
+    values_from = puntaje_md,
+    names_glue = "puntaje_md_{year}"
+  ) %>%
+  mutate(
+    delta   = puntaje_md_2025 - puntaje_md_2024,
+    mean_xy = (puntaje_md_2025 + puntaje_md_2024)/2
+  )
+
+summary(lm(delta ~ puntaje_md_2024, data = corr))  
+```
+
+-   Pendiente: −0.2449 (SE 0.0363, p ≈ 6.4e−11).
+
+    -   Cada +0.10 en el puntaje 2024 se asocia con un −0.024 en el cambio (2025−2024).
+
+    -   Intercepto: 0.1223 (p ≈ 1.5e−10), lo que predice cambio positivo cuando 2024 es muy bajo.
+
+    -   Punto de cruce (donde Δ=0) bajo \~0.499: las comunas suben en promedio; sobre \~0.499 bajan levemente.
+
+## 4.1. Nivel Regional
+
+Tabla 4: Estadísticos descriptivos a agregados a nivel de región
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+# 1) Resumen por región
+res_region <- municipal_idc_consolidado %>%
+  select(region, cod, year, puntaje_md) %>%
+  distinct(region, cod, year, .keep_all = TRUE) %>%
+  pivot_wider(names_from = year, values_from = puntaje_md) %>%
+  mutate(delta = `2025` - `2024`) %>% 
+  group_by(region) %>%
+  summarise(
+    n_comunas      = n(),
+    med_2024       = median(`2024`, na.rm = TRUE),
+    med_2025       = median(`2025`, na.rm = TRUE),
+    d_med          = med_2025 - med_2024,
+    iqr_2024       = IQR(`2024`, na.rm = TRUE),
+    iqr_2025       = IQR(`2025`, na.rm = TRUE),
+    d_iqr          = iqr_2025 - iqr_2024,
+    mean_delta     = mean(delta, na.rm = TRUE),
+    prop_suben     = mean(delta > 0, na.rm = TRUE),
+    # Wilcoxon pareado por región 
+    p_wilcoxon     = {
+      ww <- try(suppressWarnings(
+        wilcox.test(`2025`, `2024`, paired = TRUE, exact = FALSE)
+      ), silent = TRUE)
+      if (inherits(ww, "try-error")) NA_real_ else ww$p.value
+    },
+    .groups = "drop"
+  ) %>%
+  mutate(p_adj = p.adjust(p_wilcoxon, method = "BH")) %>%
+  arrange(desc(d_med))
+
+# 2) Tabla de estadísticos descriptivos agregadoa nivel de región
+kbl(res_region,
+    caption = "Cambios 2025–2024 por región (medianas, dispersión y prueba pareada)",
+    digits = 3) %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped","hover"),
+                position = "center", fixed_thead = TRUE)
+```
+
+Gráfico 4: Boxplot de puntajes MD agregados a nivel de región
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+# 1) Ordenar regiones por Δ mediana
+orden_reg <- res_region %>%
+  arrange(d_med) %>%
+  pull(region)
+
+# 2) Boxplot
+municipal_idc_consolidado %>%
+  mutate(
+    region = factor(region, levels = orden_reg),
+    year   = factor(year, levels = c("2024","2025"))
+  ) %>% 
+ggplot(aes(x = region, y = puntaje_md, fill = year)) +
+  geom_boxplot(outlier.alpha = 0.3, width = 0.7,
+               position = position_dodge(width = 0.75)) +
+  scale_fill_manual(
+    values = c(`2024` = "#f2b705", `2025` = "#e76f51")
+  ) +
+  coord_flip() +
+  labs(x = NULL, y = "Puntaje Municipio Digital", fill = "Año",
+       title = "Municipio Digital por región (ordenado por Δ mediana 25–24)") +
+  theme_classic()
+```
+
+-   Regiones que mejoran de forma clara (mediana ↑ y significancia tras método de ajuste por comparaciones múltiples)
+
+    -   Los Ríos (+0.052; *p* adj = 0.029)
+
+    -   Maule (+0.047; *p* adj = 0.004)
+
+    -   Biobío (+0.041; *p* adj = 0.034).
+
+    -   En las tres, el boxplot naranja queda por encima del amarillo y el % de comunas que suben es alto (83%, 80% y 73% respectivamente)
+
+-   Mejora moderada (tendencia, pero sin significancia tras ajuste ajuste por comparaciones múltiples):
+
+    -   Metropolitana (+0.037; *p* adj = 0.090)
+
+    -   Aysén (+0.046; 0.147), Tarapacá (+0.068; 0.596).
+
+    -   Ojo con Tarapacá 7 y Aysén 10) y su diferencia de n respecto a RM
+
+-   Estables / cambios mínimos:
+
+    -   Arica y Parinacota (+0.012),
+
+    -   Atacama (+0.005),
+
+    -   Los Lagos (+0.003),
+
+    -   Ñuble (0.000).
+
+    -   Boxplots casi solapados.
+
+-   Retrocesos:
+
+    -   Valparaíso(−0.061; *p* adj = 0.001)
+
+    -   Coquimbo también baja (−0.054; 0.147).
+
+-   Heterogeneidad intra región (IQR)
+
+    -   Más dispersión en 2025 (aumento brecha interna):
+
+        -   Metropolitana (+0.035)
+
+        -   Biobío (+0.028)
+
+        -   Los Ríos (+0.035)
+
+        -   tarapacá (+0.007)
+
+        -   Aysén (+0.008)
+
+    -   Menos dispersión (convergencia):
+
+        -   Valparaíso (−0.062, convergencia hacia abajo)
+
+        -   Coquimbo (−0.027),
+
+        -   Araucanía (−0.029)
+
+        -   Magallanes (−0.037),
+
+        -   Atacama (−0.027).
+
+Gráfico 5: Cruce entre delta mediana vs cambios en delta IQR, por región
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+
+# 1. Calcular mediana e IQR por región y año
+resumen_region <- municipal_idc_consolidado %>%
+  group_by(region, year) %>%
+  summarize(
+    mediana   = median(puntaje_md, na.rm = TRUE),
+    IQR       = IQR(puntaje_md,   na.rm = TRUE),
+    .groups   = "drop"
+  ) %>%
+  # 2. Pivotear para tener 2024 y 2025 lado a lado
+  pivot_wider(
+    names_from   = year,
+    values_from  = c(mediana, IQR),
+    names_sep    = "_"
+  ) %>%
+  # 3. Calcular las diferencias
+  mutate(
+    delta_mediana = mediana_2025 - mediana_2024,
+    delta_IQR     = IQR_2025     - IQR_2024
+  )
+
+
+# 4. Graficar Correlación entre cambio de mediana e IQR
+
+ggplot(resumen_region, aes(x = delta_mediana, y = delta_IQR, label = region)) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "#e76f51") +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "#e76f51") +
+  geom_point(size = 3) +
+  geom_text(hjust = 1.1, size = 3) +
+  labs(
+    x = "Δ Mediana (2025 – 2024)",
+    y = "Δ IQR (2025 – 2024)"
+  ) +
+  theme_minimal()
+```
+
+El gráfico articula en el eje X la variación de la mediana regional del puntaje de “Municipio Digital” (2025 – 2024) y en el eje Y la variación de su IQR (2025 – 2024). De ese cruce surgen cuatro cuadrantes conceptuales:
+
+-   Mejora con mayor heterogeneidad (Δ mediana \> 0; Δ IQR \> 0): RM, Biobío, Los Ríos, Aysén, Tarapacá
+
+-   Mejora con convergencia (Δ mediana \> 0; Δ IQR \< 0): Arica y Parinacota, Maule, Atacama
+
+-   Retroceso con convergencia (Δ mediana \< 0; Δ IQR \< 0): Coquimbo, O'Higgins, Antofagasta, Magallanes, Araucanía, Valparaíso
+
+-   Ninguna región presenta el cuadrante de retroceso con mayor heterogeneidad (Δ mediana \< 0; Δ IQR \> 0)
+
+-   Casos particulares: Los Lagos (muy cerca del cruce en 0 de ambos ejes) y Ñuble (Sólo disminuyó IQR)
+
+## 4.2. Nivel Comunal
+
+### 4.2.1. Comunas ordenadas de menor a mayor puntaje 2024-2025
+
+Gráfico 6: Puntaje subdimensión MD por comuna (2024–2025)
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+municipal_idc_consolidado %>%
+  arrange(year, puntaje_md) %>%
+  group_by(year) %>%
+  mutate(comuna_ord = row_number()) %>%
+  ggplot(aes(x = comuna_ord, y = puntaje_md, color = factor(year))) +
+  geom_point(size = 0.7) +
+  scale_color_manual(values = c(`2024` = "#f2b705", `2025` = "#e76f51")) +
+  labs(
+    x = "Comunas ordenadas de menor a mayor puntaje dentro de cada año",
+    y = "Puntaje Subdimensión Municipal",
+    color = "Año"
+  ) +
+  theme_classic() +
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  )
+
+```
+
+### 4.2.2. N° de comunas por tramo
+
+Para el cálculo de número de comunas por tramo, se aplicarán a los datos de municipio digital 2025 los mismos valores de los tramos elaborados en 2024, como se señala en la Tabla 2.
+
+Tabla 5: Valores de las tramos de MD establecidos para 2024
+
+| Tramo      | Valores       |
+|------------|---------------|
+| Alto       | 0,565 a 0,788 |
+| Medio Alto | 0,491 a 0,562 |
+| Medio Bajo | 0,430 a 0,485 |
+| Bajo       | 0,191 a 0,427 |
+
+Tabla 6: Número de Comunas según tramos de Municipio Digital 2024, para datos de 2024 y 2025
+
++-----------------------+-----------------+-----------------+---------------+
+| Categoría del Ranking | N° Comunas 2024 | N° Comunas 2025 | Diferencia    |
+|                       |                 |                 |               |
+|                       | (n = 345)       | (n = 340)       |               |
++=======================+=================+=================+===============+
+| Alto                  | 87              | 89              | +2            |
++-----------------------+-----------------+-----------------+---------------+
+| Medio-Alto            | 85              | 74              | -11           |
++-----------------------+-----------------+-----------------+---------------+
+| Medio-bajo            | 86              | 89              | +3            |
++-----------------------+-----------------+-----------------+---------------+
+| Bajo                  | 87              | 88              | +1            |
++-----------------------+-----------------+-----------------+---------------+
+
+### 4.2.3. Top 10 comunas con mayor puntaje en 2025
+
+Tabla 7: Diez comunas con los mayores valores de Municipio Digital 2025.
+
++---------------+---------------+--------------+----------------------------------------+
+| Posición 2025 | Comuna 2025   | Puntaje 2025 | Cambio en posición con respecto a 2024 |
++===============+===============+==============+========================================+
+| 1             | San Clemente  | 0,754        | +14 posiciones                         |
++---------------+---------------+--------------+----------------------------------------+
+| 2             | Maipú         | 0,751        | +40 posiciones                         |
++---------------+---------------+--------------+----------------------------------------+
+| 3             | Ñuñoa         | 0,743        | +9 posiciones                          |
++---------------+---------------+--------------+----------------------------------------+
+| 4             | Pudahuel      | 0,743        | +39 posiciones                         |
++---------------+---------------+--------------+----------------------------------------+
+| 5             | Quinta Normal | 0,743        | +55 posiciones                         |
++---------------+---------------+--------------+----------------------------------------+
+| 6             | La Florida    | 0,734        | +44 posiciones                         |
++---------------+---------------+--------------+----------------------------------------+
+| 7             | La Reina      | 0,731        | -5 posiciones                          |
++---------------+---------------+--------------+----------------------------------------+
+| 8             | Lo Barnechea  | 0.731        | +43 posiciones                         |
++---------------+---------------+--------------+----------------------------------------+
+| 9             | Providencia   | 0.731        | +43 posiciones                         |
++---------------+---------------+--------------+----------------------------------------+
+| 10            | Las Condes    | 0,722        | -9 Posiciones                          |
++---------------+---------------+--------------+----------------------------------------+
+
+### 4.2.4. Top 10 comunas con menor puntaje
+
+Tabla 8: Diez comunas con los menores valores de Municipio Digital 2024, para datos de 2024 y 2025
+
++------------+------------------+--------------+----------------------------------------+
+| Posición   | Comuna 2025      | Puntaje 2025 | Cambio en posición con respecto a 2024 |
++============+==================+==============+========================================+
+| 340        | Santa María      | 0.291        | -79 posiciones                         |
++------------+------------------+--------------+----------------------------------------+
+| 339        | Camiña           | 0.291        | -120 posiciones                        |
++------------+------------------+--------------+----------------------------------------+
+| 338        | Estación Central | 0.332        | -245 posiciones                        |
++------------+------------------+--------------+----------------------------------------+
+| 337        | Pumanque         | 0.332        | -5 posiciones                          |
++------------+------------------+--------------+----------------------------------------+
+| 336        | Isla de Pascua   | 0.332        | -60 posiciones                         |
++------------+------------------+--------------+----------------------------------------+
+| 335        | Primavera        | 0.340        | -17 posiciones                         |
++------------+------------------+--------------+----------------------------------------+
+| 334        | Río verde        | 0.340        | -34 posiciones                         |
++------------+------------------+--------------+----------------------------------------+
+| 333        | Lumaco           | 0.340        | -41 posiciones                         |
++------------+------------------+--------------+----------------------------------------+
+| 332        | Codegua          | 0.340        | -129 posiciones                        |
++------------+------------------+--------------+----------------------------------------+
+| 331        | Rinconada        | 0.340        | -84 posiciones                         |
++------------+------------------+--------------+----------------------------------------+
+
+### 4.2.5. Top 10 de comunas con mayor variación de puntaje MD
+
+El gráfico muestra que las comunas con mayores avances en el índice de municipio digital entre 2024 y 2025 son predominantemente localidades pequeñas o de mediano tamaño, junto con algunas de la zona metropolitana. Queilén encabeza la lista con un salto de +0,211 puntos, seguida por San Juan de la Costa (+0,164), Quirihue y Teno (ambas +0,157). Más atrás aparecen Pudahuel (+0,153), Chanco (+0,142), Tortel (+0,139), Providencia (+0,136), Quinta Normal (+0,133) y Maule (+0,131).
+
+En el otro extremo, las mayores disminuciones corresponden sobre todo a comunas costeras y urbanas. Casablanca experimenta la mayor caída (−0,288), seguida de Valparaíso (−0,207), Viña del Mar (−0,199) y Estación Central (−0,194). También retroceden con fuerza Huasco (−0,183), La Serena (−0,175), Santa Cruz (−0,155), Coinco y Quilpué (−0,153 cada una) y Maullín (−0,146).
+
+Gráfico 7: Comunas con mayor variación en puntaje MD
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+# 1. Calcular diferencia de puntaje por comuna 
+df_cambios <- municipal_idc_consolidado %>%
+  select(comuna, year, puntaje_md) %>%
+  group_by(comuna) %>%
+  ungroup() %>%
+  pivot_wider(names_from = year, values_from = puntaje_md, names_prefix = "puntaje_md_") %>%
+  mutate(dif = puntaje_md_2025 - puntaje_md_2024)
+
+# 2. top 10 con mayor aumento
+mayor_aumento <- df_cambios %>%
+  slice_max(dif, n = 10)
+
+# 3. top 10 con mayor disminución
+mayor_disminucion <- df_cambios %>%
+  slice_min(dif, n = 10)
+
+# 4. unir para graficar
+bind_rows(
+  mayor_aumento %>% mutate(tipo = "Aumento"),
+  mayor_disminucion %>% mutate(tipo = "Disminución")
+) %>%
+  mutate(hjust_etiqueta = ifelse(dif >= 0, -0.1, 1.1)) %>%
+  ggplot(aes(x = reorder(comuna, dif), y = dif, fill = tipo)) +
+  geom_col() +
+  geom_text(aes(label = round(dif, 3)), 
+            size = 3, color = "black") +
+  coord_flip() +
+  scale_fill_manual(values = c("Aumento" = "#e76f51" , "Disminución" = "#f2b705")) +
+  labs(
+    x = "Comuna", y = "Diferencia en puntaje (2025 - 2024)",
+    fill = "Tipo de cambio"
+  ) +
+  theme_classic()
+
+```
+
+# 5. Anexo: Visualización por regiones para puntajes MD 2025.
+
+```{r}
+#| message: false
+#| warning: false
+#| include: false
+
+setwd(here::here())
+
+
+# 1. Cargar archivo shapefile
+comunas_sf <-
+  st_read("plots_tables_images/comunas/comunas.shp") %>% 
+  clean_names() %>% 
+
+# 2. Unificar formato variables de caracter
+  mutate(across(where(is.character), ~ .x %>%
+    stri_trans_general("Latin-ASCII") %>%  
+    toupper() %>% 
+    trimws() %>%  
+    str_replace_all("[\u200B\u200C\u200D\uFEFF]", "") %>%  
+    str_replace_all("[[:space:]]+", " ")  
+  )) %>% 
+  mutate(region = str_remove(region, "REGION DE ")) %>% 
+  select(cod = cod_comuna, geometry)
+
+# 3. Unir variables de shapefile a consolidado
+municipal_idc_consolidado <- municipal_idc_consolidado %>% 
+  left_join(comunas_sf, by = "cod")
+
+# 4. Cambiar type de dataframe a sf, para graficar polígonos
+municipal_idc_consolidado <- st_as_sf(municipal_idc_consolidado)
+```
+
+## 5.1. Arica y Parinacota
+
+Gráfico 8: puntajes MD 2025 en la Región de Arica
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+ggplot(municipal_idc_consolidado %>% filter(year == "2025", region == "ARICA Y PARINACOTA")) +
+  geom_sf(aes(fill = puntaje_md), color = "white", size = 0.3) +
+  scale_fill_gradient2(
+    low = "#FFF7BC",  # Amarillo claro
+    mid = "#FDBE85",  # Naranjo suave
+    high = "#D95F0E", # Naranjo fuerte
+    midpoint = 0.5,
+    name = "Índice Municipio Digital 2025"
+  ) +
+  geom_sf_text(aes(label = comuna), size = 3, color = "black") +
+  theme_void()
+
+```
+
+## 5.2. Tarapacá
+
+Gráfico 9: Puntajes MD 2025 en la Región de Tarapacá
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+ggplot(municipal_idc_consolidado %>% filter(year == "2025", region == "TARAPACA")) +
+  geom_sf(aes(fill = puntaje_md), color = "white", size = 0.3) +
+  scale_fill_gradient2(
+    low = "#FFF7BC",  
+    mid = "#FDBE85",  
+    high = "#D95F0E", 
+    midpoint = 0.5,
+    name = "Índice Municipio Digital 2025"
+  ) +
+  geom_sf_text(aes(label = comuna), size = 3, color = "black") +
+  theme_void()
+
+```
+
+## 5.3. Antofagasta
+
+Gráfico 10: Puntajes MD 2025 en la Región de Antofagasta
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+ggplot(municipal_idc_consolidado %>% filter(year == "2025", region == "ANTOFAGASTA")) +
+  geom_sf(aes(fill = puntaje_md), color = "white", size = 0.3) +
+  scale_fill_gradient2(
+    low = "#FFF7BC",  
+    mid = "#FDBE85",  
+    high = "#D95F0E", 
+    midpoint = 0.5,
+    name = "Índice Municipio Digital 2025"
+  ) +
+  geom_sf_text(aes(label = comuna), size = 3, color = "black", check_overlap = T) +
+  theme_void()
+
+```
+
+## 5.4. Atacama
+
+Gráfico 11: Puntaje MD 2025 en la Región de Atacama
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+ggplot(municipal_idc_consolidado %>% filter(year == "2025", region == "ATACAMA")) +
+  geom_sf(aes(fill = puntaje_md), color = "white", size = 0.3) +
+  scale_fill_gradient2(
+    low = "#FFF7BC",  
+    mid = "#FDBE85",  
+    high = "#D95F0E", 
+    midpoint = 0.5,
+    name = "Índice Municipio Digital 2025"
+  ) +
+  geom_sf_text(aes(label = comuna), size = 3, color = "black", check_overlap = T) +
+  theme_void()
+
+```
+
+## 5.5. Coquimbo
+
+Gráfico 12: Puntaje MD 2025 en la Región de Coquimbo
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+ggplot(municipal_idc_consolidado %>% filter(year == "2025", region == "COQUIMBO")) +
+  geom_sf(aes(fill = puntaje_md), color = "white", size = 0.3) +
+  scale_fill_gradient2(
+    low = "#FFF7BC",  
+    mid = "#FDBE85",  
+    high = "#D95F0E", 
+    midpoint = 0.5,
+    name = "Índice Municipio Digital 2025"
+  ) +
+  geom_sf_text(aes(label = comuna), size = 3, color = "black", check_overlap = T) +
+  theme_void()
+
+```
+
+## 5.6. Valparaíso
+
+Gráfico 13: Puntaje MD 2025 en la Región de Valparaíso
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+ggplot(
+  municipal_idc_consolidado %>% 
+    filter(
+      year == "2025",
+      region == "VALPARAISO",
+      !comuna %in% c("ISLA DE PASCUA", "JUAN FERNANDEZ") #Exlucir ambas islas por dificultades de graficación visualmente óptima
+      )) +
+  geom_sf(aes(fill = puntaje_md), color = "white", size = 0.3) +
+  scale_fill_gradient2(
+    low = "#FFF7BC",  
+    mid = "#FDBE85",  
+    high = "#D95F0E", 
+    midpoint = 0.5,
+    name = "Índice Municipio Digital 2025"
+  ) +
+  geom_sf_text(aes(label = comuna), size = 2, color = "black", check_overlap = T) +
+  theme_void()
+
+```
+
+Nota: se excluyen Isla de Pascua y Juan Fernández por dificultades para visualización con ggplot2.
+
+## 5.7. Metropolitana
+
+Gráfico 14: Puntaje MD 2025 en la Región Metropolitana
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+ggplot(municipal_idc_consolidado %>% filter(year == "2025", region == "METROPOLITANA")) +
+  geom_sf(aes(fill = puntaje_md), color = "white", size = 0.3) +
+  scale_fill_gradient2(
+    low = "#FFF7BC",  
+    mid = "#FDBE85",  
+    high = "#D95F0E", 
+    midpoint = 0.5,
+    name = "Índice Municipio Digital 2025"
+  ) +
+  geom_sf_text(aes(label = comuna), size = 2, color = "black", check_overlap = T) +
+  theme_void()
+```
+
+## 5.8. O'Higgins
+
+Gráfico 15: Puntaje MD 2025 en la Región de O'Higgins
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+ggplot(municipal_idc_consolidado %>% filter(year == "2025", region == "OHIGGINS")) +
+  geom_sf(aes(fill = puntaje_md), color = "white", size = 0.3) +
+  scale_fill_gradient2(
+    low = "#FFF7BC",  
+    mid = "#FDBE85",  
+    high = "#D95F0E", 
+    midpoint = 0.5,
+    name = "Índice Municipio Digital 2025"
+  ) +
+  geom_sf_text(aes(label = comuna), size = 2, color = "black", check_overlap = T) +
+  theme_void()
+```
+
+## 5.9. Maule
+
+Gráfico 16: Puntaje MD 2025 en la Región de Maule
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+ggplot(municipal_idc_consolidado %>% filter(year == "2025", region == "MAULE")) +
+  geom_sf(aes(fill = puntaje_md), color = "white", size = 0.3) +
+  scale_fill_gradient2(
+    low = "#FFF7BC",  
+    mid = "#FDBE85",  
+    high = "#D95F0E", 
+    midpoint = 0.5,
+    name = "Índice Municipio Digital 2025"
+  ) +
+  geom_sf_text(aes(label = comuna), size = 2, color = "black", check_overlap = T) +
+  theme_void()
+```
+
+## 5.10. Ñuble
+
+Gráfico 17: Puntaje MD 2025 en la Región de Ñuble
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+ggplot(municipal_idc_consolidado %>% filter(year == "2025", region == "NUBLE")) +
+  geom_sf(aes(fill = puntaje_md), color = "white", size = 0.3) +
+  scale_fill_gradient2(
+    low = "#FFF7BC",  
+    mid = "#FDBE85",  
+    high = "#D95F0E", 
+    midpoint = 0.5,
+    name = "Índice Municipio Digital 2025"
+  ) +
+  geom_sf_text(aes(label = comuna), size = 2, color = "black", check_overlap = T) +
+  theme_void()
+```
+
+## 5.11. Biobío
+
+Gráfico 18: Puntaje MD 2025 en la Región de Biobío
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+ggplot(municipal_idc_consolidado %>% filter(year == "2025", region == "BIOBIO")) +
+  geom_sf(aes(fill = puntaje_md), color = "white", size = 0.3) +
+  scale_fill_gradient2(
+    low = "#FFF7BC",  
+    mid = "#FDBE85",  
+    high = "#D95F0E", 
+    midpoint = 0.5,
+    name = "Índice Municipio Digital 2025"
+  ) +
+  geom_sf_text(aes(label = comuna), size = 2, color = "black", check_overlap = T) +
+  theme_void()
+```
+
+## 5.12. Araucanía
+
+Gráfico 19: Puntaje MD 2025 en la Región de La Araucanía
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+ggplot(municipal_idc_consolidado %>% filter(year == "2025", region == "ARAUCANIA")) +
+  geom_sf(aes(fill = puntaje_md), color = "white", size = 0.3) +
+  scale_fill_gradient2(
+    low = "#FFF7BC",  
+    mid = "#FDBE85",  
+    high = "#D95F0E", 
+    midpoint = 0.5,
+    name = "Índice Municipio Digital 2025"
+  ) +
+  geom_sf_text(aes(label = comuna), size = 2, color = "black", check_overlap = T) +
+  theme_void()
+```
+
+## 5.13. Los Ríos
+
+Gráfico 20: Puntaje MD 2025 en la Región de Los Ríos
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+ggplot(municipal_idc_consolidado %>% filter(year == "2025", region == "LOS RIOS")) +
+  geom_sf(aes(fill = puntaje_md), color = "white", size = 0.3) +
+  scale_fill_gradient2(
+    low = "#FFF7BC",  
+    mid = "#FDBE85",  
+    high = "#D95F0E", 
+    midpoint = 0.5,
+    name = "Índice Municipio Digital 2025"
+  ) +
+  geom_sf_text(aes(label = comuna), size = 2, color = "black", check_overlap = T) +
+  theme_void()
+```
+
+## 5.14. Los Lagos
+
+Gráfico 21: Puntaje MD 2025 en la Región de Los Lagos
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+ggplot(municipal_idc_consolidado %>% filter(year == "2025", region == "LOS LAGOS")) +
+  geom_sf(aes(fill = puntaje_md), color = "white", size = 0.3) +
+  scale_fill_gradient2(
+    low = "#FFF7BC",  
+    mid = "#FDBE85",  
+    high = "#D95F0E", 
+    midpoint = 0.5,
+    name = "Índice Municipio Digital 2025"
+  ) +
+  geom_sf_text(aes(label = comuna), size = 2, color = "black", check_overlap = T) +
+  theme_void()
+```
+
+## 5.15. Aysén
+
+Gráfico 22: Puntaje MD 2025 en la Región de Aysén
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+ggplot(municipal_idc_consolidado %>% filter(year == "2025", region == "AYSEN")) +
+  geom_sf(aes(fill = puntaje_md), color = "white", size = 0.3) +
+  scale_fill_gradient2(
+    low = "#FFF7BC",  
+    mid = "#FDBE85",  
+    high = "#D95F0E", 
+    midpoint = 0.5,
+    name = "Índice Municipio Digital 2025"
+  ) +
+  geom_sf_text(aes(label = comuna), size = 2, color = "black") +
+  theme_void()
+```
+
+## 5.16 Magallanes
+
+Gráfico 23: Puntaje MD 2025 en la Región de Magallanes
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+ggplot(municipal_idc_consolidado %>% filter(year == "2025", region == "MAGALLANES")) +
+  geom_sf(aes(fill = puntaje_md), color = "white", size = 0.3) +
+  scale_fill_gradient2(
+    low = "#FFF7BC",  
+    mid = "#FDBE85",  
+    high = "#D95F0E", 
+    midpoint = 0.5,
+    name = "Índice Municipio Digital 2025"
+  ) +
+  geom_sf_text(aes(label = comuna), size = 2, color = "black") +
+  theme_void()
+```

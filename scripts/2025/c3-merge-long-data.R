@@ -7,7 +7,7 @@ indice_2024 <- readRDS("~/GitHub/milenio_nudos/idc/data/proc_data/private_data/2
 
 indice_2025 <- c_educativo_2025
 
-# Comparación de muestra de comunas -----------------------------------------
+# Union de muestra de comunas -----------------------------------------
 
 # Seleccionar ID y variable de índice de cada año
 c_2024 <- indice_2024 %>%
@@ -52,4 +52,26 @@ c_long <- c_long %>%
 
 names(c_long)
 
-saveRDS(c_long, "data/proc_data/private_data/2025_2024_c_educativo_communal_long")
+# Estimar índice estandarizado ----
+c_long <- c_long%>%
+  mutate(c_indice_2025_z = 0.5 + 0.1 * (c_indice_2025 - mean(c_indice_2025, na.rm = TRUE)) / sd(c_indice_2025, na.rm = TRUE),
+         c_tramo_2025 = ntile(c_indice_2025_z, 4),
+         c_tramo_2025 = labelled(
+           as.double(c_tramo_2025),
+           labels = c(
+             "bajo" = 1,
+             "medio bajo" = 2,
+             "medio alto" = 3,
+             "alto" = 4
+           )
+  )
+)
+
+
+
+# Save data ----
+
+c_long <- c_long%>% clean_names()
+
+saveRDS(c_long, "data/proc_data/private_data/2025_c_educativo.rds")
+writexl::write_xlsx(c_long, path = "data/proc_data/private_data/2025_c_educativo.xlsx")

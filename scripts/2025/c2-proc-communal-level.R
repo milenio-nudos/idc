@@ -39,4 +39,4 @@ c_educativo_2025 <- c_educativo_2025 %>%
     m_id, m_name, c_indice=m_idc, starts_with("c_item")
   )
 
-saveRDS(c_educativo_2025, file = "data/proc_data/private_data/2025_c_educativo_communal_level.rds")
+#saveRDS(c_educativo_2025, file = "data/proc_data/private_data/2025_c_educativo_communal_level.rds")

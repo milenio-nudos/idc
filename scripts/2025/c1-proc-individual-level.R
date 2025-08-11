@@ -261,4 +261,4 @@ idc <- docente|>
 
 # 8. Guardar base --------------------------------------------------------------
 
-saveRDS(docente, file = "data/proc_data/private_data/2025_c_educativo_individual_level.rds")
+#saveRDS(docente, file = "data/proc_data/private_data/2025_c_educativo_individual_level.rds")
