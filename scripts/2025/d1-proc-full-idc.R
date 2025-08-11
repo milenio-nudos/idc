@@ -20,7 +20,7 @@ pobreza_multi_comunal <- read_excel("data/raw_data/communal_index/2022_pobreza_m
 a_conectividad <- a_conectividad %>%
   rename(id_comuna = codigo_comuna_n) %>%
   select(
-    id_comuna, comuna, codigo_region, region, codigo_region, idc_2024,
+    id_comuna, comuna, codigo_region, region, codigo_region, idc_2024, tipo_comuna,
     # Info 2024
     poblacion_censo_2024,
     # Índice conectividad 2024
@@ -165,6 +165,18 @@ idc_full <- idc_full %>%
     # Ranking (1 = mejor puntaje, orden descendente)
     idc_ranking_2024 = min_rank(desc(idc_2024)),
     idc_ranking_2025 = min_rank(desc(idc_2025))
+  ) %>%
+  mutate(
+    idc_tramo_2024 = ntile(idc_2024, 4),
+    idc_tramo_2025 = ntile(idc_2025, 4)
+  ) %>%
+  mutate(
+    idc_tramo_2024 = factor(idc_tramo_2024,
+                            levels = c(4, 3, 2, 1),
+                            labels = c("Alto", "Medio alto", "Medio bajo", "Bajo")),
+    idc_tramo_2025 = factor(idc_tramo_2025,
+                            levels = c(4, 3, 2, 1),
+                            labels = c("Alto", "Medio alto", "Medio bajo", "Bajo"))
   )%>%
   arrange(m_id)
 
@@ -175,9 +187,9 @@ names(a_conectividad)
 idc_full <- idc_full%>%
   select(
     #Info común de la base
-    id_comuna, comuna, id_region, region, poblacion_censo_2024, poblacion_proyeccion_2023_base2017, idh_2023, pobreza_2022,
+    id_comuna, comuna, tipo_comuna, id_region, region, poblacion_censo_2024, poblacion_proyeccion_2023_base2017, idh_2023, pobreza_2022,
     #Resultados IDC finales
-    idc_2024, idc_2025, idc_ranking_2024, idc_ranking_2025,
+    idc_2024, idc_2025, idc_ranking_2024, idc_ranking_2025, idc_tramo_2024, idc_tramo_2025,
     #Índices 2024
     a_indice_2024, b_indice_2024, c_indice_2024,
     #Rankings 2024
@@ -196,15 +208,25 @@ idc_full <- idc_full%>%
 
 # Vector con los nombres y etiquetas vacías
 labels_vector <- c(
+  
   # Variables generales comunes
   id_comuna = "ID comunal (Código oficial nacional)",
   comuna = "Nombre de la comuna",
+  tipo_comuna = "Tipo de comuna",
   id_region = "Número de la Región",
   region = "Nombre de la Región",
   poblacion_censo_2024 = "Población comunal censada en Censo 2024 INE",
   poblacion_proyeccion_2023_base2017 = "Población comunal proyectada para 2023 en Censo 2017 INE",
   idh_2023 = "Indice de Desarrollo Humano Comunal 2023",
   pobreza_2022 = "Proporción de Pobreza Multidimensional Comunal 2022",
+  
+  #Indices full
+  idc_2024 = "Puntaje Indice de Digitalización Comunal 2024", 
+  idc_2025 = "Puntaje Indice de Digitalización Comunal 2025", 
+  idc_ranking_2024 = "Posición ranking IDC 2024", 
+  idc_ranking_2025 = "Posición ranking IDC 2025",
+  idc_tramo_2024 = "Tramo IDC 2024", 
+  idc_tramo_2025 = "Tramo IDC 2025",
   
   # Índices 2024
   a_indice_2024 = "Puntaje dimensión de conectividad 2024",
@@ -226,40 +248,40 @@ labels_vector <- c(
   a_item7_2024 = "Tipo de tecnología por comuna a diciembre 2023: W",
   
   # Items 2024 - b_politico (34)
-  b_item1_2024 = "",
-  b_item2_2024 = "",
-  b_item3_2024 = "",
-  b_item4_2024 = "",
-  b_item5_2024 = "",
-  b_item6_2024 = "",
-  b_item7_2024 = "",
-  b_item8_2024 = "",
-  b_item9_2024 = "",
-  b_item10_2024 = "",
-  b_item11_2024 = "",
-  b_item12_2024 = "",
-  b_item13_2024 = "",
-  b_item14_2024 = "",
-  b_item15_2024 = "",
-  b_item16_2024 = "",
-  b_item17_2024 = "",
-  b_item18_2024 = "",
-  b_item19_2024 = "",
-  b_item20_2024 = "",
-  b_item21_2024 = "",
-  b_item22_2024 = "",
-  b_item23_2024 = "",
-  b_item24_2024 = "",
-  b_item25_2024 = "",
-  b_item26_2024 = "",
-  b_item27_2024 = "",
-  b_item28_2024 = "",
-  b_item29_2024 = "",
-  b_item30_2024 = "",
-  b_item31_2024 = "",
-  b_item32_2024 = "",
-  b_item33_2024 = "",
-  b_item34_2024 = "",
+  b_item1_2024 = "Página web del Municipio permite pago de permiso de circulación en línea ",
+  b_item2_2024 = "Página web del Municipio permite pago de multas en línea",
+  b_item3_2024 = "Página web del Municipio permite pago de patentes municipales en línea",
+  b_item4_2024 = "Página web del Municipio permite pago de derechos de aseo en línea",
+  b_item5_2024 = "Página web del Municipio permite pago de derechos varios en línea",
+  b_item6_2024 = "Página web del Municipio permite realizar trámites en línea con ClaveUnica",
+  b_item7_2024 = "Página web del Municipio permite realizar trámites de la Dirección de Obras Municipales en línea",
+  b_item8_2024 = "Página web del Municipio permite realizar trámites de Tarjeta Vecino en línea",
+  b_item9_2024 = "Página web del Municipio permite realizar trámites de la Oficina Municipal de Información Laboral en línea",
+  b_item10_2024 = "Página web del Municipio permite realizar trámites de la Dirección Municipal de Tránsito en línea",
+  b_item11_2024 = "Página web del Municipio permite realizar trámites de patentes municipales en línea",
+  b_item12_2024 = "Página web del Municipio permite realizar trámites de la Oficina Municipal de Información, Reclamos y Sugerencias en línea ",
+  b_item13_2024 = "Página web del Municipio permite realizar trámites de la Dirección Municipal de Aseo y Ornato en línea ",
+  b_item14_2024 = "Municipio cuenta con aplicación para dispositivos móviles",
+  b_item15_2024 = "Página web del Municipio permite acceder a la información del Plan Regulador en línea",
+  b_item16_2024 = "Página web del Municipio permite acceder a la información de Concursos Públicos en línea",
+  b_item17_2024 = "Página web del Municipio permite acceder a las actas del Concejo Municipal en línea ",
+  b_item18_2024 = "Página web del Municipio permite acceder a las sesiones del Concejo Municipal en línea ",
+  b_item19_2024 = "Página web del Municipio permite acceder a la información de Ordenanzas Municipales en línea",
+  b_item20_2024 = "Página web del Municipio permite acceder al Código de Ética Municipal en línea ",
+  b_item21_2024 = "Página web del Municipio permite acceder a la información del Plan de Desarrollo Comunal en línea",
+  b_item22_2024 = "Página web del Municipio permite solicitar audiencias con autoridades municipales en línea",
+  b_item23_2024 = "Página web del Municipio permite acceder a información municipal publicada en el Portal de Transparencia Activa",
+  b_item24_2024 = "Página web del Municipio permite solicitar información via Ley de Transparencia",
+  b_item25_2024 = "Página web del Municipio cuenta con datos abiertos municipales",
+  b_item26_2024 = "Página web del Municipio permite acceder a información de sus Organizaciones Comunitarias en línea",
+  b_item27_2024 = "Página web del Municipio permite acceder a información relacionada a la gestión municipal",
+  b_item28_2024 = "Página web del Municipio permite acceder a información relacionada a lobby y gestión de intereses",
+  b_item29_2024 = "Página web del Municipio permite acceder a información de las compras públicas realizadas en línea",
+  b_item30_2024 = "Página web del Municipio cuenta con redes sociales",
+  b_item31_2024 = "Página web del Municipio permite acceder a información de subsidios y becas en línea",
+  b_item32_2024 = "Página web del Municipio permite realizar denuncias en línea",
+  b_item33_2024 = "Página web del Municipio permite acceder a organigrama municipal en línea",
+  b_item34_2024 = "Página web del Municipio permite acceder a noticias de la comuna",
   
   # Items 2024 - c_educacion (18) con prefijo en las descripciones
   c_4b_item1_2024 = "[Datos SIMCE 2023 4to básico] En el colegio nos motivan a utilizar herramientas tecnológicas.",
@@ -302,40 +324,40 @@ labels_vector <- c(
   a_item7_2025 = "Tipo de tecnología por comuna a diciembre 2024: W",
   
   # Items 2025 - b_politico (34)
-  b_item1_2025 = "",
-  b_item2_2025 = "",
-  b_item3_2025 = "",
-  b_item4_2025 = "",
-  b_item5_2025 = "",
-  b_item6_2025 = "",
-  b_item7_2025 = "",
-  b_item8_2025 = "",
-  b_item9_2025 = "",
-  b_item10_2025 = "",
-  b_item11_2025 = "",
-  b_item12_2025 = "",
-  b_item13_2025 = "",
-  b_item14_2025 = "",
-  b_item15_2025 = "",
-  b_item16_2025 = "",
-  b_item17_2025 = "",
-  b_item18_2025 = "",
-  b_item19_2025 = "",
-  b_item20_2025 = "",
-  b_item21_2025 = "",
-  b_item22_2025 = "",
-  b_item23_2025 = "",
-  b_item24_2025 = "",
-  b_item25_2025 = "",
-  b_item26_2025 = "",
-  b_item27_2025 = "",
-  b_item28_2025 = "",
-  b_item29_2025 = "",
-  b_item30_2025 = "",
-  b_item31_2025 = "",
-  b_item32_2025 = "",
-  b_item33_2025 = "",
-  b_item34_2025 = "",
+  b_item1_2025 = "Página web del Municipio permite pago de permiso de circulación en línea ",
+  b_item2_2025 = "Página web del Municipio permite pago de multas en línea",
+  b_item3_2025 = "Página web del Municipio permite pago de patentes municipales en línea",
+  b_item4_2025 = "Página web del Municipio permite pago de derechos de aseo en línea",
+  b_item5_2025 = "Página web del Municipio permite pago de derechos varios en línea",
+  b_item6_2025 = "Página web del Municipio permite realizar trámites en línea con ClaveUnica",
+  b_item7_2025 = "Página web del Municipio permite realizar trámites de la Dirección de Obras Municipales en línea",
+  b_item8_2025 = "Página web del Municipio permite realizar trámites de Tarjeta Vecino en línea",
+  b_item9_2025 = "Página web del Municipio permite realizar trámites de la Oficina Municipal de Información Laboral en línea",
+  b_item10_2025 = "Página web del Municipio permite realizar trámites de la Dirección Municipal de Tránsito en línea",
+  b_item11_2025 = "Página web del Municipio permite realizar trámites de patentes municipales en línea",
+  b_item12_2025 = "Página web del Municipio permite realizar trámites de la Oficina Municipal de Información, Reclamos y Sugerencias en línea ",
+  b_item13_2025 = "Página web del Municipio permite realizar trámites de la Dirección Municipal de Aseo y Ornato en línea ",
+  b_item14_2025 = "Municipio cuenta con aplicación para dispositivos móviles",
+  b_item15_2025 = "Página web del Municipio permite acceder a la información del Plan Regulador en línea",
+  b_item16_2025 = "Página web del Municipio permite acceder a la información de Concursos Públicos en línea",
+  b_item17_2025 = "Página web del Municipio permite acceder a las actas del Concejo Municipal en línea ",
+  b_item18_2025 = "Página web del Municipio permite acceder a las sesiones del Concejo Municipal en línea ",
+  b_item19_2025 = "Página web del Municipio  permite acceder a la información de Ordenanzas Municipales en línea",
+  b_item20_2025 = "Página web del Municipio permite acceder al Código de Ética Municipal en línea ",
+  b_item21_2025 = "Página web del Municipio permite acceder a la información del Plan de Desarrollo Comunal en línea",
+  b_item22_2025 = "Página web del Municipio permite solicitar audiencias con autoridades municipales en línea",
+  b_item23_2025 = "Página web del Municipio permite acceder a información municipal publicada en el Portal de Transparencia Activa",
+  b_item24_2025 = "Página web del Municipio permite solicitar información via Ley de Transparencia",
+  b_item25_2025 = "Página web del Municipio cuenta con datos abiertos municipales",
+  b_item26_2025 = "Página web del Municipio permite acceder a información de sus Organizaciones Comunitarias en línea",
+  b_item27_2025 = "Página web del Municipio permite acceder a información relacionada a la gestión municipal",
+  b_item28_2025 = "Página web del Municipio permite acceder a información relacionada a lobby y gestión de intereses",
+  b_item29_2025 = "Página web del Municipio permite acceder a información de las compras públicas realizadas en línea",
+  b_item30_2025 = "Página web del Municipio cuenta con redes sociales",
+  b_item31_2025 = "Página web del Municipio permite acceder a información de subsidios y becas en línea",
+  b_item32_2025 = "Página web del Municipio permite realizar denuncias en línea",
+  b_item33_2025 = "Página web del Municipio permite acceder a organigrama municipal en línea",
+  b_item34_2025 = "Página web del Municipio permite acceder a noticias de la comuna",
   
   # Items 2025 - c_educacion (7)
   c_item1_2025 = "[Datos SIMCE 2024 Profesores] El colegio entrega capacitaciones a sus funcionarios(as) para mejorar habilidades y conocimientos digitales.",
@@ -355,12 +377,24 @@ for (col in names(labels_vector)) {
   )
 }
 
+# Save codebook ----
+view_df(idc_full)
+
+# Guardar la tabla como HTML temporal
+html_file <- tempfile(fileext = ".html")
+writeLines(knitr::kable(idc_full, format = "html"), con = html_file)
+
+# Guardar pdf
+pagedown::chrome_print(input = html_file, output = "codebooks/codebook_idc_full.pdf")
+
 # Save data ----
 
-#Private use
+# Private use
 saveRDS(idc_full, file = "data/proc_data/private_data/2025_idc_full.rds")
-writexl::write_xlsx(idc_full, path = "data/proc_data/private_data/2025_idc_full.rds")
+writexl::write_xlsx(idc_full, path = "data/proc_data/private_data/2025_idc_full.xlsx")  # corregí extensión
+write_sav(idc_full, "data/proc_data/private_data/2025_idc_full.sav")
 
-#Public use
+# Public use
 saveRDS(idc_full, file = "data/proc_data/private_data/2025_idc_v2.rds")
-writexl::write_xlsx(idc_full, path = "data/proc_data/private_data/2025_idc_v2.rds")
+writexl::write_xlsx(idc_full, path = "data/proc_data/private_data/2025_idc_v2.xlsx")  # corregí extensión
+write_sav(idc_full, "data/proc_data/private_data/2025_idc_v2.sav")

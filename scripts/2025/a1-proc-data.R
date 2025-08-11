@@ -3,7 +3,7 @@
 ##Cargar base----
 library("readxl")
 library("writexl")
-DCH <- read_excel("data/raw_data/a_conectividad/2025_idc_input_a_conectividad.xlsx")
+load("data/raw_data/a_conectividad/2025_idc_input_a_conectividad.RData")
 
 ##Validación dimensión----
 
