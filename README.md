@@ -87,8 +87,8 @@ Generación de reportes: Una vez procesados, los datos se analizan en los report
 
 [Reporte conectividad](https://github.com/milenio-nudos/idc/blob/main/reports/2025-a-acceso-report.pdf)
 
-[Reporte municipio digital](https://milenio-nudos.github.io/idc/report/2025-b-politico-report.html)
+[Reporte municipio digital](https://milenio-nudos.github.io/idc/reports/2025-b-politico-report.html)
 
-[Reporte adopción digital educativa](https://milenio-nudos.github.io/idc/report/2025-c-educative-report.html)
+[Reporte adopción digital educativa](https://milenio-nudos.github.io/idc/reports/2025-c-educative-report.html)
 
 
