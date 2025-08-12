@@ -134,7 +134,8 @@ b_politico <- b_politico %>%
       b_indice_2025 = puntaje_md_2025,
       b_ranking_2025 = ranking_2025
     )%>%
-    select(-starts_with("mean"),-starts_with("pobla"))
+    select(-starts_with("mean"),-starts_with("pobla"),
+           -comuna, -region)
 
 # Educativo
   
@@ -191,7 +192,7 @@ idc_full <- idc_full %>%
 idc_full <- idc_full%>%
   select(
     #Info común de la base
-    id_comuna, comuna="comuna.x", tipo_comuna, id_region, region="region.y", poblacion_censo_2024, poblacion_proyeccion_2023_base2017, idh_2023, pobreza_2022,
+    id_comuna, comuna, tipo_comuna, id_region, region, poblacion_censo_2024, poblacion_proyeccion_2023_base2017, idh_2023, pobreza_2022,
     #Resultados IDC finales
     idc_2024, idc_2025, idc_ranking_2024, idc_ranking_2025, idc_tramo_2024, idc_tramo_2025,
     #Índices 2024
@@ -374,13 +375,19 @@ labels_vector <- c(
 )
 
 # Aplicar etiquetas y convertir a double
-for (col in names(labels_vector)) {
-  idc_full[[col]] <- labelled(
-    as.double(idc_full[[col]]),
-    label = labels_vector[col]
-  )
-}
+common <- intersect(names(labels_vector), names(idc_full))
 
+for (col in common) {
+  vec <- idc_full[[col]]
+  
+  if (is.numeric(vec)) {
+    # para numéricos usamos haven::labelled (mantiene valores numéricos)
+    idc_full[[col]] <- haven::labelled(vec, label = labels_vector[[col]])
+  } else {
+    # para caracteres / factores / lógicos / etc. ponemos atributo 'label' y no tocamos valores
+    attr(idc_full[[col]], "label") <- labels_vector[[col]]
+  }
+}
 # Save codebook ----
 view_df(idc_full)
 
