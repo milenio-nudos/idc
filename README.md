@@ -91,4 +91,8 @@ Generación de reportes: Una vez procesados, los datos se analizan en los report
 
 [Reporte adopción digital educativa](https://milenio-nudos.github.io/idc/reports/2025-c-educative-report.html)
 
+### Descargar Base final
 
+[Versión excel](https://github.com/milenio-nudos/idc/blob/main/data/proc_data/public_data/2025_idc_v2.xlsx)
+[Versión spss](https://github.com/milenio-nudos/idc/blob/main/data/proc_data/public_data/2025_idc_v2.sav)
+[Versión excel](https://github.com/milenio-nudos/idc/blob/main/data/proc_data/public_data/2025_idc_v2.rds)
