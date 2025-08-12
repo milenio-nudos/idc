@@ -12,7 +12,7 @@ idh_comunal <- read_excel("data/raw_data/communal_index/2023_idh_comunal.xlsx")%
   select(id_comuna = CODIGO, idh_2023 = IDH)
 pobreza_multi_comunal <- read_excel("data/raw_data/communal_index/2022_pobreza_multi_comunal.xlsx")%>%
   clean_names()%>%
-  select(idh_comuna = codigo, pobreza_2022 = indice)
+  select(id_comuna = codigo, pobreza_2022 = indice)
 
 # Standarize column labels ----
 
@@ -143,7 +143,9 @@ names(c_educacion)
 #Eliminar columnas no utilizadas
   c_educacion <- c_educacion %>%
     select(-nombre_comuna, -region, -region_code, -c_indice_2025)%>%
-    rename(c_indice_2025 = c_indice_2025_z)
+    rename(c_indice_2025 = c_indice_2025_z)%>%
+    mutate(id_comuna = as.integer(id_comuna))
+    
 
 # Merge data ----
   
@@ -155,16 +157,20 @@ idc_full <- a_conectividad %>%
   left_join(pobreza_multi_comunal, by = "id_comuna")
   
 # Verificar que no se pierdan filas
-stopifnot(nrow(df_final) == 345)
+stopifnot(nrow(idc_full) == 345)
 
 idc_full <- idc_full %>%
   mutate(
     # Promedio de los tres índices
     idc_2025 = rowMeans(select(., a_indice_2025, b_indice_2025, c_indice_2025), na.rm = TRUE),
     
-    # Ranking (1 = mejor puntaje, orden descendente)
-    idc_ranking_2024 = min_rank(desc(idc_2024)),
-    idc_ranking_2025 = min_rank(desc(idc_2025))
+    # Ranking (1 = mejor puntaje, orden descendente), NA si faltan datos
+    idc_ranking_2024 = if_else(!is.na(idc_2024),
+                               min_rank(desc(idc_2024)),
+                               NA_integer_),
+    idc_ranking_2025 = if_else(!is.na(idc_2025),
+                               min_rank(desc(idc_2025)),
+                               NA_integer_)
   ) %>%
   mutate(
     idc_tramo_2024 = ntile(idc_2024, 4),
@@ -178,16 +184,14 @@ idc_full <- idc_full %>%
                             levels = c(4, 3, 2, 1),
                             labels = c("Alto", "Medio alto", "Medio bajo", "Bajo"))
   )%>%
-  arrange(m_id)
+  arrange(id_comuna)
 
 # Order columns ----
-
-names(a_conectividad)
 
 idc_full <- idc_full%>%
   select(
     #Info común de la base
-    id_comuna, comuna, tipo_comuna, id_region, region, poblacion_censo_2024, poblacion_proyeccion_2023_base2017, idh_2023, pobreza_2022,
+    id_comuna, comuna="comuna.x", tipo_comuna, id_region, region="region.y", poblacion_censo_2024, poblacion_proyeccion_2023_base2017, idh_2023, pobreza_2022,
     #Resultados IDC finales
     idc_2024, idc_2025, idc_ranking_2024, idc_ranking_2025, idc_tramo_2024, idc_tramo_2025,
     #Índices 2024
@@ -195,7 +199,7 @@ idc_full <- idc_full%>%
     #Rankings 2024
     a_ranking_2024, b_ranking_2024, c_ranking_2024,
     #Items 2024
-    matches("^a_item.*_2024$"),matches("^b_item.*_2024$"),matches("^c_item.*_2024$"),
+    matches("^a_item.*_2024$"),matches("^b_item.*_2024$"),matches("^c_(4b|2m|prof)_item[0-9]+_2024$"),
     #Índices 2025
     a_indice_2025, b_indice_2025, c_indice_2025,
     #Rankings 2025
@@ -380,13 +384,6 @@ for (col in names(labels_vector)) {
 # Save codebook ----
 view_df(idc_full)
 
-# Guardar la tabla como HTML temporal
-html_file <- tempfile(fileext = ".html")
-writeLines(knitr::kable(idc_full, format = "html"), con = html_file)
-
-# Guardar pdf
-pagedown::chrome_print(input = html_file, output = "codebooks/codebook_idc_full.pdf")
-
 # Save data ----
 
 # Private use
@@ -395,6 +392,6 @@ writexl::write_xlsx(idc_full, path = "data/proc_data/private_data/2025_idc_full.
 write_sav(idc_full, "data/proc_data/private_data/2025_idc_full.sav")
 
 # Public use
-saveRDS(idc_full, file = "data/proc_data/private_data/2025_idc_v2.rds")
-writexl::write_xlsx(idc_full, path = "data/proc_data/private_data/2025_idc_v2.xlsx")  # corregí extensión
-write_sav(idc_full, "data/proc_data/private_data/2025_idc_v2.sav")
+saveRDS(idc_full, file = "data/proc_data/public_data/2025_idc_v2.rds")
+writexl::write_xlsx(idc_full, path = "data/proc_data/public_data/2025_idc_v2.xlsx")  # corregí extensión
+write_sav(idc_full, "data/proc_data/public_data/2025_idc_v2.sav")

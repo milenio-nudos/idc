@@ -67,7 +67,16 @@ c_long <- c_long%>%
   )
 )
 
-
+c_long <- c_long %>%
+  mutate(
+  # Ranking (1 = mejor puntaje, orden descendente), NA si faltan datos
+  c_ranking_2024 = if_else(!is.na(c_indice_2024),
+                             min_rank(desc(c_indice_2024)),
+                             NA_integer_),
+  c_ranking_2025 = if_else(!is.na(c_indice_2025),
+                           min_rank(desc(c_indice_2025)),
+                           NA_integer_)
+)
 
 # Save data ----
 
