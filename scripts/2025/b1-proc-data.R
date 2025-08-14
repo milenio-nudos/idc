@@ -129,12 +129,7 @@ municipal_idc_2024 <- readRDS(
     ranking,
     everything()
   )
-#  filter(!comuna %in% c( #11. Filtrar comunas que todavía no están para 2025
- #   "DONIHUE",
-  #  "PICHIDEGUA",
-   # "TOLTEN",
-    #"HUALAIHUE",
-    #"INDEPENDENCIA"))
+
 
 # Repetir proceso para 2025 ----
 
@@ -178,15 +173,6 @@ municipal_idc_2025 <- read_excel(
       TRUE ~ comuna
     )
   )%>%
-#  filter(
-  #  !if_all(everything(), is.na),
-   # !comuna %in% c(
-    #  "DONIHUE",
-     # "PICHIDEGUA",
-      #"TOLTEN",
-      #"HUALAIHUE",
-      #"INDEPENDENCIA"
-  #  )) %>%
   mutate(
     year = "2025") %>%
   select(

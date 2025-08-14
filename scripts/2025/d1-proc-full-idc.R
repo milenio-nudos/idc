@@ -162,8 +162,8 @@ stopifnot(nrow(idc_full) == 345)
 
 idc_full <- idc_full %>%
   mutate(
-    # Promedio de los tres índices
-    idc_2025 = rowMeans(select(., a_indice_2025, b_indice_2025, c_indice_2025), na.rm = TRUE),
+    # Promedio de los tres índices: exigir que las 3 dimensiones tengan valores para publicar el IDC
+    idc_2025 = rowMeans(select(., a_indice_2025, b_indice_2025, c_indice_2025), na.rm = FALSE),
     
     #Redondear el valor
     idc_2025 = round(idc_2025, 3),
