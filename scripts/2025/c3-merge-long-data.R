@@ -55,6 +55,7 @@ names(c_long)
 # Estimar índice estandarizado ----
 c_long <- c_long%>%
   mutate(c_indice_2025_z = 0.5 + 0.1 * (c_indice_2025 - mean(c_indice_2025, na.rm = TRUE)) / sd(c_indice_2025, na.rm = TRUE),
+         c_indice_2025_z = round(c_indice_2025_z, 3),
          c_tramo_2025 = ntile(c_indice_2025_z, 4),
          c_tramo_2025 = labelled(
            as.double(c_tramo_2025),

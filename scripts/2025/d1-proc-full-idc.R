@@ -165,6 +165,9 @@ idc_full <- idc_full %>%
     # Promedio de los tres índices
     idc_2025 = rowMeans(select(., a_indice_2025, b_indice_2025, c_indice_2025), na.rm = TRUE),
     
+    #Redondear el valor
+    idc_2025 = round(idc_2025, 3),
+    
     # Ranking (1 = mejor puntaje, orden descendente), NA si faltan datos
     idc_ranking_2024 = if_else(!is.na(idc_2024),
                                min_rank(desc(idc_2024)),
