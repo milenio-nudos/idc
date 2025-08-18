@@ -34,7 +34,7 @@ a_conectividad <- a_conectividad %>%
     # Info 2025
     poblacion_proyeccion_2023_base2017,
     # Índice conectividad 2025
-    c25v_z_3,
+    c25v_z,
     # Ítems versión 2025
     conexiones_fijas_residenciales_2024, adsl_tecnologia_2024, 
     fttx_tecnologia_2024, modem_tecnologia_2024, ota_tecnologia_2024, 
@@ -53,7 +53,7 @@ a_conectividad <- a_conectividad %>%
     a_item6_2024 = oti_tecnologia_2023,
     a_item7_2024 = w_tecnologia_2023,
     # ---
-    a_indice_2025 = c25v_z_3,
+    a_indice_2025 = c25v_z,
     a_ranking_2025 = posicion_dimension_2025,
     a_item1_2025 = conexiones_fijas_residenciales_2024,
     a_item2_2025 = adsl_tecnologia_2024,
