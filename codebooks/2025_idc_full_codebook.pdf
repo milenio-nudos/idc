@@ -1,0 +1,839 @@
+
+<!-- saved from url=(0051)http://localhost:12448/session/file1e14122356c.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="chrome-extension://fgddmllnllkalaagkghckoinaemmogpe/scripts/content/gps.js"></script>
+
+<style>
+html, body { background-color: white; }
+table { border-collapse:collapse; border:none; }
+.thead { border-bottom:double; font-style:italic; font-weight:normal; padding:0.2cm; text-align:left; vertical-align:top; }
+.tdata { padding:0.2cm; text-align:left; vertical-align:top; }
+.arc { background-color:#eeeeee }
+caption { font-weight: bold; text-align:left; }
+.omit { color:#999999; }
+</style>
+</head>
+<body>
+<table>
+<caption>Data frame: idc_full</caption>
+<tbody><tr>
+<th class="thead">ID</th><th class="thead">Name</th><th class="thead">Label</th><th class="thead">Values</th><th class="thead">Value Labels</th>
+</tr>
+<tr>
+<td class="tdata">1</td>
+<td class="tdata">id_comuna</td>
+<td class="tdata">ID comunal (Código oficial nacional)</td>
+<td class="tdata" colspan="2"><em>range: 1101-16305</em></td>
+</tr>
+<tr>
+<td class="tdata arc">2</td>
+<td class="tdata arc">comuna</td>
+<td class="tdata arc">Nombre de la comuna</td>
+<td class="tdata arc"></td>
+<td class="tdata arc">&lt;output omitted&gt;</td>
+</tr>
+<tr>
+<td class="tdata">3</td>
+<td class="tdata">tipo_comuna</td>
+<td class="tdata">Tipo de comuna</td>
+<td class="tdata"></td>
+<td class="tdata">&lt;output omitted&gt;</td>
+</tr>
+<tr>
+<td class="tdata arc">4</td>
+<td class="tdata arc">id_region</td>
+<td class="tdata arc">Número de la Región</td>
+<td class="tdata arc" colspan="2"><em>range: 1-16</em></td>
+</tr>
+<tr>
+<td class="tdata">5</td>
+<td class="tdata">region</td>
+<td class="tdata">Nombre de la Región</td>
+<td class="tdata"></td>
+<td class="tdata">&lt;output omitted&gt;</td>
+</tr>
+<tr>
+<td class="tdata arc">6</td>
+<td class="tdata arc">poblacion_censo_2024</td>
+<td class="tdata arc">Población comunal censada en Censo 2024 INE</td>
+<td class="tdata arc" colspan="2"><em>range: 102-568086</em></td>
+</tr>
+<tr>
+<td class="tdata">7</td>
+<td class="tdata">poblacion_proyeccion_2023_base2017</td>
+<td class="tdata">Población comunal proyectada para 2023 en Censo<br>2017 INE</td>
+<td class="tdata" colspan="2"><em>range: 205-664370</em></td>
+</tr>
+<tr>
+<td class="tdata arc">8</td>
+<td class="tdata arc">idh_2023</td>
+<td class="tdata arc">Indice de Desarrollo Humano Comunal 2023</td>
+<td class="tdata arc" colspan="2"><em>range: 0.3-1.0</em></td>
+</tr>
+<tr>
+<td class="tdata">9</td>
+<td class="tdata">pobreza_2022</td>
+<td class="tdata">Proporción de Pobreza Multidimensional Comunal<br>2022</td>
+<td class="tdata" colspan="2"><em>range: 0.0-0.6</em></td>
+</tr>
+<tr>
+<td class="tdata arc">10</td>
+<td class="tdata arc">idc_2024</td>
+<td class="tdata arc">Puntaje Indice de Digitalización Comunal 2024</td>
+<td class="tdata arc" colspan="2"><em>range: 0.3-0.7</em></td>
+</tr>
+<tr>
+<td class="tdata">11</td>
+<td class="tdata">idc_2025</td>
+<td class="tdata">Puntaje Indice de Digitalización Comunal 2025</td>
+<td class="tdata" colspan="2"><em>range: 0.3-0.7</em></td>
+</tr>
+<tr>
+<td class="tdata arc">12</td>
+<td class="tdata arc">idc_ranking_2024</td>
+<td class="tdata arc">Posición ranking IDC 2024</td>
+<td class="tdata arc" colspan="2"><em>range: 1-301</em></td>
+</tr>
+<tr>
+<td class="tdata">13</td>
+<td class="tdata">idc_ranking_2025</td>
+<td class="tdata">Posición ranking IDC 2025</td>
+<td class="tdata" colspan="2"><em>range: 1-285</em></td>
+</tr>
+<tr>
+<td class="tdata arc">14</td>
+<td class="tdata arc">idc_tramo_2024</td>
+<td class="tdata arc">Tramo IDC 2024</td>
+<td class="tdata arc"></td>
+<td class="tdata arc">Alto<br>Medio alto<br>Medio bajo<br>Bajo</td>
+</tr>
+<tr>
+<td class="tdata">15</td>
+<td class="tdata">idc_tramo_2025</td>
+<td class="tdata">Tramo IDC 2025</td>
+<td class="tdata"></td>
+<td class="tdata">Alto<br>Medio alto<br>Medio bajo<br>Bajo</td>
+</tr>
+<tr>
+<td class="tdata arc">16</td>
+<td class="tdata arc">a_indice_2024</td>
+<td class="tdata arc">Puntaje dimensión de conectividad 2024</td>
+<td class="tdata arc" colspan="2"><em>range: 0.3-0.8</em></td>
+</tr>
+<tr>
+<td class="tdata">17</td>
+<td class="tdata">b_indice_2024</td>
+<td class="tdata">Puntaje dimensión de municipio digital 2024</td>
+<td class="tdata" colspan="2"><em>range: 0.2-0.8</em></td>
+</tr>
+<tr>
+<td class="tdata arc">18</td>
+<td class="tdata arc">c_indice_2024</td>
+<td class="tdata arc">Puntaje dimensión de adopción digital educativa<br>2024</td>
+<td class="tdata arc" colspan="2"><em>range: -0.2-0.8</em></td>
+</tr>
+<tr>
+<td class="tdata">19</td>
+<td class="tdata">a_ranking_2024</td>
+<td class="tdata">Posición en la dimensión de conectividad 2024</td>
+<td class="tdata" colspan="2"><em>range: 1-345</em></td>
+</tr>
+<tr>
+<td class="tdata arc">20</td>
+<td class="tdata arc">b_ranking_2024</td>
+<td class="tdata arc">Posición en la dimensión de municipio digital 2024</td>
+<td class="tdata arc" colspan="2"><em>range: 1-345</em></td>
+</tr>
+<tr>
+<td class="tdata">21</td>
+<td class="tdata">c_ranking_2024</td>
+<td class="tdata">Posición en la dimensión de adopción digital<br>educativa 2024</td>
+<td class="tdata" colspan="2"><em>range: 1-340</em></td>
+</tr>
+<tr>
+<td class="tdata arc">22</td>
+<td class="tdata arc">a_item1_2024</td>
+<td class="tdata arc">Total conexiones fijas residenciales por comuna a<br>diciembre 2023</td>
+<td class="tdata arc" colspan="2"><em>range: 1-147549</em></td>
+</tr>
+<tr>
+<td class="tdata">23</td>
+<td class="tdata">a_item2_2024</td>
+<td class="tdata">Tipo de tecnología por comuna a diciembre 2023:<br>ADSL</td>
+<td class="tdata" colspan="2"><em>range: 0-1464</em></td>
+</tr>
+<tr>
+<td class="tdata arc">24</td>
+<td class="tdata arc">a_item3_2024</td>
+<td class="tdata arc">Tipo de tecnología por comuna a diciembre 2023:<br>FTTX</td>
+<td class="tdata arc" colspan="2"><em>range: 0-107239</em></td>
+</tr>
+<tr>
+<td class="tdata">25</td>
+<td class="tdata">a_item4_2024</td>
+<td class="tdata">Tipo de tecnología por comuna a diciembre 2023:<br>MODEM</td>
+<td class="tdata" colspan="2"><em>range: 0-57076</em></td>
+</tr>
+<tr>
+<td class="tdata arc">26</td>
+<td class="tdata arc">a_item5_2024</td>
+<td class="tdata arc">Tipo de tecnología por comuna a diciembre 2023:<br>OTA</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1192</em></td>
+</tr>
+<tr>
+<td class="tdata">27</td>
+<td class="tdata">a_item6_2024</td>
+<td class="tdata">Tipo de tecnología por comuna a diciembre 2023:<br>OTI</td>
+<td class="tdata" colspan="2"><em>range: 0-3675</em></td>
+</tr>
+<tr>
+<td class="tdata arc">28</td>
+<td class="tdata arc">a_item7_2024</td>
+<td class="tdata arc">Tipo de tecnología por comuna a diciembre 2023: W</td>
+<td class="tdata arc" colspan="2"><em>range: 0-46</em></td>
+</tr>
+<tr>
+<td class="tdata">29</td>
+<td class="tdata">b_item1_2024</td>
+<td class="tdata">Página web del Municipio permite pago de permiso<br>de circulación en línea </td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">30</td>
+<td class="tdata arc">b_item2_2024</td>
+<td class="tdata arc">Página web del Municipio permite pago de multas en<br>línea</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">31</td>
+<td class="tdata">b_item3_2024</td>
+<td class="tdata">Página web del Municipio permite pago de patentes<br>municipales en línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">32</td>
+<td class="tdata arc">b_item4_2024</td>
+<td class="tdata arc">Página web del Municipio permite pago de derechos<br>de aseo en línea</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">33</td>
+<td class="tdata">b_item5_2024</td>
+<td class="tdata">Página web del Municipio permite pago de derechos<br>varios en línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">34</td>
+<td class="tdata arc">b_item6_2024</td>
+<td class="tdata arc">Página web del Municipio permite realizar trámites<br>en línea con ClaveUnica</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">35</td>
+<td class="tdata">b_item7_2024</td>
+<td class="tdata">Página web del Municipio permite realizar trámites<br>de la Dirección de Obras Municipales en línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">36</td>
+<td class="tdata arc">b_item8_2024</td>
+<td class="tdata arc">Página web del Municipio permite realizar trámites<br>de Tarjeta Vecino en línea</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">37</td>
+<td class="tdata">b_item9_2024</td>
+<td class="tdata">Página web del Municipio permite realizar trámites<br>de la Oficina Municipal de Información Laboral en<br>línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">38</td>
+<td class="tdata arc">b_item10_2024</td>
+<td class="tdata arc">Página web del Municipio permite realizar trámites<br>de la Dirección Municipal de Tránsito en línea</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">39</td>
+<td class="tdata">b_item11_2024</td>
+<td class="tdata">Página web del Municipio permite realizar trámites<br>de patentes municipales en línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">40</td>
+<td class="tdata arc">b_item12_2024</td>
+<td class="tdata arc">Página web del Municipio permite realizar trámites<br>de la Oficina Municipal de Información, Reclamos y<br>Sugerencias en línea </td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">41</td>
+<td class="tdata">b_item13_2024</td>
+<td class="tdata">Página web del Municipio permite realizar trámites<br>de la Dirección Municipal de Aseo y Ornato en<br>línea </td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">42</td>
+<td class="tdata arc">b_item14_2024</td>
+<td class="tdata arc">Municipio cuenta con aplicación para dispositivos<br>móviles</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">43</td>
+<td class="tdata">b_item15_2024</td>
+<td class="tdata">Página web del Municipio permite acceder a la<br>información del Plan Regulador en línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">44</td>
+<td class="tdata arc">b_item16_2024</td>
+<td class="tdata arc">Página web del Municipio permite acceder a la<br>información de Concursos Públicos en línea</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">45</td>
+<td class="tdata">b_item17_2024</td>
+<td class="tdata">Página web del Municipio permite acceder a las<br>actas del Concejo Municipal en línea </td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">46</td>
+<td class="tdata arc">b_item18_2024</td>
+<td class="tdata arc">Página web del Municipio permite acceder a las<br>sesiones del Concejo Municipal en línea </td>
+<td class="tdata arc" colspan="2"><em>range: 0-2</em></td>
+</tr>
+<tr>
+<td class="tdata">47</td>
+<td class="tdata">b_item19_2024</td>
+<td class="tdata">Página web del Municipio permite acceder a la<br>información de Ordenanzas Municipales en línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">48</td>
+<td class="tdata arc">b_item20_2024</td>
+<td class="tdata arc">Página web del Municipio permite acceder al Código<br>de Ética Municipal en línea </td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">49</td>
+<td class="tdata">b_item21_2024</td>
+<td class="tdata">Página web del Municipio permite acceder a la<br>información del Plan de Desarrollo Comunal en<br>línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">50</td>
+<td class="tdata arc">b_item22_2024</td>
+<td class="tdata arc">Página web del Municipio permite solicitar<br>audiencias con autoridades municipales en línea</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">51</td>
+<td class="tdata">b_item23_2024</td>
+<td class="tdata">Página web del Municipio permite acceder a<br>información municipal publicada en el Portal de<br>Transparencia Activa</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">52</td>
+<td class="tdata arc">b_item24_2024</td>
+<td class="tdata arc">Página web del Municipio permite solicitar<br>información via Ley de Transparencia</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">53</td>
+<td class="tdata">b_item25_2024</td>
+<td class="tdata">Página web del Municipio cuenta con datos abiertos<br>municipales</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">54</td>
+<td class="tdata arc">b_item26_2024</td>
+<td class="tdata arc">Página web del Municipio permite acceder a<br>información de sus Organizaciones Comunitarias en<br>línea</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">55</td>
+<td class="tdata">b_item27_2024</td>
+<td class="tdata">Página web del Municipio permite acceder a<br>información relacionada a la gestión municipal</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">56</td>
+<td class="tdata arc">b_item28_2024</td>
+<td class="tdata arc">Página web del Municipio permite acceder a<br>información relacionada a lobby y gestión de<br>intereses</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">57</td>
+<td class="tdata">b_item29_2024</td>
+<td class="tdata">Página web del Municipio permite acceder a<br>información de las compras públicas realizadas en<br>línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">58</td>
+<td class="tdata arc">b_item30_2024</td>
+<td class="tdata arc">Página web del Municipio cuenta con redes sociales</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">59</td>
+<td class="tdata">b_item31_2024</td>
+<td class="tdata">Página web del Municipio permite acceder a<br>información de subsidios y becas en línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">60</td>
+<td class="tdata arc">b_item32_2024</td>
+<td class="tdata arc">Página web del Municipio permite realizar<br>denuncias en línea</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">61</td>
+<td class="tdata">b_item33_2024</td>
+<td class="tdata">Página web del Municipio permite acceder a<br>organigrama municipal en línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">62</td>
+<td class="tdata arc">b_item34_2024</td>
+<td class="tdata arc">Página web del Municipio permite acceder a<br>noticias de la comuna</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">63</td>
+<td class="tdata">c_4b_item1_2024</td>
+<td class="tdata">[Datos SIMCE 2023 4to básico] En el colegio nos<br>motivan a utilizar herramientas tecnológicas.</td>
+<td class="tdata" colspan="2"><em>range: 1.5-3.6</em></td>
+</tr>
+<tr>
+<td class="tdata arc">64</td>
+<td class="tdata arc">c_4b_item2_2024</td>
+<td class="tdata arc">[Datos SIMCE 2023 4to básico] Ocupamos la<br>tecnología frecuentemente en el colegio para<br>aprender.</td>
+<td class="tdata arc" colspan="2"><em>range: 2.0-3.5</em></td>
+</tr>
+<tr>
+<td class="tdata">65</td>
+<td class="tdata">c_4b_item3_2024</td>
+<td class="tdata">[Datos SIMCE 2023 4to básico] Para mis<br>compañeros(as) es importante saber usar los<br>computadores para aprender.</td>
+<td class="tdata" colspan="2"><em>range: 2.5-3.6</em></td>
+</tr>
+<tr>
+<td class="tdata arc">66</td>
+<td class="tdata arc">c_4b_item4_2024</td>
+<td class="tdata arc">[Datos SIMCE 2023 4to básico] Los profesores y<br>profesoras nos enseñan a utilizar herramientas<br>tecnológicas.</td>
+<td class="tdata arc" colspan="2"><em>range: 1.0-4.0</em></td>
+</tr>
+<tr>
+<td class="tdata">67</td>
+<td class="tdata">c_4b_item5_2024</td>
+<td class="tdata">[Datos SIMCE 2023 4to básico] En el colegio se<br>preocupan de tener los computadores en buen<br>estado.</td>
+<td class="tdata" colspan="2"><em>range: 1.5-4.0</em></td>
+</tr>
+<tr>
+<td class="tdata arc">68</td>
+<td class="tdata arc">c_4b_item6_2024</td>
+<td class="tdata arc">[Datos SIMCE 2023 4to básico] El colegio cuenta<br>con internet de buena calidad.</td>
+<td class="tdata arc" colspan="2"><em>range: 2.0-3.7</em></td>
+</tr>
+<tr>
+<td class="tdata">69</td>
+<td class="tdata">c_2m_item1_2024</td>
+<td class="tdata">[Datos SIMCE 2023 II° medio] En el colegio nos<br>motivan a utilizar herramientas tecnológicas.</td>
+<td class="tdata" colspan="2"><em>range: 2.3-3.5</em></td>
+</tr>
+<tr>
+<td class="tdata arc">70</td>
+<td class="tdata arc">c_2m_item2_2024</td>
+<td class="tdata arc">[Datos SIMCE 2023 II° medio] Ocupamos la<br>tecnología frecuentemente en el colegio para<br>aprender.</td>
+<td class="tdata arc" colspan="2"><em>range: 2.0-3.5</em></td>
+</tr>
+<tr>
+<td class="tdata">71</td>
+<td class="tdata">c_2m_item3_2024</td>
+<td class="tdata">[Datos SIMCE 2023 II° medio] Para mis<br>compañeros(as) es importante saber usar los<br>computadores para aprender.</td>
+<td class="tdata" colspan="2"><em>range: 2.4-3.5</em></td>
+</tr>
+<tr>
+<td class="tdata arc">72</td>
+<td class="tdata arc">c_2m_item4_2024</td>
+<td class="tdata arc">[Datos SIMCE 2023 II° medio] Los profesores y<br>profesoras nos enseñan a utilizar herramientas<br>tecnológicas.</td>
+<td class="tdata arc" colspan="2"><em>range: 2.3-3.5</em></td>
+</tr>
+<tr>
+<td class="tdata">73</td>
+<td class="tdata">c_2m_item5_2024</td>
+<td class="tdata">[Datos SIMCE 2023 II° medio] En el colegio se<br>preocupan de tener los computadores en buen<br>estado.</td>
+<td class="tdata" colspan="2"><em>range: 1.8-4.0</em></td>
+</tr>
+<tr>
+<td class="tdata arc">74</td>
+<td class="tdata arc">c_2m_item6_2024</td>
+<td class="tdata arc">[Datos SIMCE 2023 II° medio] El colegio cuenta con<br>internet de buena calidad.</td>
+<td class="tdata arc" colspan="2"><em>range: 1.4-3.3</em></td>
+</tr>
+<tr>
+<td class="tdata">75</td>
+<td class="tdata">c_prof_item1_2024</td>
+<td class="tdata">[Datos SIMCE 2023 Profesores] El establecimiento<br>entrega capacitaciones a sus funcionarios(as) para<br>mejorar habilidades computacionales.</td>
+<td class="tdata" colspan="2"><em>range: 1.0-3.5</em></td>
+</tr>
+<tr>
+<td class="tdata arc">76</td>
+<td class="tdata arc">c_prof_item2_2024</td>
+<td class="tdata arc">[Datos SIMCE 2023 Profesores] Las y los<br>profesionales del establecimiento se apoyan entre<br>sí en caso de tener problemas asociados a la<br>tecnología.</td>
+<td class="tdata arc" colspan="2"><em>range: 2.0-4.0</em></td>
+</tr>
+<tr>
+<td class="tdata">77</td>
+<td class="tdata">c_prof_item3_2024</td>
+<td class="tdata">[Datos SIMCE 2023 Profesores] El establecimiento<br>se preocupa de que haya alguien a cargo de las<br>herramientas tecnológicas.</td>
+<td class="tdata" colspan="2"><em>range: 1.8-4.0</em></td>
+</tr>
+<tr>
+<td class="tdata arc">78</td>
+<td class="tdata arc">c_prof_item4_2024</td>
+<td class="tdata arc">[Datos SIMCE 2023 Profesores] El establecimiento<br>se preocupa constantemente de mejorar la<br>infraestructura tecnológica.</td>
+<td class="tdata arc" colspan="2"><em>range: 1.3-4.0</em></td>
+</tr>
+<tr>
+<td class="tdata">79</td>
+<td class="tdata">c_prof_item5_2024</td>
+<td class="tdata">[Datos SIMCE 2023 Profesores] El establecimiento<br>cuenta con internet rápido.</td>
+<td class="tdata" colspan="2"><em>range: 1.0-3.9</em></td>
+</tr>
+<tr>
+<td class="tdata arc">80</td>
+<td class="tdata arc">c_prof_item6_2024</td>
+<td class="tdata arc">[Datos SIMCE 2023 Profesores] El establecimiento<br>cuenta con sala de tecnología equipada con<br>computadores.</td>
+<td class="tdata arc" colspan="2"><em>range: 1.0-4.0</em></td>
+</tr>
+<tr>
+<td class="tdata">81</td>
+<td class="tdata">c_prof_item7_2024</td>
+<td class="tdata">[Datos SIMCE 2023 Profesores] Los computadores<br>pueden ser utilizados por cualquiera que requiera<br>información.</td>
+<td class="tdata" colspan="2"><em>range: 1.0-4.0</em></td>
+</tr>
+<tr>
+<td class="tdata arc">82</td>
+<td class="tdata arc">a_indice_2025</td>
+<td class="tdata arc">Puntaje dimensión de conectividad 2025</td>
+<td class="tdata arc" colspan="2"><em>range: 0.3-1.0</em></td>
+</tr>
+<tr>
+<td class="tdata">83</td>
+<td class="tdata">b_indice_2025</td>
+<td class="tdata">Puntaje dimensión de municipio digital 2025</td>
+<td class="tdata" colspan="2"><em>range: 0.3-0.8</em></td>
+</tr>
+<tr>
+<td class="tdata arc">84</td>
+<td class="tdata arc">c_indice_2025</td>
+<td class="tdata arc">Puntaje dimensión de conectividad 2025</td>
+<td class="tdata arc" colspan="2"><em>range: 0.1-0.7</em></td>
+</tr>
+<tr>
+<td class="tdata">85</td>
+<td class="tdata">a_ranking_2025</td>
+<td class="tdata">Posición en la dimensión de conectividad 2025</td>
+<td class="tdata" colspan="2"><em>range: 1-345</em></td>
+</tr>
+<tr>
+<td class="tdata arc">86</td>
+<td class="tdata arc">b_ranking_2025</td>
+<td class="tdata arc">Posición en la dimensión de municipio digital 2025</td>
+<td class="tdata arc" colspan="2"><em>range: 1-345</em></td>
+</tr>
+<tr>
+<td class="tdata">87</td>
+<td class="tdata">c_ranking_2025</td>
+<td class="tdata">Posición en la dimensión de adopción digital<br>educativa 2025</td>
+<td class="tdata" colspan="2"><em>range: 1-288</em></td>
+</tr>
+<tr>
+<td class="tdata arc">88</td>
+<td class="tdata arc">a_item1_2025</td>
+<td class="tdata arc">Total conexiones fijas residenciales por comuna a<br>diciembre 2024</td>
+<td class="tdata arc" colspan="2"><em>range: 1-149879</em></td>
+</tr>
+<tr>
+<td class="tdata">89</td>
+<td class="tdata">a_item2_2025</td>
+<td class="tdata">Tipo de tecnología por comuna a diciembre 2024:<br>ADSL</td>
+<td class="tdata" colspan="2"><em>range: 0-321</em></td>
+</tr>
+<tr>
+<td class="tdata arc">90</td>
+<td class="tdata arc">a_item3_2025</td>
+<td class="tdata arc">Tipo de tecnología por comuna a diciembre 2024:<br>FTTX</td>
+<td class="tdata arc" colspan="2"><em>range: 0-114029</em></td>
+</tr>
+<tr>
+<td class="tdata">91</td>
+<td class="tdata">a_item4_2025</td>
+<td class="tdata">Tipo de tecnología por comuna a diciembre 2024:<br>MODEM</td>
+<td class="tdata" colspan="2"><em>range: 0-55765</em></td>
+</tr>
+<tr>
+<td class="tdata arc">92</td>
+<td class="tdata arc">a_item5_2025</td>
+<td class="tdata arc">Tipo de tecnología por comuna a diciembre 2024:<br>OTA</td>
+<td class="tdata arc" colspan="2"><em>range: 0-846</em></td>
+</tr>
+<tr>
+<td class="tdata">93</td>
+<td class="tdata">a_item6_2025</td>
+<td class="tdata">Tipo de tecnología por comuna a diciembre 2024:<br>OTI</td>
+<td class="tdata" colspan="2"><em>range: 0-2775</em></td>
+</tr>
+<tr>
+<td class="tdata arc">94</td>
+<td class="tdata arc">a_item7_2025</td>
+<td class="tdata arc">Tipo de tecnología por comuna a diciembre 2024: W</td>
+<td class="tdata arc" colspan="2"><em>range: 0-46</em></td>
+</tr>
+<tr>
+<td class="tdata">95</td>
+<td class="tdata">b_item1_2025</td>
+<td class="tdata">Página web del Municipio permite pago de permiso<br>de circulación en línea </td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">96</td>
+<td class="tdata arc">b_item2_2025</td>
+<td class="tdata arc">Página web del Municipio permite pago de multas en<br>línea</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">97</td>
+<td class="tdata">b_item3_2025</td>
+<td class="tdata">Página web del Municipio permite pago de patentes<br>municipales en línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">98</td>
+<td class="tdata arc">b_item4_2025</td>
+<td class="tdata arc">Página web del Municipio permite pago de derechos<br>de aseo en línea</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">99</td>
+<td class="tdata">b_item5_2025</td>
+<td class="tdata">Página web del Municipio permite pago de derechos<br>varios en línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">100</td>
+<td class="tdata arc">b_item6_2025</td>
+<td class="tdata arc">Página web del Municipio permite realizar trámites<br>en línea con ClaveUnica</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">101</td>
+<td class="tdata">b_item7_2025</td>
+<td class="tdata">Página web del Municipio permite realizar trámites<br>de la Dirección de Obras Municipales en línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">102</td>
+<td class="tdata arc">b_item8_2025</td>
+<td class="tdata arc">Página web del Municipio permite realizar trámites<br>de Tarjeta Vecino en línea</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">103</td>
+<td class="tdata">b_item9_2025</td>
+<td class="tdata">Página web del Municipio permite realizar trámites<br>de la Oficina Municipal de Información Laboral en<br>línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">104</td>
+<td class="tdata arc">b_item10_2025</td>
+<td class="tdata arc">Página web del Municipio permite realizar trámites<br>de la Dirección Municipal de Tránsito en línea</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">105</td>
+<td class="tdata">b_item11_2025</td>
+<td class="tdata">Página web del Municipio permite realizar trámites<br>de patentes municipales en línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">106</td>
+<td class="tdata arc">b_item12_2025</td>
+<td class="tdata arc">Página web del Municipio permite realizar trámites<br>de la Oficina Municipal de Información, Reclamos y<br>Sugerencias en línea </td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">107</td>
+<td class="tdata">b_item13_2025</td>
+<td class="tdata">Página web del Municipio permite realizar trámites<br>de la Dirección Municipal de Aseo y Ornato en<br>línea </td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">108</td>
+<td class="tdata arc">b_item14_2025</td>
+<td class="tdata arc">Municipio cuenta con aplicación para dispositivos<br>móviles</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">109</td>
+<td class="tdata">b_item15_2025</td>
+<td class="tdata">Página web del Municipio permite acceder a la<br>información del Plan Regulador en línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">110</td>
+<td class="tdata arc">b_item16_2025</td>
+<td class="tdata arc">Página web del Municipio permite acceder a la<br>información de Concursos Públicos en línea</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">111</td>
+<td class="tdata">b_item17_2025</td>
+<td class="tdata">Página web del Municipio permite acceder a las<br>actas del Concejo Municipal en línea </td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">112</td>
+<td class="tdata arc">b_item18_2025</td>
+<td class="tdata arc">Página web del Municipio permite acceder a las<br>sesiones del Concejo Municipal en línea </td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">113</td>
+<td class="tdata">b_item19_2025</td>
+<td class="tdata">Página web del Municipio  permite acceder a la<br>información de Ordenanzas Municipales en línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">114</td>
+<td class="tdata arc">b_item20_2025</td>
+<td class="tdata arc">Página web del Municipio permite acceder al Código<br>de Ética Municipal en línea </td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">115</td>
+<td class="tdata">b_item21_2025</td>
+<td class="tdata">Página web del Municipio permite acceder a la<br>información del Plan de Desarrollo Comunal en<br>línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">116</td>
+<td class="tdata arc">b_item22_2025</td>
+<td class="tdata arc">Página web del Municipio permite solicitar<br>audiencias con autoridades municipales en línea</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">117</td>
+<td class="tdata">b_item23_2025</td>
+<td class="tdata">Página web del Municipio permite acceder a<br>información municipal publicada en el Portal de<br>Transparencia Activa</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">118</td>
+<td class="tdata arc">b_item24_2025</td>
+<td class="tdata arc">Página web del Municipio permite solicitar<br>información via Ley de Transparencia</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">119</td>
+<td class="tdata">b_item25_2025</td>
+<td class="tdata">Página web del Municipio cuenta con datos abiertos<br>municipales</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">120</td>
+<td class="tdata arc">b_item26_2025</td>
+<td class="tdata arc">Página web del Municipio permite acceder a<br>información de sus Organizaciones Comunitarias en<br>línea</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">121</td>
+<td class="tdata">b_item27_2025</td>
+<td class="tdata">Página web del Municipio permite acceder a<br>información relacionada a la gestión municipal</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">122</td>
+<td class="tdata arc">b_item28_2025</td>
+<td class="tdata arc">Página web del Municipio permite acceder a<br>información relacionada a lobby y gestión de<br>intereses</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">123</td>
+<td class="tdata">b_item29_2025</td>
+<td class="tdata">Página web del Municipio permite acceder a<br>información de las compras públicas realizadas en<br>línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">124</td>
+<td class="tdata arc">b_item30_2025</td>
+<td class="tdata arc">Página web del Municipio cuenta con redes sociales</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">125</td>
+<td class="tdata">b_item31_2025</td>
+<td class="tdata">Página web del Municipio permite acceder a<br>información de subsidios y becas en línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">126</td>
+<td class="tdata arc">b_item32_2025</td>
+<td class="tdata arc">Página web del Municipio permite realizar<br>denuncias en línea</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">127</td>
+<td class="tdata">b_item33_2025</td>
+<td class="tdata">Página web del Municipio permite acceder a<br>organigrama municipal en línea</td>
+<td class="tdata" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata arc">128</td>
+<td class="tdata arc">b_item34_2025</td>
+<td class="tdata arc">Página web del Municipio permite acceder a<br>noticias de la comuna</td>
+<td class="tdata arc" colspan="2"><em>range: 0-1</em></td>
+</tr>
+<tr>
+<td class="tdata">129</td>
+<td class="tdata">c_item1_2025</td>
+<td class="tdata">[Datos SIMCE 2024 Profesores] El colegio entrega<br>capacitaciones a sus funcionarios(as) para mejorar<br>habilidades y conocimientos digitales.</td>
+<td class="tdata" colspan="2"><em>range: 1-4</em></td>
+</tr>
+<tr>
+<td class="tdata arc">130</td>
+<td class="tdata arc">c_item2_2025</td>
+<td class="tdata arc">[Datos SIMCE 2024 Profesores] Las y los<br>profesionales del colegio se apoyan entre sí en<br>caso de tener problemas con el uso pedagógico de<br>la tecnología.</td>
+<td class="tdata arc" colspan="2"><em>range: 2-4</em></td>
+</tr>
+<tr>
+<td class="tdata">131</td>
+<td class="tdata">c_item3_2025</td>
+<td class="tdata">[Datos SIMCE 2024 Profesores] En el colegio se<br>preocupan de que haya alguien a cargo de las<br>herramientas tecnológicas.</td>
+<td class="tdata" colspan="2"><em>range: 1-4</em></td>
+</tr>
+<tr>
+<td class="tdata arc">132</td>
+<td class="tdata arc">c_item4_2025</td>
+<td class="tdata arc">[Datos SIMCE 2024 Profesores] En el colegio se<br>preocupan constantemente de mejorar la<br>infraestructura tecnológica.</td>
+<td class="tdata arc" colspan="2"><em>range: 1-4</em></td>
+</tr>
+<tr>
+<td class="tdata">133</td>
+<td class="tdata">c_item5_2025</td>
+<td class="tdata">[Datos SIMCE 2024 Profesores] El colegio cuenta<br>con Internet estable y rápido.</td>
+<td class="tdata" colspan="2"><em>range: 1-4</em></td>
+</tr>
+<tr>
+<td class="tdata arc">134</td>
+<td class="tdata arc">c_item6_2025</td>
+<td class="tdata arc">[Datos SIMCE 2024 Profesores] Los equipos<br>tecnológicos del colegio pueden ser utilizados<br>para fines académicos por cualquier integrante de<br>la comunidad educativa.</td>
+<td class="tdata arc" colspan="2"><em>range: 2-4</em></td>
+</tr>
+<tr>
+<td class="tdata">135</td>
+<td class="tdata">c_item7_2025</td>
+<td class="tdata">[Datos SIMCE 2024 Profesores] El colegio dispone<br>de protocolos y reglamentos sobre el uso adecuado<br>de las Tecnologías de la Información y la<br>Comunicación (TIC).</td>
+<td class="tdata" colspan="2"><em>range: 1-4</em></td>
+</tr>
+
+</tbody></table>
+
+</body></html>
