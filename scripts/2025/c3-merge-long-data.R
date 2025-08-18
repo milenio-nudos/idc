@@ -54,8 +54,28 @@ names(c_long)
 
 # Estimar índice estandarizado ----
 c_long <- c_long%>%
+  #2024
+  mutate(
+    prom_4b = rowMeans(across(starts_with("c_4b_item")), na.rm = TRUE),
+    prom_2m = rowMeans(across(starts_with("c_2m_item")), na.rm = TRUE),
+    prom_prof = rowMeans(across(starts_with("c_prof_item")), na.rm = TRUE),
+    c_indice_2024 = rowMeans(across(starts_with("prom_")), na.rm = TRUE),
+    c_indice_2024_z = 0.5 + 0.1 * (c_indice_2024 - mean(c_indice_2024, na.rm = TRUE)) / sd(c_indice_2024, na.rm = TRUE),
+    c_indice_2024_z = round(c_indice_2024_z, 5),
+    c_tramo_2024 = ntile(c_indice_2024_z, 4),
+    c_tramo_2024 = labelled(
+      as.double(c_tramo_2024),
+      labels = c(
+        "bajo" = 1,
+        "medio bajo" = 2,
+        "medio alto" = 3,
+        "alto" = 4
+      )
+    )
+  )%>%
+  #2025
   mutate(c_indice_2025_z = 0.5 + 0.1 * (c_indice_2025 - mean(c_indice_2025, na.rm = TRUE)) / sd(c_indice_2025, na.rm = TRUE),
-         c_indice_2025_z = round(c_indice_2025_z, 3),
+         c_indice_2025_z = round(c_indice_2025_z, 5),
          c_tramo_2025 = ntile(c_indice_2025_z, 4),
          c_tramo_2025 = labelled(
            as.double(c_tramo_2025),
@@ -71,12 +91,14 @@ c_long <- c_long%>%
 c_long <- c_long %>%
   mutate(
   # Ranking (1 = mejor puntaje, orden descendente), NA si faltan datos
-  c_ranking_2024 = if_else(!is.na(c_indice_2024),
-                             min_rank(desc(c_indice_2024)),
+  c_ranking_2024 = if_else(!is.na(c_indice_2024_z),
+                             min_rank(desc(c_indice_2024_z)),
                              NA_integer_),
-  c_ranking_2025 = if_else(!is.na(c_indice_2025),
-                           min_rank(desc(c_indice_2025)),
-                           NA_integer_)
+  c_ranking_2025 = if_else(!is.na(c_indice_2025_z),
+                           min_rank(desc(c_indice_2025_z)),
+                           NA_integer_),
+  c_indice_2024_z = round(c_indice_2024_z, 3),
+  c_indice_2025_z = round(c_indice_2025_z,3)
 )
 
 # Save data ----

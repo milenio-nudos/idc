@@ -143,8 +143,10 @@ names(c_educacion)
 
 #Eliminar columnas no utilizadas
   c_educacion <- c_educacion %>%
-    select(-nombre_comuna, -region, -region_code, -c_indice_2025)%>%
-    rename(c_indice_2025 = c_indice_2025_z)%>%
+    select(-nombre_comuna, -region, -region_code, -c_indice_2025,
+           -starts_with("prom_"),-c_indice_2024)%>%
+    rename(c_indice_2025 = c_indice_2025_z,
+           c_indice_2024 = c_indice_2024_z)%>%
     mutate(id_comuna = as.integer(id_comuna))
     
 
@@ -165,16 +167,15 @@ idc_full <- idc_full %>%
     # Promedio de los tres índices: exigir que las 3 dimensiones tengan valores para publicar el IDC
     idc_2025 = rowMeans(select(., a_indice_2025, b_indice_2025, c_indice_2025), na.rm = FALSE),
     
-    #Redondear el valor
-    idc_2025 = round(idc_2025, 3),
-    
     # Ranking (1 = mejor puntaje, orden descendente), NA si faltan datos
     idc_ranking_2024 = if_else(!is.na(idc_2024),
                                min_rank(desc(idc_2024)),
                                NA_integer_),
     idc_ranking_2025 = if_else(!is.na(idc_2025),
                                min_rank(desc(idc_2025)),
-                               NA_integer_)
+                               NA_integer_),
+    #Redondear el valor
+    idc_2025 = round(idc_2025, 3)
   ) %>%
   mutate(
     idc_tramo_2024 = ntile(idc_2024, 4),
