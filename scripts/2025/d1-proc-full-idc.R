@@ -169,10 +169,10 @@ idc_full <- idc_full %>%
     
     # Ranking (1 = mejor puntaje, orden descendente), NA si faltan datos
     idc_ranking_2024 = if_else(!is.na(idc_2024),
-                               row_number(desc(idc_2024)),
+                               min_rank(desc(idc_2024)),
                                NA_integer_),
     idc_ranking_2025 = if_else(!is.na(idc_2025),
-                               row_number(desc(idc_2025)),
+                               min_rank(desc(idc_2025)),
                                NA_integer_),
     #Redondear el valor
     idc_2025 = round(idc_2025, 3),
