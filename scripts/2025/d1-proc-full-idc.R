@@ -20,7 +20,7 @@ pobreza_multi_comunal <- read_excel("data/raw_data/communal_index/2022_pobreza_m
 a_conectividad <- a_conectividad %>%
   rename(id_comuna = codigo_comuna_n) %>%
   select(
-    id_comuna, comuna, codigo_region, region, codigo_region, idc_2024, tipo_comuna,
+    id_comuna, comuna, codigo_region, region, codigo_region, idc_2024, ranking_2024, tipo_comuna,
     # Info 2024
     poblacion_censo_2024,
     # Índice conectividad 2024
@@ -167,10 +167,6 @@ idc_full <- idc_full %>%
     # Promedio de los tres índices: exigir que las 3 dimensiones tengan valores para publicar el IDC
     idc_2025 = rowMeans(select(., a_indice_2025, b_indice_2025, c_indice_2025), na.rm = FALSE),
     
-    # Ranking (1 = mejor puntaje, orden descendente), NA si faltan datos
-    idc_ranking_2024 = if_else(!is.na(idc_2024),
-                               row_number(desc(idc_2024)),
-                               NA_integer_),
     idc_ranking_2025 = if_else(!is.na(idc_2025),
                                min_rank(desc(idc_2025)),
                                NA_integer_),
@@ -201,7 +197,7 @@ idc_full <- idc_full%>%
     #Info común de la base
     id_comuna, comuna, tipo_comuna, id_region, region, poblacion_censo_2024, poblacion_proyeccion_2023_base2017, idh_2023, pobreza_2022,
     #Resultados IDC finales
-    idc_2024, idc_2025, idc_ranking_2024, idc_ranking_2025, idc_tramo_2024, idc_tramo_2025,
+    idc_2024, idc_2025, idc_ranking_2024 = ranking_2024, idc_ranking_2025, idc_tramo_2024, idc_tramo_2025,
     #Índices 2024
     a_indice_2024, b_indice_2024, c_indice_2024,
     #Rankings 2024
