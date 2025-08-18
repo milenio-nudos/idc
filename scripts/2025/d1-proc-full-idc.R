@@ -175,7 +175,10 @@ idc_full <- idc_full %>%
                                row_number(desc(idc_2025)),
                                NA_integer_),
     #Redondear el valor
-    idc_2025 = round(idc_2025, 3)
+    idc_2025 = round(idc_2025, 3),
+    a_indice_2025 = round(a_indice_2025, 3),
+    b_indice_2024 = round(b_indice_2024, 3),
+    b_indice_2025 = round(b_indice_2025, 3)
   ) %>%
   mutate(
     idc_tramo_2024 = ntile(idc_2024, 4),

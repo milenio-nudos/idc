@@ -118,7 +118,7 @@ municipal_idc_2024 <- readRDS(
     ))%>%
   arrange(desc(puntaje_md)) %>% # 8. Ordenar puntajes de mayor --> menor
   mutate(ranking = row_number()) %>% # 9. Generar ranking con todos los decimales
-  mutate(puntaje_md = round(puntaje_md, 3)) %>% # 10. Redondear a 3 decimales
+#  mutate(puntaje_md = round(puntaje_md, 3)) %>% # 10. Redondear a 3 decimales
   select(
     cod,
     region,
@@ -197,7 +197,7 @@ municipal_idc_2025 <- read_excel(
       between(puntaje_md, 0.1910747, 0.4270880) ~ "BAJO")) %>% 
   arrange(desc(puntaje_md)) %>%
   mutate(ranking = row_number()) %>% 
-  mutate(puntaje_md = round(puntaje_md, 3)) %>% 
+#  mutate(puntaje_md = round(puntaje_md, 3)) %>% 
   select(
     cod,
     region,
