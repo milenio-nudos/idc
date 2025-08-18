@@ -118,7 +118,6 @@ municipal_idc_2024 <- readRDS(
     ))%>%
   arrange(desc(puntaje_md)) %>% # 8. Ordenar puntajes de mayor --> menor
   mutate(ranking = row_number()) %>% # 9. Generar ranking con todos los decimales
-#  mutate(puntaje_md = round(puntaje_md, 3)) %>% # 10. Redondear a 3 decimales
   select(
     cod,
     region,
