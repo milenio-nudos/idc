@@ -15,9 +15,6 @@ DCH$C25V <- ifelse(DCH$Población_censo_2024 == 0 | is.na(DCH$Población_censo_2
 #Estandarización
 DCH$C25V_z = 0.5 + 0.1 * (DCH$C25V - mean(DCH$C25V, na.rm = TRUE)) / sd(DCH$C25V, na.rm = TRUE)
 
-#Redonde a 3 decimales
-#DCH$C25V_z_3 <- round(DCH$C25V_z,3)
-
 ##Guardar base----
 
 DCH <- DCH %>%
