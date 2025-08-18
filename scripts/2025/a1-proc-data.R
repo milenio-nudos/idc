@@ -18,7 +18,16 @@ DCH$C25V_z = 0.5 + 0.1 * (DCH$C25V - mean(DCH$C25V, na.rm = TRUE)) / sd(DCH$C25V
 ##Guardar base----
 
 DCH <- DCH %>%
-  clean_names()
+  clean_names() %>%
+#Corrección: Se detectaron datos mal ingresados en variable idc_ranking_2024, específicamente en La Florida, Macul, y Coronel, por lo que se modificaron aquí manualmente de acuerdo al criterio que daba el ranking original, para dar continuidad a la clasificación.
+mutate(
+    idc_ranking_2024 = case_match(
+      comuna,
+      "La Florida" ~ 68,
+      "Macul"      ~ 69,
+      "Coronel"    ~ 70,
+      .default = idc_ranking_2024)) %>% 
+  mutate(idc_ranking_2024 = as.numeric(idc_ranking_2024))
 
 saveRDS(DCH, file = "data/proc_data/private_data/2025_a_conectividad.rds")
 write_xlsx(DCH,path = "data/proc_data/private_data/2025_a_conectividad.xlsx")
