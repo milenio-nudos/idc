@@ -3,7 +3,7 @@
 ##Cargar base----
 library("readxl")
 library("writexl")
-load("/2025_idc_input_a_conectividad.RData")
+load("2025_idc_input_a_conectividad.RData")
 
 ##Validación dimensión----
 
@@ -31,4 +31,5 @@ mutate(
 
 saveRDS(DCH, file = "C:/Users/crist/OneDrive/Escritorio/Pega Toro/NUDOS/Índide de Digitalización Comunal/Índice Procesado/2025_a_conectividad.rds")
 write_xlsx(DCH,path = "C:/Users/crist/OneDrive/Escritorio/Pega Toro/NUDOS/Índide de Digitalización Comunal/Índice Procesado/2025_a_conectividad.xlsx")
+
 
