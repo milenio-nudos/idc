@@ -164,7 +164,7 @@ stopifnot(nrow(idc_full) == 345)
 
 idc_full <- idc_full %>%
   mutate(
-    # Promedio de los tres índices: exigir que las 3 dimensiones tengan valores para publicar el IDC
+    # Promedio de los tres índices: exigir que los 3 subíndices tengan valores para publicar el IDC
     idc_2025 = rowMeans(select(., a_indice_2025, b_indice_2025, c_indice_2025), na.rm = FALSE),
     
     idc_ranking_2025 = if_else(!is.na(idc_2025),
@@ -237,14 +237,14 @@ labels_vector <- c(
   idc_tramo_2025 = "Tramo IDC 2025",
   
   # Índices 2024
-  a_indice_2024 = "Puntaje dimensión de conectividad 2024",
-  b_indice_2024 = "Puntaje dimensión de municipio digital 2024",
-  c_indice_2024 = "Puntaje dimensión de adopción digital educativa 2024",
+  a_indice_2024 = "Puntaje subíndice de conectividad hogar 2024",
+  b_indice_2024 = "Puntaje subíndice de municipio digital 2024",
+  c_indice_2024 = "Puntaje subíndice de educación digital 2024",
   
   # Rankings 2024
-  a_ranking_2024 = "Posición en la dimensión de conectividad 2024",
-  b_ranking_2024 = "Posición en la dimensión de municipio digital 2024",
-  c_ranking_2024 = "Posición en la dimensión de adopción digital educativa 2024",
+  a_ranking_2024 = "Posición en el subíndice de conectividad higar 2024",
+  b_ranking_2024 = "Posición en el subíndice de municipio digital 2024",
+  c_ranking_2024 = "Posición en el subíndice de educación digital 2024",
   
   # Items 2024 - a_conectividad (7)
   a_item1_2024 = "Total conexiones fijas residenciales por comuna a diciembre 2023",
@@ -313,14 +313,14 @@ labels_vector <- c(
   c_prof_item7_2024 = "[Datos SIMCE 2023 Profesores] Los computadores pueden ser utilizados por cualquiera que requiera información.",
   
   # Índices 2025
-  a_indice_2025 = "Puntaje dimensión de conectividad 2025",
-  b_indice_2025 = "Puntaje dimensión de municipio digital 2025",
-  c_indice_2025 = "Puntaje dimensión de conectividad 2025",
+  a_indice_2025 = "Puntaje subíndice de conectividad hogar 2025",
+  b_indice_2025 = "Puntaje subíndice de municipio digital 2025",
+  c_indice_2025 = "Puntaje el subíndice de educación digital 2025",
   
   # Rankings 2025
-  a_ranking_2025 = "Posición en la dimensión de conectividad 2025",
+  a_ranking_2025 = "Posición en la dimensión de conectividad hogar 2025",
   b_ranking_2025 = "Posición en la dimensión de municipio digital 2025",
-  c_ranking_2025 = "Posición en la dimensión de adopción digital educativa 2025",
+  c_ranking_2025 = "Posición en la dimensión de educación digital 2025",
   
   # Items 2025 - a_conectividad (7)
   a_item1_2025 = "Total conexiones fijas residenciales por comuna a diciembre 2024",
