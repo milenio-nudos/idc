@@ -58,8 +58,8 @@ c_long <- c_long%>%
   mutate(
     prom_4b = rowMeans(across(starts_with("c_4b_item")), na.rm = TRUE),
     prom_2m = rowMeans(across(starts_with("c_2m_item")), na.rm = TRUE),
-    prom_prof = rowMeans(across(starts_with("c_prof_item")), na.rm = TRUE),
-    c_indice_2024 = rowMeans(across(starts_with("prom_")), na.rm = TRUE),
+    prom_prof = rowMeans(across(c_prof_item1_2024:c_prof_item6_2024), na.rm = TRUE),
+    c_indice_2024 = rowMeans(across(starts_with("prom_")), na.rm = FALSE),
     c_indice_2024_z = 0.5 + 0.1 * (c_indice_2024 - mean(c_indice_2024, na.rm = TRUE)) / sd(c_indice_2024, na.rm = TRUE),
     c_indice_2024_z = round(c_indice_2024_z, 5),
     c_tramo_2024 = ntile(c_indice_2024_z, 4),

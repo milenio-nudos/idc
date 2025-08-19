@@ -3,7 +3,7 @@
 ##Cargar base----
 library("readxl")
 library("writexl")
-load("2025_idc_input_a_conectividad.RData")
+load("data/raw_data/a_conectividad/2025_idc_input_a_conectividad.RData")
 
 ##Validación dimensión----
 
@@ -29,7 +29,7 @@ mutate(
       .default = ranking_2024)) %>% 
   mutate(ranking_2024 = as.numeric(ranking_2024))
 
-saveRDS(DCH, file = "C:/Users/crist/OneDrive/Escritorio/Pega Toro/NUDOS/Índide de Digitalización Comunal/Índice Procesado/2025_a_conectividad.rds")
-write_xlsx(DCH,path = "C:/Users/crist/OneDrive/Escritorio/Pega Toro/NUDOS/Índide de Digitalización Comunal/Índice Procesado/2025_a_conectividad.xlsx")
+saveRDS(DCH, file = "data/proc_data/private_data/2025_a_conectividad.rds")
+write_xlsx(DCH,path = "data/proc_data/private_data/2025_a_conectividad.xlsx")
 
 
