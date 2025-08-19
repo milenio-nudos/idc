@@ -162,9 +162,10 @@ idc_full <- a_conectividad %>%
 # Verificar que no se pierdan filas
 stopifnot(nrow(idc_full) == 345)
 
+
 idc_full <- idc_full %>%
   mutate(
-    # Promedio de los tres índices: exigir que los 3 subíndices tengan valores para publicar el IDC
+    # Promedio de los tres índices: exigir que las 3 dimensiones tengan valores para publicar el IDC
     idc_2025 = rowMeans(select(., a_indice_2025, b_indice_2025, c_indice_2025), na.rm = FALSE),
     
     idc_ranking_2025 = if_else(!is.na(idc_2025),
@@ -172,21 +173,65 @@ idc_full <- idc_full %>%
                                NA_integer_),
     #Redondear el valor
     idc_2025 = round(idc_2025, 3),
+    idc_2024 = round(idc_2024, 3),
     a_indice_2025 = round(a_indice_2025, 3),
+    a_indice_2024 = round(a_indice_2024, 3),
+    b_indice_2025 = round(b_indice_2025, 3),
     b_indice_2024 = round(b_indice_2024, 3),
-    b_indice_2025 = round(b_indice_2025, 3)
+    c_indice_2025 = round(c_indice_2025, 3),
+    c_indice_2024 = round(c_indice_2024, 3),
   ) %>%
   mutate(
     idc_tramo_2024 = ntile(idc_2024, 4),
-    idc_tramo_2025 = ntile(idc_2025, 4)
+    idc_tramo_2025 = ntile(idc_2025, 4),
+    a_tramo_2024 = case_when(
+      a_indice_2024 >= 0.576 & a_indice_2024 <= 0.811 ~ 4L,
+      a_indice_2024 >= 0.493 & a_indice_2024 <= 0.574 ~ 3L,
+      a_indice_2024 >= 0.415 & a_indice_2024 <= 0.492 ~ 2L,
+      a_indice_2024 >= 0.341 & a_indice_2024 <= 0.414 ~ 1L,
+      TRUE ~ NA_integer_),
+    a_tramo_2025 = ntile(a_indice_2025, 4),
+    b_tramo_2025 = ntile(b_indice_2025, 4),
+    b_tramo_2024 = case_when(
+      b_indice_2024 >= 0.565 & b_indice_2024 <= 0.788  ~ 4L,
+      b_indice_2024 >= 0.491  & b_indice_2024 <= 0.562 ~ 3L,
+      b_indice_2024 >= 0.430  & b_indice_2024 <= 0.485 ~ 2L,
+      b_indice_2024 >= 0.191  & b_indice_2024 <= 0.427  ~ 1L,
+      TRUE ~ NA_integer_),
+    c_tramo_2024 = case_when(
+      c_indice_2024 >= 0.564 & c_indice_2024 <= 0.802  ~ 4L,
+      c_indice_2024 >= 0.508  & c_indice_2024 <= 0.562 ~ 3L,
+      c_indice_2024 >= 0.446  & c_indice_2024 <= 0.507 ~ 2L,
+      c_indice_2024 >= 0.090  & c_indice_2024 <= 0.444  ~ 1L,
+      TRUE ~ NA_integer_), 
+    c_tramo_2025 = ntile(c_indice_2025, 4)
   ) %>%
+  
   mutate(
     idc_tramo_2024 = factor(idc_tramo_2024,
                             levels = c(4, 3, 2, 1),
                             labels = c("Alto", "Medio alto", "Medio bajo", "Bajo")),
     idc_tramo_2025 = factor(idc_tramo_2025,
                             levels = c(4, 3, 2, 1),
-                            labels = c("Alto", "Medio alto", "Medio bajo", "Bajo"))
+                            labels = c("Alto", "Medio alto", "Medio bajo", "Bajo")),
+    a_tramo_2024 = factor(a_tramo_2024,
+                            levels = c(4, 3, 2, 1),
+                            labels = c("Alto", "Medio alto", "Medio bajo", "Bajo")),
+    a_tramo_2025 = factor(a_tramo_2025,
+                          levels = c(4, 3, 2, 1),
+                          labels = c("Alto", "Medio alto", "Medio bajo", "Bajo")),
+    b_tramo_2024 = factor(b_tramo_2024,
+                          levels = c(4, 3, 2, 1),
+                          labels = c("Alto", "Medio alto", "Medio bajo", "Bajo")),
+    b_tramo_2025 = factor(b_tramo_2025,
+                          levels = c(4, 3, 2, 1),
+                          labels = c("Alto", "Medio alto", "Medio bajo", "Bajo")),
+    c_tramo_2024 = factor(c_tramo_2024,
+                          levels = c(4, 3, 2, 1),
+                          labels = c("Alto", "Medio alto", "Medio bajo", "Bajo")),
+    c_tramo_2025 = factor(c_tramo_2025,
+                          levels = c(4, 3, 2, 1),
+                          labels = c("Alto", "Medio alto", "Medio bajo", "Bajo"))
   )%>%
   arrange(id_comuna)
 
@@ -200,14 +245,14 @@ idc_full <- idc_full%>%
     idc_2024, idc_2025, idc_ranking_2024 = ranking_2024, idc_ranking_2025, idc_tramo_2024, idc_tramo_2025,
     #Índices 2024
     a_indice_2024, b_indice_2024, c_indice_2024,
-    #Rankings 2024
-    a_ranking_2024, b_ranking_2024, c_ranking_2024,
+    #Rankings y Tramos(cuartiles) 2024
+    a_ranking_2024, a_tramo_2024, b_ranking_2024, b_tramo_2024, c_ranking_2024, c_tramo_2024,
     #Items 2024
     matches("^a_item.*_2024$"),matches("^b_item.*_2024$"),matches("^c_(4b|2m|prof)_item[0-9]+_2024$"),
     #Índices 2025
     a_indice_2025, b_indice_2025, c_indice_2025,
-    #Rankings 2025
-    a_ranking_2025, b_ranking_2025, c_ranking_2025,
+    #Rankings y Tramos(cuartiles) 2025
+    a_ranking_2025, a_tramo_2025, b_ranking_2025, b_tramo_2025, c_ranking_2025,c_tramo_2025,
     #Items 2025
     matches("^a_item.*_2025$"),matches("^b_item.*_2025$"),matches("^c_item.*_2025$")
   )
@@ -233,18 +278,23 @@ labels_vector <- c(
   idc_2025 = "Puntaje Indice de Digitalización Comunal 2025", 
   idc_ranking_2024 = "Posición ranking IDC 2024", 
   idc_ranking_2025 = "Posición ranking IDC 2025",
-  idc_tramo_2024 = "Tramo IDC 2024", 
-  idc_tramo_2025 = "Tramo IDC 2025",
+  idc_tramo_2024 = "Tramo de cuartil IDC 2024", 
+  idc_tramo_2025 = "Tramo de cuartil IDC 2025",
   
   # Índices 2024
-  a_indice_2024 = "Puntaje subíndice de conectividad hogar 2024",
-  b_indice_2024 = "Puntaje subíndice de municipio digital 2024",
-  c_indice_2024 = "Puntaje subíndice de educación digital 2024",
+  a_indice_2024 = "Puntaje dimensión de conectividad 2024",
+  b_indice_2024 = "Puntaje dimensión de municipio digital 2024",
+  c_indice_2024 = "Puntaje dimensión de adopción digital educativa 2024",
   
   # Rankings 2024
-  a_ranking_2024 = "Posición en el subíndice de conectividad higar 2024",
-  b_ranking_2024 = "Posición en el subíndice de municipio digital 2024",
-  c_ranking_2024 = "Posición en el subíndice de educación digital 2024",
+  a_ranking_2024 = "Posición en la dimensión de conectividad 2024",
+  b_ranking_2024 = "Posición en la dimensión de municipio digital 2024",
+  c_ranking_2024 = "Posición en la dimensión de adopción digital educativa 2024",
+  
+  #Tramos 2024
+  a_tramo_2024 = "Tramo cuartil Conectividad Hogar 2024",
+  b_tramo_2024 = "Tramo cuartil Municipio Digital 2024",
+  c_tramo_2024 = "Tramo cuartil Educación Digital 2024",
   
   # Items 2024 - a_conectividad (7)
   a_item1_2024 = "Total conexiones fijas residenciales por comuna a diciembre 2023",
@@ -313,14 +363,19 @@ labels_vector <- c(
   c_prof_item7_2024 = "[Datos SIMCE 2023 Profesores] Los computadores pueden ser utilizados por cualquiera que requiera información.",
   
   # Índices 2025
-  a_indice_2025 = "Puntaje subíndice de conectividad hogar 2025",
-  b_indice_2025 = "Puntaje subíndice de municipio digital 2025",
-  c_indice_2025 = "Puntaje el subíndice de educación digital 2025",
+  a_indice_2025 = "Puntaje dimensión de conectividad 2025",
+  b_indice_2025 = "Puntaje dimensión de municipio digital 2025",
+  c_indice_2025 = "Puntaje dimensión de conectividad 2025",
   
   # Rankings 2025
-  a_ranking_2025 = "Posición en la dimensión de conectividad hogar 2025",
+  a_ranking_2025 = "Posición en la dimensión de conectividad 2025",
   b_ranking_2025 = "Posición en la dimensión de municipio digital 2025",
-  c_ranking_2025 = "Posición en la dimensión de educación digital 2025",
+  c_ranking_2025 = "Posición en la dimensión de adopción digital educativa 2025",
+  
+  #Tramos 2025
+  a_tramo_2025 = "Tramo cuartil Conectividad Hogar 2025",
+  b_tramo_2025 = "Tramo cuartil Municipio Digital 2025",
+  c_tramo_2025 = "Tramo cuartil Educación Digital 2025",
   
   # Items 2025 - a_conectividad (7)
   a_item1_2025 = "Total conexiones fijas residenciales por comuna a diciembre 2024",
@@ -391,6 +446,8 @@ for (col in common) {
     attr(idc_full[[col]], "label") <- labels_vector[[col]]
   }
 }
+
+
 # Save codebook ----
 view_df(idc_full)
 
@@ -405,3 +462,47 @@ write_sav(idc_full, "data/proc_data/private_data/2025_idc_full.sav")
 saveRDS(idc_full, file = "data/proc_data/public_data/2025_idc_v2.rds")
 writexl::write_xlsx(idc_full, path = "data/proc_data/public_data/2025_idc_v2.xlsx")  # corregí extensión
 write_sav(idc_full, "data/proc_data/public_data/2025_idc_v2.sav")
+
+#Design use
+idc_para_diseno <- idc_full %>% 
+  select(
+    id_region,
+    id_comuna,
+    region,
+    comuna,
+    tipo_comuna,
+    poblacion_censo_2024,
+    idh_2023,
+    pobreza_2022,
+    idc_2025,
+    idc_ranking_2025,
+    idc_tramo_2025,
+    idc_2024,
+    idc_ranking_2024,
+    idc_tramo_2024,
+    a_indice_2025,
+    a_ranking_2025,
+    a_tramo_2025,
+    a_indice_2024,
+    a_ranking_2024,
+    a_tramo_2024,
+    b_indice_2025,
+    b_ranking_2025,
+    b_tramo_2025,
+    b_indice_2024,
+    b_ranking_2024,
+    b_tramo_2024,
+    c_indice_2025,
+    c_ranking_2025,
+    c_tramo_2025,    
+    c_indice_2024,
+    c_ranking_2024,
+    c_tramo_2024
+  )
+
+writexl::write_xlsx(
+  x = idc_para_diseno,
+  path = "data/proc_data/public_data/2025_idc_design.xlsx"
+) 
+
+
