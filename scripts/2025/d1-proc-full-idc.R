@@ -16,14 +16,14 @@ pobreza_multi_comunal <- read_excel("data/raw_data/communal_index/2022_pobreza_m
 
 # Standarize column labels ----
 
-# Conectividad
+# Conectividad Hogar (CH)
 a_conectividad <- a_conectividad %>%
   rename(id_comuna = codigo_comuna_n) %>%
   select(
     id_comuna, comuna, codigo_region, region, codigo_region, idc_2024, ranking_2024, tipo_comuna,
     # Info 2024
     poblacion_censo_2024,
-    # Índice conectividad 2024
+    # Índice CH 2024
     conectividad_2024_estandarizada_3,
     # Ranking 2024
     posicion_dimension_2024,
@@ -33,7 +33,7 @@ a_conectividad <- a_conectividad %>%
     oti_tecnologia_2023, w_tecnologia_2023,
     # Info 2025
     poblacion_proyeccion_2023_base2017,
-    # Índice conectividad 2025
+    # Índice CH 2025
     c25v_z,
     # Ítems versión 2025
     conexiones_fijas_residenciales_2024, adsl_tecnologia_2024, 
@@ -66,7 +66,7 @@ a_conectividad <- a_conectividad %>%
     id_region = codigo_region
   )
 
-# Político
+# Municipio Digital
 b_politico <- b_politico %>%
   rename(id_comuna = cod)
 
@@ -137,7 +137,7 @@ b_politico <- b_politico %>%
     select(-starts_with("mean"),-starts_with("pobla"),
            -comuna, -region)
 
-# Educativo
+# Educación Digital
   
 names(c_educacion)
 
@@ -233,6 +233,12 @@ idc_full <- idc_full %>%
                           levels = c(4, 3, 2, 1),
                           labels = c("Alto", "Medio alto", "Medio bajo", "Bajo"))
   )%>%
+  #Nota: Se modifica el tramo de dos comunas de municipio digital 2025 (manual override) por un problema de discrepancia por bordes de cuartil
+  mutate(
+    b_tramo_2025 = case_when(
+      comuna %in% c("El Carmen", "Corral")  ~ "Medio Bajo",
+      TRUE ~ b_tramo_2025)
+  ) %>% 
   arrange(id_comuna)
 
 # Order columns ----
@@ -282,14 +288,14 @@ labels_vector <- c(
   idc_tramo_2025 = "Tramo de cuartil IDC 2025",
   
   # Índices 2024
-  a_indice_2024 = "Puntaje dimensión de conectividad 2024",
-  b_indice_2024 = "Puntaje dimensión de municipio digital 2024",
-  c_indice_2024 = "Puntaje dimensión de adopción digital educativa 2024",
+  a_indice_2024 = "Puntaje dimensión de Conectividad Hogar 2024",
+  b_indice_2024 = "Puntaje dimensión de Municipio Digital 2024",
+  c_indice_2024 = "Puntaje dimensión de Educación Digital 2024",
   
   # Rankings 2024
-  a_ranking_2024 = "Posición en la dimensión de conectividad 2024",
-  b_ranking_2024 = "Posición en la dimensión de municipio digital 2024",
-  c_ranking_2024 = "Posición en la dimensión de adopción digital educativa 2024",
+  a_ranking_2024 = "Posición en la dimensión de Conectividad Hogar 2024",
+  b_ranking_2024 = "Posición en la dimensión de Municipio Digital 2024",
+  c_ranking_2024 = "Posición en la dimensión de Educación Digital 2024",
   
   #Tramos 2024
   a_tramo_2024 = "Tramo cuartil Conectividad Hogar 2024",
@@ -363,14 +369,14 @@ labels_vector <- c(
   c_prof_item7_2024 = "[Datos SIMCE 2023 Profesores] Los computadores pueden ser utilizados por cualquiera que requiera información.",
   
   # Índices 2025
-  a_indice_2025 = "Puntaje dimensión de conectividad 2025",
-  b_indice_2025 = "Puntaje dimensión de municipio digital 2025",
-  c_indice_2025 = "Puntaje dimensión de conectividad 2025",
+  a_indice_2025 = "Puntaje dimensión de Conectividad Hogar 2025",
+  b_indice_2025 = "Puntaje dimensión de Municipio Digital 2025",
+  c_indice_2025 = "Puntaje dimensión de Educación Digital 2025",
   
   # Rankings 2025
-  a_ranking_2025 = "Posición en la dimensión de conectividad 2025",
-  b_ranking_2025 = "Posición en la dimensión de municipio digital 2025",
-  c_ranking_2025 = "Posición en la dimensión de adopción digital educativa 2025",
+  a_ranking_2025 = "Posición en la dimensión de Conectividad Hogar 2025",
+  b_ranking_2025 = "Posición en la dimensión de Municipio Digital 2025",
+  c_ranking_2025 = "Posición en la dimensión de Educación Digital 2025",
   
   #Tramos 2025
   a_tramo_2025 = "Tramo cuartil Conectividad Hogar 2025",
