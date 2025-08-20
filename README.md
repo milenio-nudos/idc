@@ -95,4 +95,4 @@ Generación de reportes: Una vez procesados, los datos se analizan en los report
 
 [Versión excel](https://github.com/milenio-nudos/idc/blob/main/data/proc_data/public_data/2025_idc_v2.xlsx)
 [Versión spss](https://github.com/milenio-nudos/idc/blob/main/data/proc_data/public_data/2025_idc_v2.sav)
-[Versión rds] (https://github.com/milenio-nudos/idc/blob/main/data/proc_data/public_data/2025_idc_v2.rds)
+[Versión rds](https://github.com/milenio-nudos/idc/blob/main/data/proc_data/public_data/2025_idc_v2.rds)
