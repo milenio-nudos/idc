@@ -1,0 +1,482 @@
+---
+title: "Visualizaciones informe IDC 2025"
+format: html
+editor: visual
+---
+
+```{r}
+
+library(tidyverse)
+library(haven)
+library(janitor)
+library(sf)
+library(ggalluvial)
+library(ggrepel)
+library(ggrepel)
+library(scales)
+library(gt)
+
+idc_final <- readRDS("data/proc_data/public_data/2025_idc_v2.rds") %>% 
+  dplyr::select(
+    id_region,
+    id_comuna,
+    region,
+    comuna,
+    tipo_comuna,
+    poblacion_censo_2024,
+    idh_2023,
+    pobreza_2022,
+    idc_2025,
+    idc_ranking_2025,
+    idc_tramo_2025,
+    idc_2024,
+    idc_ranking_2024,
+    idc_tramo_2024,
+    a_indice_2025,
+    a_ranking_2025,
+    a_tramo_2025,
+    a_indice_2024,
+    a_ranking_2024,
+    a_tramo_2024,
+    b_indice_2025,
+    b_ranking_2025,
+    b_tramo_2025,
+    b_indice_2024,
+    b_ranking_2024,
+    b_tramo_2024,
+    c_indice_2025,
+    c_ranking_2025,
+    c_tramo_2025,    
+    c_indice_2024,
+    c_ranking_2024,
+    c_tramo_2024
+  )  %>%
+  pivot_longer(
+    cols = c(
+      matches("_(2024|2025)$"),     
+      -any_of(c(
+        "id_region", 
+        "id_comuna", 
+        "region", 
+        "comuna", 
+        "tipo_comuna", 
+        "poblacion_censo_2024", 
+        "idh_2023", 
+        "pobreza_2022"))
+      ),
+    names_to = c(".value", "year"), 
+    names_pattern = "^(.*)_(\\d{4})$", 
+    values_drop_na = TRUE) 
+
+
+```
+
+# Puntaje IDC por comuna y año
+
+```{r}
+
+idc_final %>% 
+  arrange(year, idc) %>%
+  group_by(year) %>%
+  mutate(comuna_ordenada = row_number()) %>% 
+  ggplot(aes(
+    x = comuna_ordenada, 
+    y = idc, 
+    color = factor(year))) + 
+  geom_point(size = 1) + 
+  scale_color_manual(values = c(
+    `2024` = "#5E585C", 
+    `2025` = "#E83755")) + 
+  labs(
+    x = "Comunas ordenadas de menor a mayor puntaje IDC", 
+    y = "Puntaje IDC", 
+    color = "Año" ) + 
+  theme_classic(base_size = 11) + 
+  theme(
+    axis.text.x = element_blank(), 
+    axis.ticks.x = element_blank(),
+    legend.position = "none"
+    ) + 
+  facet_wrap(~ year)
+```
+
+# Mapa con medias regionales
+
+```{r, fig.width=7, fig.height=12, dpi=300, out.width='100%'}
+
+media_regional_2025_idc <- idc_final %>% 
+  filter(year == "2025") %>% 
+  select(id_region, region, idc) %>% 
+  mutate(
+    region = case_when(
+      region == "Antofagasta" ~ "Región de Antofagasta",
+      region == "La Araucanía" ~ "Región de La Araucanía",
+      region == "Arica y Parinacota" ~ "Región de Arica y Parinacota",
+      region == "Atacama" ~ "Región de Atacama",
+      region == "Aysén del General Carlos Ibáñez del Campo" ~ "Región de Aysén",
+      region == "Biobío" ~ "Región del Biobío",
+      region == "Coquimbo" ~ "Región de Coquimbo",
+      region == "Los Lagos" ~ "Región de Los Lagos",
+      region == "Los Ríos" ~ "Región de Los Ríos",
+      region == "Magallanes y de la Antártica Chilena" ~ "Región de Magallanes",
+      region == "Maule" ~ "Región del Maule",
+      region == "Metropolitana de Santiago" ~ "Región Metropolitana",
+      region == "Ñuble" ~ "Región de Ñuble",
+      region == "Libertador General Bernardo O'Higgins" ~ "Región de O'Higgins",
+      region == "Tarapacá" ~ "Región de Tarapacá",
+      region == "Valparaíso" ~ "Región de Valparaíso",
+      TRUE ~ region )) %>% 
+  group_by(region) %>% 
+  summarize(media_regional = mean(idc, na.rm = TRUE)) %>% 
+  ungroup() 
+
+
+comunas_sf <- st_read("plots_tables_images/comunas/comunas.shp") %>% 
+  clean_names() %>% 
+  st_make_valid() %>% 
+  st_transform(4326) %>% 
+  filter(
+    cod_comuna != 0,
+    !comuna %in% c("Isla de Pascua", "Juan Fernández")
+    ) %>% 
+  mutate(
+    region = case_when(
+      region == "Región del Libertador Bernardo O'Higgins" ~ "Región de O'Higgins",
+      region == "Región de La Araucanía" ~ "Región de La Araucanía",
+      region == "Región Metropolitana de Santiago" ~ "Región Metropolitana",
+      region == "Región de Magallanes y Antártica Chilena" ~ "Región de Magallanes",
+      region == "Región del Bío-Bío" ~ "Región del Biobío",
+      region == "Región de Aysén del Gral.Ibañez del Campo" ~ "Región de Aysén",
+      TRUE ~ region
+    )
+  ) %>% 
+  select(region, geometry)
+
+#all(media_regional_2025_idc$region %in% comunas_sf$region) 
+#setdiff(comunas_sf$region,media_regional_2025_idc$region)
+
+
+regiones_sf <- comunas_sf %>% 
+  group_by(region) %>% 
+  summarize(geometry = st_union(geometry)) %>% 
+  ungroup()
+
+
+media_regional_2025_idc <- media_regional_2025_idc %>% 
+  left_join(regiones_sf, by = "region")
+
+
+media_regional_2025_idc <- st_as_sf(media_regional_2025_idc)
+
+pad_left <- 12  
+
+ggplot(media_regional_2025_idc) +
+  geom_sf(
+    aes(fill = media_regional), 
+    color = "white", linewidth = 0.25) +
+  scale_fill_gradient(
+    low = "#FCE6EA", 
+    high = "#E83755", 
+    name = "Promedio Regional\nIDC 2025") +
+  coord_sf(
+    xlim = with(as.list(st_bbox(media_regional_2025_idc)), c(xmin - pad_left, xmax)),
+    ylim = with(as.list(st_bbox(media_regional_2025_idc)), c(ymin, ymax)),
+    expand = FALSE
+  ) +
+  geom_text_repel(
+    data = {
+      cbind(
+        st_drop_geometry(media_regional_2025_idc["region"]),
+        as.data.frame(st_coordinates(st_point_on_surface(media_regional_2025_idc)))
+      )
+    },
+    aes(x = X, y = Y, label = region),
+    xlim = with(as.list(st_bbox(media_regional_2025_idc)),
+                c(xmin - pad_left + 0.05, xmin - 0.08)),
+    direction = "y",
+    hjust = 1,
+    min.segment.length = 0,
+    box.padding   = 0.25,
+    point.padding = 0.1,
+    segment.color = "grey35",
+    segment.size  = 0.3,
+    size = 3.2,
+    seed = 123,
+    max.overlaps = Inf
+  ) +
+  theme_void(base_size = 11) 
+```
+
+# Gráfico cruce entre IDC 2025 e IDH
+
+```{r}
+
+ggplot(
+  idc_final %>% filter(year == "2025"),
+  aes(
+    x = idh_2023, 
+    y = idc)) +  
+  geom_point(
+    color = "#E83755", 
+    alpha = 0.7, 
+    size = 2) +
+  labs(
+    x = "Índice de Desarrollo Humano Comunal (2023)",
+    y = "Índice de Digitalización Comunal (2025)"
+    ) +
+  theme_classic(base_size = 11)
+```
+
+# Flujo de tramos Índice de Digitalización Comunal: 2024 vs 2025
+
+```{r}
+
+idc_final_para_tramos <- readRDS("data/proc_data/public_data/2025_idc_v2.rds") %>% 
+  dplyr::select(
+    id_region,
+    id_comuna,
+    region,
+    comuna,
+    tipo_comuna,
+    poblacion_censo_2024,
+    idh_2023,
+    pobreza_2022,
+    idc_2025,
+    idc_ranking_2025,
+    idc_tramo_2025,
+    idc_2024,
+    idc_ranking_2024,
+    idc_tramo_2024,
+    a_indice_2025,
+    a_ranking_2025,
+    a_tramo_2025,
+    a_indice_2024,
+    a_ranking_2024,
+    a_tramo_2024,
+    b_indice_2025,
+    b_ranking_2025,
+    b_tramo_2025,
+    b_indice_2024,
+    b_ranking_2024,
+    b_tramo_2024,
+    c_indice_2025,
+    c_ranking_2025,
+    c_tramo_2025,    
+    c_indice_2024,
+    c_ranking_2024,
+    c_tramo_2024
+  ) 
+
+tabla_tramos_idc <- idc_final_para_tramos %>%
+  count(idc_tramo_2024, idc_tramo_2025) %>%
+  group_by(idc_tramo_2024) %>%
+  mutate(Porcentaje = n / sum(n)) %>%
+  ungroup() 
+
+gt(tabla_tramos_idc) %>%
+  fmt_percent(Porcentaje, decimals = 1)
+```
+
+```{r}
+
+niveles <- c("Alto","Medio alto","Medio bajo","Bajo")
+
+pal_tramos <- c(
+  "Alto"        = "#E83755",  
+  "Medio alto"  = "#7F797E",  
+  "Medio bajo"  = "#D65A6D", 
+  "Bajo"        = "#5E585C"   
+)
+
+flujo_idc <- idc_final %>%
+  select(id_comuna, comuna, year, idc_tramo) %>%
+  distinct(id_comuna, year, .keep_all = TRUE) %>%
+  pivot_wider(names_from = year, values_from = idc_tramo) %>%
+  drop_na(`2024`, `2025`) %>%
+  mutate(
+    `2024` = factor(as.character(`2024`), levels = niveles),
+    `2025` = factor(as.character(`2025`), levels = niveles)
+  ) %>%
+  count(`2024`, `2025`, name = "n")
+
+
+ggplot(flujo_idc, aes(axis1 = `2025`, axis2 = `2024`, y = n)) +
+  geom_alluvium(aes(fill = `2024`), width = 1/12, alpha = 0.9) +
+  geom_stratum(width = 1/12, color = "grey30", fill = "white") +
+  geom_text(stat = "stratum", aes(label = after_stat(stratum)), size = 3.2) +
+  scale_fill_manual(values = pal_tramos, guide = "none") +   
+  scale_x_discrete(
+    limits = c("Tramo 2025", "Tramo 2024"),                 
+    labels = c("Año 2025", "Año 2024"),
+    expand = c(.05, .1)
+  ) +
+  coord_flip() +                                            
+  labs(y = NULL) +
+  theme_classic(base_size = 11) +
+  theme(
+    axis.line.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.line.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.text.x = element_blank()
+    )
+
+
+
+```
+
+# Flujo de Tramos Subíndice Conectividad Hogar: 2024 vs 2025
+
+```{r}
+tabla_tramos_ch <- idc_final_para_tramos %>%
+  count(a_tramo_2024, a_tramo_2025) %>%
+  group_by(a_tramo_2024) %>%
+  mutate(Porcentaje = n / sum(n)) %>%
+  ungroup() 
+
+gt(tabla_tramos_ch) %>%
+  fmt_percent(Porcentaje, decimals = 1)
+
+
+```
+
+```{r}
+
+
+flujo_ch <- idc_final %>%
+  select(id_comuna, comuna, year, a_tramo) %>%
+  distinct(id_comuna, year, .keep_all = TRUE) %>%
+  pivot_wider(names_from = year, values_from = a_tramo) %>%
+  drop_na(`2024`, `2025`) %>%
+  mutate(
+    `2024` = factor(as.character(`2024`), levels = niveles),
+    `2025` = factor(as.character(`2025`), levels = niveles)
+  ) %>%
+  count(`2024`, `2025`, name = "n")
+
+
+ggplot(flujo_ch, aes(axis1 = `2025`, axis2 = `2024`, y = n)) +
+  geom_alluvium(aes(fill = `2024`), width = 1/12, alpha = 0.9) +
+  geom_stratum(width = 1/12, color = "grey30", fill = "white") +
+  geom_text(stat = "stratum", aes(label = after_stat(stratum)), size = 3.2) +
+  scale_fill_manual(values = pal_tramos, guide = "none") +   
+  scale_x_discrete(
+    limits = c("Tramo 2025", "Tramo 2024"),                 
+    labels = c("Año 2025", "Año 2024"),
+    expand = c(.05, .1)
+  ) +
+  coord_flip() +                                            
+  labs(y = NULL) +
+  theme_classic(base_size = 11) +
+  theme(
+    axis.line.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.line.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.text.x = element_blank()
+    )
+
+```
+
+# Flujo de Tramos Subíndice Municipio Digital: 2024 vs 2025
+
+```{r}
+tabla_tramos_md <- idc_final_para_tramos %>%
+  count(b_tramo_2024, b_tramo_2025) %>%
+  group_by(b_tramo_2024) %>%
+  mutate(Porcentaje = n / sum(n)) %>%
+  ungroup() 
+
+gt(tabla_tramos_md) %>%
+  fmt_percent(Porcentaje, decimals = 1)
+
+
+```
+
+```{r}
+flujo_md <- idc_final %>%
+  select(id_comuna, comuna, year, b_tramo) %>%
+  distinct(id_comuna, year, .keep_all = TRUE) %>%
+  pivot_wider(names_from = year, values_from = b_tramo) %>%
+  drop_na(`2024`, `2025`) %>%
+  mutate(
+    `2024` = factor(as.character(`2024`), levels = niveles),
+    `2025` = factor(as.character(`2025`), levels = niveles)
+  ) %>%
+  count(`2024`, `2025`, name = "n")
+
+
+ggplot(flujo_md, aes(axis1 = `2025`, axis2 = `2024`, y = n)) +
+  geom_alluvium(aes(fill = `2024`), width = 1/12, alpha = 0.9) +
+  geom_stratum(width = 1/12, color = "grey30", fill = "white") +
+  geom_text(stat = "stratum", aes(label = after_stat(stratum)), size = 3.2) +
+  scale_fill_manual(values = pal_tramos, guide = "none") +   
+  scale_x_discrete(
+    limits = c("Tramo 2025", "Tramo 2024"),                 
+    labels = c("Año 2025", "Año 2024"),
+    expand = c(.05, .1)
+  ) +
+  coord_flip() +                                            
+  labs(y = NULL) +
+  theme_classic(base_size = 11) +
+  theme(
+    axis.line.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.line.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.text.x = element_blank()
+    )
+```
+
+# Flujo de Tramos Subíndice Educación Digital: 2024 vs 2025
+
+```{r}
+tabla_tramos_ed <- idc_final_para_tramos %>%
+  count(c_tramo_2024, c_tramo_2025) %>%
+  group_by(c_tramo_2024) %>%
+  mutate(Porcentaje = n / sum(n)) %>%
+  ungroup() 
+
+gt(tabla_tramos_ed) %>%
+  fmt_percent(Porcentaje, decimals = 1)
+
+writexl::write_xlsx(
+  x = tabla_tramos_ed,
+  path = "C:/Users/crist/OneDrive/Escritorio/traslacion_tramos_ed.xlsx" 
+)
+```
+
+```{r}
+flujo_ed <- idc_final %>%
+  select(id_comuna, comuna, year, c_tramo) %>%
+  distinct(id_comuna, year, .keep_all = TRUE) %>%
+  pivot_wider(names_from = year, values_from = c_tramo) %>%
+  drop_na(`2024`, `2025`) %>%
+  mutate(
+    `2024` = factor(as.character(`2024`), levels = niveles),
+    `2025` = factor(as.character(`2025`), levels = niveles)
+  ) %>%
+  count(`2024`, `2025`, name = "n")
+
+
+ggplot(flujo_md, aes(axis1 = `2025`, axis2 = `2024`, y = n)) +
+  geom_alluvium(aes(fill = `2024`), width = 1/12, alpha = 0.9) +
+  geom_stratum(width = 1/12, color = "grey30", fill = "white") +
+  geom_text(stat = "stratum", aes(label = after_stat(stratum)), size = 3.2) +
+  scale_fill_manual(values = pal_tramos, guide = "none") +   
+  scale_x_discrete(
+    limits = c("Tramo 2025", "Tramo 2024"),                 
+    labels = c("Año 2025", "Año 2024"),
+    expand = c(.05, .1)
+  ) +
+  coord_flip() +                                            
+  labs(y = NULL) +
+  theme_classic(base_size = 11) +
+  theme(
+    axis.line.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.line.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.text.x = element_blank()
+    )
+```
