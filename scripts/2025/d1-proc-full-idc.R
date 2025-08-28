@@ -236,7 +236,7 @@ idc_full <- idc_full %>%
   #Nota: Se modifica el tramo de dos comunas de municipio digital 2025 (manual override) por un problema de discrepancia por bordes de cuartil
   mutate(
     b_tramo_2025 = case_when(
-      comuna %in% c("El Carmen", "Corral")  ~ "Medio Bajo",
+      comuna %in% c("El Carmen", "Corral")  ~ "Medio bajo",
       TRUE ~ b_tramo_2025)
   ) %>% 
   arrange(id_comuna)
