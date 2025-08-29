@@ -4,7 +4,7 @@ format: html
 editor: visual
 ---
 
-# Carga de paquetes y objeto principal 
+# Carga de paquetes y objeto principal
 
 ```{r}
 library(tidyverse)
@@ -76,6 +76,7 @@ idc_final <- readRDS("data/proc_data/public_data/2025_idc_v2.rds") %>%
 # Puntaje IDC por comuna y año
 
 ```{r}
+#| label: puntaje_idc_por_comuna_y_ano
 idc_final %>% 
   arrange(year, idc) %>%
   group_by(year) %>%
@@ -103,7 +104,8 @@ idc_final %>%
 
 # Mapa con medias regionales
 
-```{r, fig.width=7, fig.height=12, dpi=300, out.width='100%'}
+```{r fig.height=12, fig.width=7, dpi=300, out.width='100%'}
+#| label: mapa_con_medias_regionales
 
 setwd(here::here())
 
@@ -214,6 +216,7 @@ ggplot(media_regional_2025_idc) +
 # Gráfico cruce entre IDC 2025 e IDH
 
 ```{r}
+#| label: cruce_idc2025_idh
 ggplot(
   idc_final %>% filter(year == "2025"),
   aes(
@@ -233,6 +236,7 @@ ggplot(
 # Flujo de tramos Índice de Digitalización Comunal: 2024 vs 2025
 
 ```{r}
+#| label: tabla_flujo_tramos_IDC_2024_2025
 setwd(here::here())
 idc_final_para_tramos <- readRDS("data/proc_data/public_data/2025_idc_v2.rds") %>% 
   dplyr::select(
@@ -281,6 +285,7 @@ gt(tabla_tramos_idc) %>%
 ```
 
 ```{r}
+#| label: sankey_flujo_tramos_IDC_2024_2025
 niveles <- c("Alto","Medio alto","Medio bajo","Bajo")
 
 pal_tramos <- c(
@@ -328,6 +333,7 @@ ggplot(flujo_idc, aes(axis1 = `2025`, axis2 = `2024`, y = n)) +
 # Flujo de Tramos Subíndice Conectividad Hogar: 2024 vs 2025
 
 ```{r}
+#| label: tabla_flujo_tramos_CH_2024_2025
 tabla_tramos_ch <- idc_final_para_tramos %>%
   count(a_tramo_2024, a_tramo_2025) %>%
   group_by(a_tramo_2024) %>%
@@ -340,7 +346,7 @@ gt(tabla_tramos_ch) %>%
 ```
 
 ```{r}
-
+#| label: sankey_flujo_tramos_CH_2024_2025
 flujo_ch <- idc_final %>%
   select(id_comuna, comuna, year, a_tramo) %>%
   distinct(id_comuna, year, .keep_all = TRUE) %>%
@@ -379,6 +385,7 @@ ggplot(flujo_ch, aes(axis1 = `2025`, axis2 = `2024`, y = n)) +
 # Flujo de Tramos Subíndice Municipio Digital: 2024 vs 2025
 
 ```{r}
+#| label: tabla_flujo_tramos_MD_2024_2025
 tabla_tramos_md <- idc_final_para_tramos %>%
   count(b_tramo_2024, b_tramo_2025) %>%
   group_by(b_tramo_2024) %>%
@@ -390,6 +397,7 @@ gt(tabla_tramos_md) %>%
 ```
 
 ```{r}
+#| label: sankey_flujo_tramos_MD_2024_2025
 flujo_md <- idc_final %>%
   select(id_comuna, comuna, year, b_tramo) %>%
   distinct(id_comuna, year, .keep_all = TRUE) %>%
@@ -427,6 +435,8 @@ ggplot(flujo_md, aes(axis1 = `2025`, axis2 = `2024`, y = n)) +
 # Flujo de Tramos Subíndice Educación Digital: 2024 vs 2025
 
 ```{r}
+
+#| label: tabla_flujo_tramos_ED_2024_2025
 tabla_tramos_ed <- idc_final_para_tramos %>%
   count(c_tramo_2024, c_tramo_2025) %>%
   group_by(c_tramo_2024) %>%
@@ -439,6 +449,8 @@ gt(tabla_tramos_ed) %>%
 ```
 
 ```{r}
+
+#| label: sankey_flujo_tramos_ED_2024_2025
 
 flujo_ed <- idc_final %>%
   select(id_comuna, comuna, year, c_tramo) %>%
