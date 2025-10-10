@@ -55,8 +55,6 @@ idc_lpa_2025 <- idc_lpa_2025 %>%
 ```
 # Comparar soluciones
 
-Al comparar los modelos de 1 a 6 clases, se observa que el ajuste mejora progresivamente hasta el modelo de 4 clases, donde el **BIC alcanza su valor más bajo (2486.99)**, indicando el mejor equilibrio entre ajuste y parsimonia. Aunque el AIC y otros criterios (como el KIC o SABIC) siguen disminuyendo levemente en los modelos de 5 y 6 clases, las diferencias son marginales y acompañadas de una **pérdida de entropía** (de 0.86 en 4 clases a 0.82 en 6 clases), lo que sugiere que la clasificación se vuelve menos nítida. Además, en los modelos de 5 y 6 clases aparecen grupos muy pequeños (con solo 8–10% de las comunas), lo que indica posibles clases artificiales producto del sobreajuste. En contraste, el modelo de **4 clases** mantiene una entropía alta (0.86), una distribución de tamaños de clase equilibrada y una mejora sustantiva de verosimilitud respecto al de 3 clases (BLRT p < 0.01). Por tanto, el modelo de **cuatro perfiles comunales de digitalización** ofrece la mejor combinación de ajuste estadístico, claridad clasificatoria y relevancia sustantiva para la interpretación territorial.
-
 ```{r probar modelos}
 
 #LPA estimation
@@ -284,15 +282,25 @@ tabla_num_4 <- idc_lpa %>%
   ) %>%
   pivot_longer(cols = c(idh, pobreza, poblacion), names_to = "variable", values_to = "promedio")
 
-tabla_num_4 %>% 
-  mutate(promedio = round(promedio, 2))%>%
-  arrange(variable) %>%
-  kable()
+ggplot(tabla_num_4, aes(x = class_fourth_2025, y = promedio, color = variable, group = variable)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 3) +
+  facet_wrap(~ variable, scales = "free_y") +  # eje independiente por variable
+  scale_color_brewer(palette = "Set1") +
+  labs(
+    title = "Promedio de población, desarrollo humano y pobreza por clase (4 clases)",
+    x = "Clase latente",
+    y = "Promedio",
+    color = "Variable"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "none")  # opcional, porque cada panel ya está etiquetado
+
 
 ```
 
 ```{r}
-# Promedios por clase (4 clases)
+# Promedios por clase (6 clases)
 tabla_num_6 <- idc_lpa %>%
   select(class_six_2025, idh_2023, pobreza_2022, poblacion_censo_2024) %>%
   group_by(class_six_2025) %>%
@@ -304,10 +312,19 @@ tabla_num_6 <- idc_lpa %>%
   ) %>%
   pivot_longer(cols = c(idh, pobreza, poblacion), names_to = "variable", values_to = "promedio")
 
-tabla_num_6 %>% 
-  mutate(promedio = round(promedio, 2))%>%
-  arrange(variable) %>%
-  kable()
-```
+ggplot(tabla_num_6, aes(x = class_six_2025, y = promedio, color = variable, group = variable)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 3) +
+  facet_wrap(~ variable, scales = "free_y") +
+  scale_color_brewer(palette = "Set1") +
+  labs(
+    title = "Promedio de población, desarrollo humano y pobreza por clase (6 clases)",
+    x = "Clase latente",
+    y = "Promedio",
+    color = "Variable"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "none")
 
+```
 
