@@ -93,6 +93,8 @@ Generación de reportes: Una vez procesados, los datos se analizan en los report
 
 [Visualizaciones IDC 2025](https://milenio-nudos.github.io/idc/reports/2025-d-idc-report.html)
 
+[Análisis clase latente](https://milenio-nudos.github.io/idc/reports/latent-analysis.html)
+
 ### Descargar Base final
 
 [Versión excel](https://github.com/milenio-nudos/idc/blob/main/data/proc_data/public_data/2025_idc_v2.xlsx)

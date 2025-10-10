@@ -58,9 +58,15 @@ idc_lpa_2025 <- idc_lpa_2025 %>%
 ```{r probar modelos}
 
 #LPA estimation
-results_lpa_2025 <- idc_lpa_2025 %>%
-  select(a_tramo_2025_num, b_tramo_2025_num, c_tramo_2025_num) %>%
-  estimate_profiles(1:6,  # número de clases a probar (puedes ajustar)
+results_lpa_2025 <- idc %>%
+  select(a_indice_2025, b_indice_2025, c_indice_2025) %>%
+  filter(complete.cases(a_indice_2025, b_indice_2025, c_indice_2025)) %>%
+  mutate(
+    a_indice_2025 = as.numeric(a_indice_2025),
+    b_indice_2025 = as.numeric(b_indice_2025),
+    c_indice_2025 = as.numeric(c_indice_2025)
+  )  %>%
+  estimate_profiles(1:10,  # número de clases a probar (puedes ajustar)
                     models = 1) %>%  # modelo 1 = varianzas iguales, sin covarianzas
   compare_solutions(statistics = c("AIC", "BIC", "Entropy"))
 
@@ -71,10 +77,16 @@ results_lpa_2025
 ### Visualizar perfiles
 
 ```{r}
-idc_lpa_2025%>%
-  select(a_tramo_2025_num, b_tramo_2025_num, c_tramo_2025_num) %>%
-  estimate_profiles(1:6,  # número de clases a probar (puedes ajustar)
-                    models = 1)%>%
+idc%>%
+  select(a_indice_2025, b_indice_2025, c_indice_2025) %>%
+  filter(complete.cases(a_indice_2025, b_indice_2025, c_indice_2025)) %>%
+  mutate(
+    a_indice_2025 = as.numeric(a_indice_2025),
+    b_indice_2025 = as.numeric(b_indice_2025),
+    c_indice_2025 = as.numeric(c_indice_2025)
+  )%>%
+  estimate_profiles(1:10,  # número de clases a probar (puedes ajustar)
+                    models = 1) %>%
   plot_profiles()
 
 ```
