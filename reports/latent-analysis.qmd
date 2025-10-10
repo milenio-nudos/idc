@@ -1,0 +1,313 @@
+---
+title: "latent-analysis"
+format: html
+---
+
+# Preparación
+```{r}
+idc <- readRDS(here::here("data/proc_data/public_data/2025_idc_v2.rds"))
+
+
+pacman::p_load(
+  #Procesamiento de datos 
+  tidyverse,
+  
+  #LPA
+  tidyLPA,
+  
+  #Visualizaciones
+  ggplot2,
+  
+  #Markdown
+  knitr, kableExtra
+  )
+
+paleta_colores <- c("#7F797E", "#E83755", "#5E585C")
+
+
+idc <- idc %>%
+  mutate(
+    comuna = haven::as_factor(comuna),       # comuna como factor (nombres)
+    region = haven::as_factor(region),       # región como factor (etiquetas)
+    idc_2025 = as.numeric(haven::zap_labels(idc_2025)) # asegurar numérico limpio
+  )
+
+
+```
+
+```{r}
+#Select range variables
+idc_lpa_2025 <- idc %>%
+  dplyr::select(a_tramo_2025, b_tramo_2025, c_tramo_2025)%>%
+  filter(complete.cases(a_tramo_2025, b_tramo_2025, c_tramo_2025))
+  
+
+#Convertir etiquetas a numéricos para correr el modelo
+idc_lpa_2025 <- idc_lpa_2025 %>%
+  mutate(
+    a_tramo_2025_num = as.numeric(factor(a_tramo_2025, 
+                                         levels = c("Bajo", "Medio bajo", "Medio alto", "Alto"))),
+    b_tramo_2025_num = as.numeric(factor(b_tramo_2025, 
+                                         levels = c("Bajo", "Medio bajo", "Medio alto", "Alto"))),
+    c_tramo_2025_num = as.numeric(factor(c_tramo_2025, 
+                                         levels = c("Bajo", "Medio bajo", "Medio alto", "Alto")))
+  )
+```
+# Comparar soluciones
+
+Al comparar los modelos de 1 a 6 clases, se observa que el ajuste mejora progresivamente hasta el modelo de 4 clases, donde el **BIC alcanza su valor más bajo (2486.99)**, indicando el mejor equilibrio entre ajuste y parsimonia. Aunque el AIC y otros criterios (como el KIC o SABIC) siguen disminuyendo levemente en los modelos de 5 y 6 clases, las diferencias son marginales y acompañadas de una **pérdida de entropía** (de 0.86 en 4 clases a 0.82 en 6 clases), lo que sugiere que la clasificación se vuelve menos nítida. Además, en los modelos de 5 y 6 clases aparecen grupos muy pequeños (con solo 8–10% de las comunas), lo que indica posibles clases artificiales producto del sobreajuste. En contraste, el modelo de **4 clases** mantiene una entropía alta (0.86), una distribución de tamaños de clase equilibrada y una mejora sustantiva de verosimilitud respecto al de 3 clases (BLRT p < 0.01). Por tanto, el modelo de **cuatro perfiles comunales de digitalización** ofrece la mejor combinación de ajuste estadístico, claridad clasificatoria y relevancia sustantiva para la interpretación territorial.
+
+```{r probar modelos}
+
+#LPA estimation
+results_lpa_2025 <- idc_lpa_2025 %>%
+  select(a_tramo_2025_num, b_tramo_2025_num, c_tramo_2025_num) %>%
+  estimate_profiles(1:6,  # número de clases a probar (puedes ajustar)
+                    models = 1) %>%  # modelo 1 = varianzas iguales, sin covarianzas
+  compare_solutions(statistics = c("AIC", "BIC", "Entropy"))
+
+results_lpa_2025
+
+```
+
+### Visualizar perfiles
+
+```{r}
+idc_lpa_2025%>%
+  select(a_tramo_2025_num, b_tramo_2025_num, c_tramo_2025_num) %>%
+  estimate_profiles(1:6,  # número de clases a probar (puedes ajustar)
+                    models = 1)%>%
+  plot_profiles()
+
+```
+# Descriptivos
+
+```{r unir bases}
+idc_profile_2025_4 <- idc_lpa_2025%>%
+  select(a_tramo_2025_num, b_tramo_2025_num, c_tramo_2025_num)%>%
+  single_imputation()%>%
+  estimate_profiles(4, models = 1)%>%
+  get_data()
+
+idc_lpa <- idc %>% 
+  filter(complete.cases(a_tramo_2025, b_tramo_2025, c_tramo_2025)) %>%
+  bind_cols(idc_profile_2025_4 %>% select(class_fourth_2025=Class))
+
+idc_profile_2025_6 <- idc_lpa_2025%>%
+  select(a_tramo_2025_num, b_tramo_2025_num, c_tramo_2025_num)%>%
+  single_imputation()%>%
+  estimate_profiles(6, models = 1)%>%
+  get_data()
+
+idc_lpa <- idc_lpa %>% 
+  bind_cols(idc_profile_2025_6 %>% select(class_six_2025=Class))%>%
+  mutate(
+  Conectividad=a_tramo_2025,
+  Municipio=b_tramo_2025,
+  Educacion=c_tramo_2025
+)
+```
+
+### Cantidad de comunas por clase
+```{r}
+idc_lpa %>%
+  summarise(
+    class_fourth_2025 = as.factor(class_fourth_2025),
+    class_six_2025 = as.factor(class_six_2025)
+  ) %>%
+  pivot_longer(
+    cols = starts_with("class_"),
+    names_to = "modelo",
+    values_to = "clase"
+  ) %>%
+  count(modelo, clase) %>%
+  ggplot(aes(x = clase, y = n, fill = clase)) +
+  geom_col() +
+  geom_text(aes(label = n), vjust = -0.4, size = 4) +
+  facet_wrap(~modelo, scales = "free_x") +
+  scale_fill_brewer(palette = "Pastel1") +
+  labs(
+    title = "Comparación de distribución comunal por número de clases latentes",
+    x = "Clase latente",
+    y = "Número de comunas",
+    fill = "Clase"
+  ) +
+  theme_minimal(base_size = 14)
+
+```
+
+### Frecuencia por subdimensiones
+```{r}
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+
+# Definir los niveles en orden deseado
+orden_tramos <- c("Bajo", "Medio bajo", "Medio alto", "Alto")
+
+# Reorganizar la base
+tabla_4 <- idc_lpa %>%
+  select(class_fourth_2025, Conectividad, Municipio, Educacion) %>%
+  pivot_longer(
+    cols = c(Conectividad, Municipio, Educacion),
+    names_to = "dimension",
+    values_to = "tramo"
+  ) %>%
+  group_by(class_fourth_2025, dimension, tramo) %>%
+  summarise(n = n(), .groups = "drop_last") %>%
+  mutate(
+    prop = n / sum(n),
+    tramo = factor(tramo, levels = orden_tramos, ordered = TRUE)  # <-- aquí
+  ) %>%
+  ungroup()
+
+# Gráfico
+ggplot(tabla_4, aes(x = tramo, y = prop, fill = tramo)) +
+  geom_col(position = "stack") +
+  facet_grid(dimension ~ class_fourth_2025) +
+  scale_fill_brewer(palette = "RdYlGn", direction = 1) +
+  labs(
+    title = "Distribución de tramos por dimensión y clase latente (4 clases)",
+    x = "Tramo de digitalización",
+    y = "Proporción dentro de la clase",
+    fill = "Tramo"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(axis.text.x = element_blank())
+
+
+```
+```{r}
+# Definir los niveles en orden deseado
+orden_tramos <- c("Bajo", "Medio bajo", "Medio alto", "Alto")
+
+# Reorganizar la base
+tabla_6 <- idc_lpa %>%
+  select(class_six_2025, Conectividad, Municipio, Educacion) %>%
+  pivot_longer(
+    cols = c(Conectividad, Municipio, Educacion),
+    names_to = "dimension",
+    values_to = "tramo"
+  ) %>%
+  group_by(class_six_2025, dimension, tramo) %>%
+  summarise(n = n(), .groups = "drop_last") %>%
+  mutate(
+    prop = n / sum(n),
+    tramo = factor(tramo, levels = orden_tramos, ordered = TRUE)  # <-- aquí
+  ) %>%
+  ungroup()
+
+# Gráfico
+ggplot(tabla_6, aes(x = tramo, y = prop, fill = tramo)) +
+  geom_col(position = "stack") +
+  facet_grid(dimension ~ class_six_2025) +
+  scale_fill_brewer(palette = "RdYlGn", direction = 1) +
+  labs(
+    title = "Distribución de tramos por dimensión y clase latente (6 clases)",
+    x = "Tramo de digitalización",
+    y = "Proporción dentro de la clase",
+    fill = "Tramo"
+  ) +
+  theme_minimal(base_size = 14) + 
+  theme(axis.text.x = element_blank())
+```
+
+### Cruce zona rural
+```{r}
+# Cruzar clases latentes con tipo de comuna
+tabla_tipo_4 <- idc_lpa %>%
+  select(class_fourth_2025, tipo_comuna) %>%
+  group_by(class_fourth_2025, tipo_comuna) %>%
+  summarise(n = n(), .groups = "drop_last") %>%
+  mutate(prop = n / sum(n)) %>%
+  ungroup()
+
+# Convertir tipo_comuna en factor para ordenar si quieres
+tabla_tipo_4$tipo_comuna <- factor(tabla_tipo_4$tipo_comuna, levels = c("Rural", "Mixto", "Urbano"))
+
+# Gráfico
+ggplot(tabla_tipo_4, aes(x = tipo_comuna, y = prop, fill = tipo_comuna)) +
+  geom_col(position = "stack") +
+  facet_wrap(~ class_fourth_2025) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Distribución de tipo de comuna por clase latente (4 clases)",
+    x = "Tipo de comuna",
+    y = "Proporción dentro de la clase",
+    fill = "Tipo de comuna"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+```{r}
+# Cruzar clases latentes con tipo de comuna
+tabla_tipo_6 <- idc_lpa %>%
+  select(class_six_2025, tipo_comuna) %>%
+  group_by(class_six_2025, tipo_comuna) %>%
+  summarise(n = n(), .groups = "drop_last") %>%
+  mutate(prop = n / sum(n)) %>%
+  ungroup()
+
+# Convertir tipo_comuna en factor
+tabla_tipo_6$tipo_comuna <- factor(tabla_tipo_6$tipo_comuna, levels = c("Rural", "Mixto", "Urbano"))
+
+# Gráfico
+ggplot(tabla_tipo_6, aes(x = tipo_comuna, y = prop, fill = tipo_comuna)) +
+  geom_col(position = "stack") +
+  facet_wrap(~ class_six_2025) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Distribución de tipo de comuna por clase latente (6 clases)",
+    x = "Tipo de comuna",
+    y = "Proporción dentro de la clase",
+    fill = "Tipo de comuna"
+  ) +
+  theme_minimal(base_size = 14)
+
+```
+
+### Cruce por macrozona
+
+
+### Índices comunales
+
+```{r}
+# Promedios por clase (4 clases)
+tabla_num_4 <- idc_lpa %>%
+  select(class_fourth_2025, idh_2023, pobreza_2022, poblacion_censo_2024) %>%
+  group_by(class_fourth_2025) %>%
+  summarise(
+    idh = mean(idh_2023, na.rm = TRUE),
+    pobreza = mean(pobreza_2022, na.rm = TRUE),
+    poblacion = mean(poblacion_censo_2024, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  pivot_longer(cols = c(idh, pobreza, poblacion), names_to = "variable", values_to = "promedio")
+
+tabla_num_4 %>% 
+  mutate(promedio = round(promedio, 2))%>%
+  arrange(variable) %>%
+  kable()
+
+```
+
+```{r}
+# Promedios por clase (4 clases)
+tabla_num_6 <- idc_lpa %>%
+  select(class_six_2025, idh_2023, pobreza_2022, poblacion_censo_2024) %>%
+  group_by(class_six_2025) %>%
+  summarise(
+    idh = mean(idh_2023, na.rm = TRUE),
+    pobreza = mean(pobreza_2022, na.rm = TRUE),
+    poblacion = mean(poblacion_censo_2024, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  pivot_longer(cols = c(idh, pobreza, poblacion), names_to = "variable", values_to = "promedio")
+
+tabla_num_6 %>% 
+  mutate(promedio = round(promedio, 2))%>%
+  arrange(variable) %>%
+  kable()
+```
+
+

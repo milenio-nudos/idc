@@ -73,6 +73,22 @@ idc_final <- readRDS("data/proc_data/public_data/2025_idc_v2.rds") %>%
     values_drop_na = TRUE) 
 ```
 
+# Puntaje IDC 2025
+
+```{r}
+idc_final|>
+  filter(year == 2025)|>
+  drop_na(idc)|>
+  ggplot(aes(y = idc, x = reorder(id_comuna, idc))) +
+  geom_point(color = "#E83755") +
+  labs(x = "Comunas ordenadas de menor a mayor puntaje IDC",
+       y = "Puntaje IDC") + 
+  theme_classic(base_size = 18)+
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank())
+```
+
 # Puntaje IDC por comuna y año
 
 ```{r}
